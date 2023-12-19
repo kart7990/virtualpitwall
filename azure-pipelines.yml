@@ -16,6 +16,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    cd PitBox.Client/PitBox.Client.Web
     npm install
     npm run build_test
   displayName: 'npm install and build'
