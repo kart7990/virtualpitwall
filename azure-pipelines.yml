@@ -1,0 +1,37 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+
+- task: UsePythonVersion@0
+  displayName: 'Use Python 3.x'
+
+- script: |
+    npm install
+    npm run build_test
+  displayName: 'npm install and build'
+
+- task: ArchiveFiles@1
+  displayName: 'Create test package'
+  inputs:
+    rootFolder: PitBox.Client/PitBox.Client.Web/build
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/test/$(Build.BuildId).zip'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish test package'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/test/$(Build.BuildId).zip'
+    ArtifactName: 'test_drop'
