@@ -34,4 +34,4 @@ steps:
   displayName: 'Publish test package'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/webapp/test/$(Build.BuildId).zip'
-    ArtifactName: 'packaged_build'
+    ArtifactName: 'packaged_test_build'
