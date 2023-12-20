@@ -26,7 +26,7 @@ steps:
 - task: ArchiveFiles@1
   displayName: 'Create test package'
   inputs:
-    rootFolder: PitBox.Client/PitBox.Client.Web/build
+    rootFolder: build
     includeRootFolder: false
     archiveFile: '$(Build.ArtifactStagingDirectory)/test/$(Build.BuildId).zip'
 
