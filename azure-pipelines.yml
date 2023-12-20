@@ -28,10 +28,10 @@ steps:
   inputs:
     rootFolder: build
     includeRootFolder: false
-    archiveFile: '$(Build.ArtifactStagingDirectory)/test/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/webapp/test/$(Build.BuildId).zip'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish test package'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/test/$(Build.BuildId).zip'
-    ArtifactName: 'test_drop'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/webapp/test/$(Build.BuildId).zip'
+    ArtifactName: 'packaged_build'
