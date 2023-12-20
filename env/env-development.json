@@ -1,0 +1,4 @@
+{
+    "APP_ENV": "development",    
+    "API_BASE_URL": "https://virtualpitwall-test.azurewebsites.net/api"
+}
