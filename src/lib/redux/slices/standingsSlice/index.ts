@@ -1,2 +1,2 @@
-export * from './counterSlice'
 export * from './standingsSlice'
+export * from './selectors'

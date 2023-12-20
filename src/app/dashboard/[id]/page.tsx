@@ -7,7 +7,13 @@ import GridLayout from "react-grid-layout"
 import { setIntervalAsync } from 'set-interval-async/dynamic'
 import { clearIntervalAsync } from 'set-interval-async'
 
+import {
+    standingsSlice,
+    useDispatch
+  } from '@/lib/redux'
+
 import { API_BASE_URL, API_V1_URL } from "@/config/domain.config"
+import { Standings } from '@/app/components/standings/standings';
 
 let sessionDynamicDataLastResponse = 1
 let standingsDataLastResponse = 1
@@ -16,6 +22,7 @@ let _lapsLastTelemetryLap = -1
 let _isCarTelemetryActive = false
 
 export default function Page({ params }: { params: { id: string } }) {
+    const dispatch = useDispatch()
     const pitboxSessionId = params.id
     console.log(pitboxSessionId)
 
@@ -85,7 +92,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     _lapsLastTelemetryLap = 0
                 })
                 sessionConnection.on('onDynamicSessionDataUpdate', dynamicSessionData => {
-                    console.log('dynamicSessionData', dynamicSessionData)
+                    //console.log('dynamicSessionData', dynamicSessionData)
                     if (dynamicSessionData?.timing?.simTimeOfDay) {
                         var seconds = dynamicSessionData.timing.simTimeOfDay; // Some arbitrary value
                         var date = new Date(seconds * 1000); // multiply by 1000 because Date() requires miliseconds
@@ -122,7 +129,8 @@ export default function Page({ params }: { params: { id: string } }) {
         if (standingsConnection) {
             const connect = async () => {
                 standingsConnection.on('onStandingsUpdate', standings => {
-                    console.log('standings', standings)
+                    //console.log('standings', standings)
+                    dispatch(standingsSlice.actions.update(standings))
                     standingsDataLastResponse = Date.now()
                 })
             }
@@ -186,10 +194,9 @@ export default function Page({ params }: { params: { id: string } }) {
                         </div>
                     </TabPanel>
                     <TabPanel>
-                        <GridLayout className="layout" cols={12} rowHeight={30} width={1200}>
+                        <GridLayout className="layout" cols={12} rowHeight={30} width={4000}>
                             <div key="a" data-grid={{ x: 0, y: 0, w: 1, h: 2 }}>
-                                <Card className="h-full">
-                                </Card>
+                                <Standings/>
                             </div>
                             <div key="b" data-grid={{ x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 }}>
                                 <Card className="h-full">
