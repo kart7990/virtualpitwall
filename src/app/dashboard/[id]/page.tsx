@@ -14,6 +14,7 @@ import {
 
 import { API_BASE_URL, API_V1_URL } from "@/config/domain.config"
 import { Standings } from '@/app/components/standings/standings';
+import { TrackMap } from '@/app/components/trackmap/trackmap';
 
 let sessionDynamicDataLastResponse = 1
 let standingsDataLastResponse = 1
@@ -82,12 +83,12 @@ export default function Page({ params }: { params: { id: string } }) {
         if (sessionConnection) {
             const connect = async () => {
                 sessionConnection.on('onSessionReset', pitboxSession => {
-                    console.log('onSessionReset', pitboxSession)
+                    //console.log('onSessionReset', pitboxSession)
                     _lapsLastUpdate = 0
                     _lapsLastTelemetryLap = 0
                 })
                 sessionConnection.on('onTrackSessionChanged', trackSession => {
-                    console.log('trackSession', trackSession)
+                    //console.log('trackSession', trackSession)
                     _lapsLastUpdate = 0
                     _lapsLastTelemetryLap = 0
                 })
@@ -202,15 +203,9 @@ export default function Page({ params }: { params: { id: string } }) {
                                 <Card className="h-full">
                                 </Card>
                             </div>
-                            <div key="c" data-grid={{ x: 4, y: 0, w: 1, h: 2 }}>
+                            <div key="c" data-grid={{ x: 0, y: 3, w: 5, h: 20 }}>
                                 <Card className="h-full overflow-hidden">
-                                    <Text>Sales</Text>
-                                    <Metric>$ 71,465</Metric>
-                                    <Flex className="mt-4">
-                                        <Text>32% of annual target</Text>
-                                        <Text>$ 225,000</Text>
-                                    </Flex>
-                                    <ProgressBar value={32} className="mt-2" />
+                                    <TrackMap/>
                                 </Card>
                             </div>
                         </GridLayout>

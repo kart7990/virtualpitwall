@@ -20,7 +20,6 @@ import {
 
 export const Standings = () => {
     const standings = useSelector(selectLiveTimimg)
-    console.log('STANDING REDUX', standings)
     return (
         <Card className="h-full overflow-y-scroll">
             <Title>Standings</Title>
@@ -52,6 +51,5 @@ export const Standings = () => {
                 </TableBody>
             </Table>
         </Card>
-
     )
 }
