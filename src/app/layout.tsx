@@ -21,11 +21,6 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <head>
-          <script src='/js/RivalTracker.1.0.js'></script>
-          <script src='/js/TrackPaths.min.js'></script>
-          <script src='/js/RivalTrackerPaths.1.0.js'></script>
-        </head>
         <body className={inter.className}>{children}</body>
       </html>
     </Providers>

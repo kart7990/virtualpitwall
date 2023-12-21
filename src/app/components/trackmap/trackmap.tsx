@@ -7,8 +7,7 @@ import { useDebounce } from 'use-debounce';
 export const TrackMap = () => {
     const [rivalTrackerJsLoaded, setRivalTrackerJsLoaded] = useState(false);
     const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] = useState(false);
-    const [trackPathsJsLoaded, setTrackPathsJsLoaded] = useState(false);
-    const [allJsLoaded, setAllJsLoaded] = useState(true);
+    const [allJsLoaded, setAllJsLoaded] = useState(false);
 
     const trackId = '126'
 
@@ -46,18 +45,13 @@ export const TrackMap = () => {
     }, []);
 
     useEffect(() => {
-        console.log('DAVID H', 'SOME JS LOADED')
-
-        if (rivalTrackerJsLoaded && rivalTrackerPathsJsLoaded && trackPathsJsLoaded) {
-
-            console.log('DAVID H', 'ALL JS LOADED')
+        if (rivalTrackerJsLoaded && rivalTrackerPathsJsLoaded) {
             setAllJsLoaded(true);
         }
-    }, [rivalTrackerJsLoaded, rivalTrackerPathsJsLoaded, trackPathsJsLoaded]);
+    }, [rivalTrackerJsLoaded, rivalTrackerPathsJsLoaded]);
 
     useEffect(() => {
         if (allJsLoaded) {
-            console.log('DAVID H', 'INIT RIVAL TRACKER')
             track.current = new window.RivalTracker("track1", trackId, null, track1Options);
         }
 
@@ -75,32 +69,28 @@ export const TrackMap = () => {
     return (
         <>
             <div>TrackMap</div>
-            {/* <Script
+            <Script
                 src="/js/RivalTracker.1.0.js"
                 strategy="lazyOnload"
                 onLoad={() => {
                     setRivalTrackerJsLoaded(true)
                 }}
             />
-            <Script
-                src="/js/TrackPaths.min.js"
-                strategy="lazyOnload"
-                onLoad={() => {
-                    setTrackPathsJsLoaded(true)
-                }}
-            />
-            <Script
-                src="/js/RivalTrackerPaths.1.0.js"
-                strategy="lazyOnload"
-                onLoad={() => {
-                    setRivalTrackerPathsJsLoaded(true)
-                }}
-            /> */}
+            {rivalTrackerJsLoaded &&
+                <Script
+                    src="/js/RivalTrackerPaths.1.0.js"
+                    strategy="lazyOnload"
+                    onLoad={() => {
+                        setRivalTrackerPathsJsLoaded(true)
+                    }}
+                />
+            }
+
             <div id="track1Wrapper" className="track">
                 <div id="track1" ref={trackDiv}></div>
             </div>
             <div>
-                {(!(rivalTrackerJsLoaded && rivalTrackerPathsJsLoaded && trackPathsJsLoaded)) && <p>loading...</p>}
+                {(!allJsLoaded) && <p>loading...</p>}
             </div>
         </>
     )
