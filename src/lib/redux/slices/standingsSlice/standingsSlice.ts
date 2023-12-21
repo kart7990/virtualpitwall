@@ -44,7 +44,7 @@ export const standingsSlice = createSlice({
 })
 
 export interface StandingSliceState {
-    liveTiming: Array<LiveTiming>
+    liveTiming: LiveTiming[]
 }
 
 export interface LiveTimingDto {
