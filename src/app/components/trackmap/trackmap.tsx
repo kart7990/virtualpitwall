@@ -5,6 +5,11 @@ import { useDebounce } from 'use-debounce';
 
 
 export const TrackMap = () => {
+    const [rivalTrackerJsLoaded, setRivalTrackerJsLoaded] = useState(false);
+    const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] = useState(false);
+    const [trackPathsJsLoaded, setTrackPathsJsLoaded] = useState(false);
+    const [allJsLoaded, setAllJsLoaded] = useState(true);
+
     const trackId = '126'
 
     const track = useRef()
@@ -37,12 +42,24 @@ export const TrackMap = () => {
             }
         });
         resizeObserver.observe(trackDiv.current);
-        return () => resizeObserver.disconnect(); // clean up 
+        return () => resizeObserver.disconnect();
     }, []);
 
     useEffect(() => {
+        console.log('DAVID H', 'SOME JS LOADED')
 
-        track.current = new window.RivalTracker("track1", trackId, null, track1Options);
+        if (rivalTrackerJsLoaded && rivalTrackerPathsJsLoaded && trackPathsJsLoaded) {
+
+            console.log('DAVID H', 'ALL JS LOADED')
+            setAllJsLoaded(true);
+        }
+    }, [rivalTrackerJsLoaded, rivalTrackerPathsJsLoaded, trackPathsJsLoaded]);
+
+    useEffect(() => {
+        if (allJsLoaded) {
+            console.log('DAVID H', 'INIT RIVAL TRACKER')
+            track.current = new window.RivalTracker("track1", trackId, null, track1Options);
+        }
 
         // function incrementTelemData() {
         //     track.current.updatePositions();
@@ -53,29 +70,38 @@ export const TrackMap = () => {
         // }, 500);
 
         // return () => clearInterval(interval);
-    }, [trackId]);
+    }, [trackId, allJsLoaded]);
 
     return (
-        <> {console.log('track', track.current)}
+        <>
             <div>TrackMap</div>
-            <Script
+            {/* <Script
                 src="/js/RivalTracker.1.0.js"
-                strategy="beforeInteractive"
+                strategy="lazyOnload"
+                onLoad={() => {
+                    setRivalTrackerJsLoaded(true)
+                }}
             />
             <Script
                 src="/js/TrackPaths.min.js"
-                strategy="beforeInteractive"
+                strategy="lazyOnload"
+                onLoad={() => {
+                    setTrackPathsJsLoaded(true)
+                }}
             />
             <Script
                 src="/js/RivalTrackerPaths.1.0.js"
-                strategy="beforeInteractive"
-            />
-
+                strategy="lazyOnload"
+                onLoad={() => {
+                    setRivalTrackerPathsJsLoaded(true)
+                }}
+            /> */}
             <div id="track1Wrapper" className="track">
                 <div id="track1" ref={trackDiv}></div>
             </div>
-
-
+            <div>
+                {(!(rivalTrackerJsLoaded && rivalTrackerPathsJsLoaded && trackPathsJsLoaded)) && <p>loading...</p>}
+            </div>
         </>
     )
 }

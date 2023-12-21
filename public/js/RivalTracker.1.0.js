@@ -37,9 +37,10 @@ var RivalTracker = (function () {
         // }
 
         var track = undefined
-        console.log("dh-paths", RivalTracker.paths)
+        console.log("dh-paths: " + trackId, RivalTracker.paths)
         track = RivalTracker.paths[trackId]
 
+        console.log("dh-track", track)
         // for (name in RivalTracker.paths.tracks) {
         //     trackObj = RivalTracker.paths.tracks[name];
         //     console.log('DH-trackObj', trackObj)

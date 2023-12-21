@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Providers } from '@/lib/providers'
+import Script from 'next/script';
 import { Inter } from 'next/font/google'
 import './globals.css'
 import '../../node_modules/react-grid-layout/css/styles.css'
@@ -20,6 +21,11 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
+        <head>
+          <script src='/js/RivalTracker.1.0.js'></script>
+          <script src='/js/TrackPaths.min.js'></script>
+          <script src='/js/RivalTrackerPaths.1.0.js'></script>
+        </head>
         <body className={inter.className}>{children}</body>
       </html>
     </Providers>

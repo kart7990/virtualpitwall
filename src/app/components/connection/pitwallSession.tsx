@@ -37,7 +37,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
         const joinSesion = async () => {
             setLoading(true)
             var joinSessionResponse = await axios.get(`${API_V1_URL}/pitbox/session/${pitwallSessionId}`);
-            await sleep(5000)
+            await sleep(500)
             if (joinSessionResponse.data.completedLaps.length > 0) {
                 const [lastLap] = joinSessionResponse.data.completedLaps.slice(-1)
                 setJoinSessionLastLapSessionTime(lastLap.sessionTimeLapEnd)

@@ -14,7 +14,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
     // #endregion
     const onResizeStopped: ItemCallback = (layout, oldItem, newItem) => {
-        console.log('DH-RESIZE', newItem.i)
+        console.log('DH-Grid-RESIZE', newItem.i)
     };
 
     return (
@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     <TabPanels>
                         <TabPanel>
                             <GridLayout className="layout" cols={12} rowHeight={30} width={4000} onResizeStop={onResizeStopped}>
-                                <div key="a" data-grid={{ x: 2, y: 0, w: 3, h: 15, minH: 6 }}>
+                                <div key="standings" data-grid={{ x: 2, y: 0, w: 3, h: 15, minH: 6 }}>
                                     <Standings />
                                 </div>
                                 <div key="trackMap" data-grid={{ x: 0, y: 3, w: 2, h: 15, minH: 6 }}>
