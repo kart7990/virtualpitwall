@@ -1,16 +1,16 @@
 "use client"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, createRef } from 'react'
 import { Card, Grid, Tab, TabGroup, Metric, Flex, ProgressBar, TabList, TabPanel, TabPanels, Text, Title, } from "@tremor/react"
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import axios from 'axios'
-import GridLayout from "react-grid-layout"
+import GridLayout, { ItemCallback } from "react-grid-layout"
 import { setIntervalAsync } from 'set-interval-async/dynamic'
 import { clearIntervalAsync } from 'set-interval-async'
 
 import {
     standingsSlice,
     useDispatch
-  } from '@/lib/redux'
+} from '@/lib/redux'
 
 import { API_BASE_URL, API_V1_URL } from "@/config/domain.config"
 import { Standings } from '@/app/components/standings/standings';
@@ -155,7 +155,9 @@ export default function Page({ params }: { params: { id: string } }) {
     }, [standingsConnection]);
 
     // #endregion
-
+    const onResizeStopped: ItemCallback = (layout, oldItem, newItem) => {
+        console.log('DH-RESIZE', newItem.i)
+    };
 
     return (
         <main className="p-12">
@@ -195,17 +197,17 @@ export default function Page({ params }: { params: { id: string } }) {
                         </div>
                     </TabPanel>
                     <TabPanel>
-                        <GridLayout className="layout" cols={12} rowHeight={30} width={4000}>
+                        <GridLayout className="layout" cols={12} rowHeight={30} width={4000} onResizeStop={onResizeStopped}>
                             <div key="a" data-grid={{ x: 0, y: 0, w: 1, h: 2 }}>
-                                <Standings/>
+                                <Standings />
                             </div>
                             <div key="b" data-grid={{ x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 }}>
                                 <Card className="h-full">
                                 </Card>
                             </div>
-                            <div key="c" data-grid={{ x: 0, y: 3, w: 5, h: 20 }}>
+                            <div key="trackMap" data-grid={{ x: 0, y: 3, w: 3, h: 15, minH: 6 }}>
                                 <Card className="h-full overflow-hidden">
-                                    <TrackMap/>
+                                    <TrackMap />
                                 </Card>
                             </div>
                         </GridLayout>

@@ -1,13 +1,14 @@
 "use client"
-import React, { useRef, useState, useEffect } from 'react'
-import Head from "next/head"
 import Script from 'next/script';
+import React, { useRef, useState, useEffect, useCallback } from 'react'
+import { useDebounce } from 'use-debounce';
 
 
 export const TrackMap = () => {
-    const trackId = 127
+    const trackId = '2'
 
     const track = useRef()
+    const trackDiv = useRef<HTMLDivElement>(null)
 
     const options = {
         transform: "translate(0, 0) scale(1) rotate(0)",
@@ -22,6 +23,22 @@ export const TrackMap = () => {
     };
     var track1Options = JSON.parse(JSON.stringify(options));
     track1Options.nodeSize = 8;
+    const [height, setHeight] = useState(0);
+    const [width, setWidth] = useState(0);
+    const [debouncedHeight] = useDebounce(height, 400);
+    const [debouncedWidth] = useDebounce(width, 400);
+
+    useEffect(() => {
+        if (!trackDiv.current) return;
+        const resizeObserver = new ResizeObserver(() => {
+            if (trackDiv.current != null) {
+                setHeight(trackDiv.current.getBoundingClientRect().height);
+                setWidth(trackDiv.current.getBoundingClientRect().width);
+            }
+        });
+        resizeObserver.observe(trackDiv.current);
+        return () => resizeObserver.disconnect(); // clean up 
+    }, []);
 
     useEffect(() => {
 
@@ -42,15 +59,20 @@ export const TrackMap = () => {
         <> {console.log('track', track.current)}
             <div>TrackMap</div>
             <Script
-                src="/js/RivalTracker.min.js"
+                src="/js/RivalTracker.1.0.js"
                 strategy="beforeInteractive"
             />
             <Script
                 src="/js/TrackPaths.min.js"
                 strategy="beforeInteractive"
             />
+            <Script
+                src="/js/RivalTrackerPaths.1.0.js"
+                strategy="beforeInteractive"
+            />
+
             <div id="track1Wrapper" className="track">
-                <div id="track1"></div>
+                <div id="track1" ref={trackDiv}></div>
             </div>
 
 

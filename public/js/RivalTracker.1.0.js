@@ -37,24 +37,29 @@ var RivalTracker = (function () {
         // }
 
         var track = undefined
+        console.log("dh-paths", RivalTracker.paths)
+        track = RivalTracker.paths[trackId]
 
-        for (name in RivalTracker.paths.tracks) {
-            trackObj = RivalTracker.paths.tracks[name];
-            if (trackObj.trackId !== null && trackObj.paths[0] !== '' && trackObj.trackId == trackId) {
-                track = trackObj
-                track.name = name
-                break;
-            }
-        }
+        // for (name in RivalTracker.paths.tracks) {
+        //     trackObj = RivalTracker.paths.tracks[name];
+        //     console.log('DH-trackObj', trackObj)
+        //     if (trackObj !== null && trackObj.trackId == trackId) {
+        //         track = trackObj
+        //         track.name = name
+        //         break;
+        //     }
+        // }
 
         if(track === undefined) {
-            track = RivalTracker.paths.tracks['default_map']
+            track = RivalTracker.paths['default_map']
             track.name = 'default_map'
         }
         
-        track.height = 50
-        track.width = 50
-        track.viewBox = '0 0 600 600'
+        console.log('DH-TRACK', track)
+        
+        // track.height = 50
+        // track.width = 50
+        // track.viewBox = '0 0 500 500'
 
         // clone the passed in rawTelemData so we are protected from external changes
         var telemData = cloneTelemData();
@@ -128,14 +133,11 @@ var RivalTracker = (function () {
             var NS = "http://www.w3.org/2000/svg";
             var svg = document.createElementNS(NS, "svg");
             svg.setAttribute('width', '100%');
-            // determine width from parent div, otherwise use document width             
+            // determine width from parent div, otherwise use document width
+            console.log('DAVIDH PW', parentDiv.clientWidth)             
             var width = parentDiv.clientWidth === 0 ? document.documentElement.clientWidth : parentDiv.clientWidth;
-            svg.setAttribute('width', (width * options.scaling) / 100);
             //a few calcs needed here, first take the actual parent div width, calculate the track specific height ratio, 
             //and then add any client requested scaling on top
-            var height = width * (options.height / 100);
-            height = height * options.scaling / 100;
-            svg.setAttribute('height', height);
             svg.setAttribute('preserveAspectRatio', 'xMinYMin slice');
             svg.setAttribute('viewBox', track.viewBox);
             svg.setAttribute('wmode', 'transparent');
