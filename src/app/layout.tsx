@@ -1,12 +1,17 @@
 import type { Metadata } from 'next'
 import { Providers } from '@/lib/providers'
-import Script from 'next/script';
-import { Inter } from 'next/font/google'
+import { Inter as FontSans } from "next/font/google"
+import { cn } from "@/lib/utils"
 import './globals.css'
 import '../../node_modules/react-grid-layout/css/styles.css'
 import '../../node_modules/react-resizable/css/styles.css'
+import { ThemeProvider } from "@/app/theme-provider"
 
-const inter = Inter({ subsets: ['latin'] })
+
+export const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,8 +25,14 @@ export default function RootLayout({
 }) {
   return (
     <Providers>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
+      <html lang="en" suppressHydrationWarning>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark">
+          <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+            {children}
+          </body>
+        </ThemeProvider>
       </html>
     </Providers>
   )
