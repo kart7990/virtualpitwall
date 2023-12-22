@@ -33,7 +33,7 @@ export default function Page({ params }: { params: { id: string } }) {
     return (
         <PitwallSession pitwallSessionId={pitboxSessionId}>
             <main>
-                <ResponsiveGridLayout className="layout" onResizeStop={onResizeStopped} resizeHandles={["se"]}>
+                <ResponsiveGridLayout className="layout" is isDraggable={false} isResizable={true} onResizeStop={onResizeStopped} resizeHandles={["se"]}>
                     <div key="trackMap" className="overflow-hidden" data-grid={{ x: 0, y: 0, w: 3, h: 3, minH: 2 }}>
                         <Card className="h-full">
                             <CardHeader className="border-b p-3">
@@ -44,7 +44,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             </CardContent>
                         </Card>
                     </div>
-                    <div key="standings" data-grid={{ x: 3, y: 0, w: 3, h: 3, minH: 2 }}>
+                    <div key="standings" data-grid={{ x: 3, y: 0, w: 5, h: 3, minH: 2 }}>
                         <Card className="h-full">
                             <CardHeader className="border-b p-3">
                                 <CardTitle className="m-0">Standings</CardTitle>
