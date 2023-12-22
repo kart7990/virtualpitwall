@@ -3,8 +3,9 @@ import { StatusOnlineIcon } from "@heroicons/react/outline";
 import {
     useSelector,
     selectLiveTimimg,
+    LiveTiming,
 } from '@/lib/redux'
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -13,72 +14,20 @@ import {
 
 import { createTheme, ThemeProvider, useTheme } from '@mui/material';
 
-//example data type
-type Person = {
-    name: {
-        firstName: string;
-        lastName: string;
-    };
-    address: string;
-    city: string;
-    state: string;
-};
-
-//nested data is ok, see accessorKeys in ColumnDef below
-const data: Person[] = [
-    {
-        name: {
-            firstName: 'John',
-            lastName: 'Doe',
-        },
-        address: '261 Erdman Ford',
-        city: 'East Daphne',
-        state: 'Kentucky',
-    },
-    {
-        name: {
-            firstName: 'Jane',
-            lastName: 'Doe',
-        },
-        address: '769 Dominic Grove',
-        city: 'Columbus',
-        state: 'Ohio',
-    },
-    {
-        name: {
-            firstName: 'Joe',
-            lastName: 'Doe',
-        },
-        address: '566 Brakus Inlet',
-        city: 'South Linda',
-        state: 'West Virginia',
-    },
-    {
-        name: {
-            firstName: 'Kevin',
-            lastName: 'Vandy',
-        },
-        address: '722 Emie Stream',
-        city: 'Lincoln',
-        state: 'Nebraska',
-    },
-    {
-        name: {
-            firstName: 'Joshua',
-            lastName: 'Rolluffs',
-        },
-        address: '32188 Larkin Turnpike',
-        city: 'Omaha',
-        state: 'Nebraska',
-    },
-];
 
 export const Standings = () => {
+    const [data, setData] = useState<LiveTiming[]>([]);
+    const standingsData : LiveTiming[] = useSelector(selectLiveTimimg)
+
+    useEffect(() => {
+        setData(standingsData)
+     },[standingsData])
+
     const tableTheme = useMemo(
         () =>
             createTheme({
                 palette: {
-                    mode: "dark", //let's use the same dark/light mode as the global theme
+                    mode: "dark",
                     background: {
                         default: 'rgb(254,255,244, 0)'
                     }
@@ -86,36 +35,99 @@ export const Standings = () => {
             }),
         [],
     );
-
-    const standings = useSelector(selectLiveTimimg)
     //should be memoized or stable
-    const columns = useMemo<MRT_ColumnDef<Person>[]>(
+    const columns = useMemo<MRT_ColumnDef<LiveTiming>[]>(
         () => [
             {
-                accessorKey: 'name.firstName', //access nested data with dot notation
-                header: 'First Name',
+                accessorKey: "position",
+                header: 'Position',
+                size: 150
+            },
+            {
+                accessorKey: 'classPosition',
+                header: 'classPosition',
                 size: 150,
             },
             {
-                accessorKey: 'name.lastName',
-                header: 'Last Name',
-                size: 150,
-            },
-            {
-                accessorKey: 'address', //normal accessorKey
-                header: 'Address',
+                accessorKey: 'standingPosition', //normal accessorKey
+                header: 'standingPosition',
                 size: 200,
             },
             {
-                accessorKey: 'city',
-                header: 'City',
+                accessorKey: 'standingClassPosition',
+                header: 'standingClassPosition',
                 size: 150,
             },
             {
-                accessorKey: 'state',
-                header: 'State',
+                accessorKey: 'carNumber',
+                header: 'carNumber',
                 size: 150,
             },
+            {
+                accessorKey: 'className',
+                header: 'className',
+                size: 150,
+            },
+            {
+                accessorKey: 'iRating',
+                header: 'iRating',
+                size: 150,
+            },
+            {
+                accessorKey: 'safetyRating',
+                header: 'safetyRating',
+                size: 150,
+            },
+            {
+                accessorKey: 'driverName',
+                header: 'driverName',
+                size: 150,
+            },
+            {
+                accessorKey: 'driverShortName',
+                header: 'driverShortName',
+                size: 150,
+            },
+            {
+                accessorKey: 'teamName',
+                header: 'teamName',
+                size: 150,
+            },
+            {
+                accessorKey: 'leaderDelta',
+                header: 'leaderDelta',
+                size: 150,
+            },
+            {
+                accessorKey: 'nextCarDelta',
+                header: 'nextCarDelta',
+                size: 150,
+            },
+            {
+                accessorKey: 'lastLaptime',
+                header: 'lastLaptime',
+                size: 150,
+            },
+            {
+                accessorKey: 'bestLaptime',
+                header: 'bestLaptime',
+                size: 150,
+            },
+            {
+                accessorKey: 'lap',
+                header: 'lap',
+                size: 150,
+            },
+            {
+                accessorKey: 'pitStopCount',
+                header: 'pitStopCount',
+                size: 150,
+            },
+            {
+                accessorKey: 'stintLapCount',
+                header: 'stintLapCount',
+                size: 150,
+            }
         ],
         [],
     );

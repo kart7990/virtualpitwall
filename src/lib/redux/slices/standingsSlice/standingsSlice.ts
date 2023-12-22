@@ -75,6 +75,7 @@ export interface LiveTimingDto {
 
 
 export interface LiveTiming {
+    id: string
     position: number,
     classPosition: number,
     standingPosition: number,
