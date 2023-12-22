@@ -6,6 +6,8 @@ import './globals.css'
 import '../../node_modules/react-grid-layout/css/styles.css'
 import '../../node_modules/react-resizable/css/styles.css'
 import { ThemeProvider } from "@/app/theme-provider"
+import { SiteHeader } from '@/components/site-header'
+import { SiteFooter } from '@/components/site-footer'
 
 
 export const fontSans = FontSans({
@@ -25,14 +27,19 @@ export default function RootLayout({
 }) {
   return (
     <Providers>
-      <html lang="en" suppressHydrationWarning>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark">
-          <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-            {children}
-          </body>
-        </ThemeProvider>
+      <html lang="en">
+
+        <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark">
+            <div className="relative flex min-h-screen flex-col">
+              <SiteHeader />
+              <div className="flex-1">{children}</div>
+              <SiteFooter />
+            </div>
+          </ThemeProvider>
+        </body>
       </html>
     </Providers>
   )

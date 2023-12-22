@@ -8,7 +8,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import axios from 'axios'
 import { setIntervalAsync } from 'set-interval-async/dynamic'
 import { clearIntervalAsync } from 'set-interval-async'
-import { API_BASE_URL, API_V1_URL } from "@/config/domain.config"
+import { API_BASE_URL, API_V1_URL } from "@/config/urls"
 
 let sessionDynamicDataLastResponse = 1
 let standingsDataLastResponse = 1
