@@ -2,7 +2,7 @@
 
 import './style.css'
 import PitwallSession from '@/app/components/connection/pitwallSession';
-import { Standings } from '@/app/components/standings/standings';
+import { Standings } from '@/app/components/standings/standings-ag';
 import { TrackMap } from '@/app/components/trackmap/trackmap';
 import { Button } from "@/components/ui/button"
 import {
@@ -49,7 +49,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             <CardHeader className="border-b p-3">
                                 <CardTitle className="m-0">Standings</CardTitle>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="p-0">
                                 <Standings />
                             </CardContent>
                         </Card>

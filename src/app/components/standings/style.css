@@ -1,0 +1,11 @@
+.ag-theme-quartz-dark {
+    --ag-background-color: rgba(0, 0, 0, 0);
+    --ag-header-background-color: rgba(0, 0, 0, 0.212);
+    --ag-odd-row-background-color: rgb(0, 0, 0, 0.03);
+    /* disable all borders */
+    --ag-borders: none;
+    /* then add back a border between rows */
+    --ag-row-border-style: dashed;
+    --ag-row-border-width: 5px;
+    --ag-row-border-color: rgb(150, 150, 200);
+}
