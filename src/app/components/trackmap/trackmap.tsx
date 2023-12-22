@@ -68,7 +68,6 @@ export const TrackMap = () => {
 
     return (
         <>
-            <div>TrackMap</div>
             <Script
                 src="/js/RivalTracker.1.0.js"
                 strategy="lazyOnload"

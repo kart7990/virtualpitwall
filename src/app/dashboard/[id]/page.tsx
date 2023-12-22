@@ -1,10 +1,23 @@
 "use client"
-import GridLayout, { ItemCallback } from "react-grid-layout"
 
+import './style.css'
 import PitwallSession from '@/app/components/connection/pitwallSession';
 import { Standings } from '@/app/components/standings/standings';
 import { TrackMap } from '@/app/components/trackmap/trackmap';
 import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Icons } from "@/components/icons";
+
+import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
+
+const ResponsiveGridLayout = WidthProvider(GridLayout);
 
 
 
@@ -19,20 +32,38 @@ export default function Page({ params }: { params: { id: string } }) {
 
     return (
         <PitwallSession pitwallSessionId={pitboxSessionId}>
-            <main className="p-12">
-
-                <GridLayout className="layout" cols={12} rowHeight={30} width={4000} onResizeStop={onResizeStopped}>
-                    <div key="standings" data-grid={{ x: 2, y: 0, w: 3, h: 15, minH: 6 }}>
-                        <Standings />
+            <main>
+                <ResponsiveGridLayout className="layout" onResizeStop={onResizeStopped} resizeHandles={["se"]}>
+                    <div key="trackMap" className="overflow-hidden" data-grid={{ x: 0, y: 0, w: 3, h: 3, minH: 2 }}>
+                        <Card className="h-full">
+                            <CardHeader className="border-b p-3">
+                                <CardTitle className="m-0">Track Map</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <TrackMap />
+                            </CardContent>
+                        </Card>
                     </div>
-                    <div key="trackMap" data-grid={{ x: 0, y: 3, w: 2, h: 15, minH: 6 }}>
-                        <TrackMap />
+                    <div key="standings" data-grid={{ x: 3, y: 0, w: 3, h: 3, minH: 2 }}>
+                        <Card className="h-full">
+                            <CardHeader className="border-b p-3">
+                                <CardTitle className="m-0">Standings</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <Standings />
+                            </CardContent>
+                        </Card>
                     </div>
-                    <div key="b" data-grid={{ x: 0, y: 5, w: 3, h: 2, minW: 2, maxW: 4 }}>
-
-                        <Button>Click me</Button>
+                    <div key="b" data-grid={{ x: 0, y: 3, w: 3, h: 2, minW: 2, maxW: 4 }}>
+                    <Card className="h-full">
+                            <CardHeader className="border-b p-3">
+                                <CardTitle className="m-0">Card</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                            </CardContent>
+                        </Card>
                     </div>
-                </GridLayout>
+                </ResponsiveGridLayout>
             </main>
         </PitwallSession>
     )

@@ -4,7 +4,7 @@ export const Icons = {
   logoPNG: (props: IconProps) => (
     <img src="/logo192.png" width={32} className="h-auto px-1 md:px-0 md:ml-6 ">
     </img>
-    
+
   ),
   logo: (props: IconProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" {...props}>
