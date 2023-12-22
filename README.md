@@ -9,12 +9,14 @@ For a number of reasons, open sourcing the server is problematic at this time. T
 I will host the server side API at-will and the API is provided as is. While free at the moment, that is subject to change because hosting is not free, and this requires a decent amount of compute, storage, and other cloud services.
 I will respond to bug/feature requests for server side changes as quickly as possible.
 
+App Endpoint: https://virtualpitwall-test.azurewebsites.net
+
 Api Endpoint: https://virtualpitwall-test.azurewebsites.net/api (swagger: https://virtualpitwall-test.azurewebsites.net/api/swagger)
 
 Potential server issues:
-I'm piggy backing off of existing cloud infrastructure in use by another application I own. This allows costs to be kept minimal. However, the web apps occasionally scale horizontally to meet demand. Because Virtual Pitbox relies on websockets, horizontal scaling can be problematic and connections might be forcibly closed. I'm not sure the state of client reconnect logic, but if that's solid it shouldn't be an issue and can be handled gracefully. Additionally, I'm using a cheap redis caching tier with only 250mb of cache available. A lot of session data is cached in redis for performance reasons, and while it would take a lot to reach 250mb, it's not impossible. Session data is kept for 24hrs in redis. This can be optimized, but for now, expect cache evictions and missing data if the limit is reached.
+I'm piggybacking off of existing cloud infrastructure in use by another application I own. This allows costs to be kept minimal. However, the web apps occasionally scale horizontally to meet demand. Because Virtual Pitbox relies on websockets, horizontal scaling can be problematic and connections might be forcibly closed. I'm not sure the state of client reconnect logic, but if that's solid it shouldn't be an issue and can be handled gracefully. Additionally, I'm using a cheap redis caching tier with only 250mb of cache available. A lot of session data is cached in redis for performance reasons, and while it would take a lot to reach 250mb, it's not impossible. Session data is kept for 24hrs in redis. This can be optimized, but for now, expect cache evictions and missing data if the limit is reached.
 
-I will hook up CI/CD with automated deployments for the web app soon.
+CI builds are enabled, but delpoys must be started manually. Reach out if a deploy is needed. Will setup automated deploys soon.
 
 ## Virtual Pitbox React Web App
 * Install VS code.
