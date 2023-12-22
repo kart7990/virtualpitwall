@@ -32,8 +32,8 @@ export const Standings = () => {
 
 
     return (
-        <div className="ag-theme-quartz-dark" style={{ height: 500 }}>
-            <AgGridReact rowData={standingsData} columnDefs={colDefs} />
+        <div className="ag-theme-quartz-dark w-full h-full">
+            <AgGridReact rowData={standingsData} columnDefs={colDefs} style={{ width: '100%', height: '100%' }} />
         </div>
     );
 }
