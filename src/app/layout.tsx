@@ -28,14 +28,13 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-
         <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark">
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
-              <div className="flex-1">{children}</div>
+              <div className="flex-1 border-b">{children}</div>
               <SiteFooter />
             </div>
           </ThemeProvider>
