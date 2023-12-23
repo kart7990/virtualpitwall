@@ -149,7 +149,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                         await standingsConnection.invoke("RequestStandings", { sessionId: pitwallSessionId, teamId: "" });
                     }
                 },
-                1000)
+                500)
             async () => await clearIntervalAsync(timer);
         }
     }, [standingsConnection]);

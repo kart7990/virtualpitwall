@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: StandingSliceState = {
-    liveTiming: [] as LiveTiming[],
+    liveTiming: [],
 }
 
 export const standingsSlice = createSlice({
