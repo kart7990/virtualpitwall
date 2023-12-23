@@ -12,12 +12,7 @@ import {
 import { useMemo, useState, useEffect } from 'react';
 
 export const Standings = () => {
-    const [data, setData] = useState<LiveTiming[]>([]);
     const standingsData: LiveTiming[] = useSelector(selectLiveTimimg)
-
-    useEffect(() => {
-        setData(standingsData)
-    }, [standingsData])
 
     // Column Definitions: Defines & controls grid columns.
     const [colDefs, setColDefs] = useState([
@@ -33,7 +28,7 @@ export const Standings = () => {
 
     return (
         <div className="ag-theme-quartz-dark w-full h-full">
-            <AgGridReact rowData={standingsData} columnDefs={colDefs} style={{ width: '100%', height: '100%' }} />
+            <AgGridReact rowData={standingsData} columnDefs={colDefs} rowHeight={30} style={{width: '100%', height: '100%' }} />
         </div>
     );
 }

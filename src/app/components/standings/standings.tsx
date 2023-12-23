@@ -17,7 +17,7 @@ import { createTheme, ThemeProvider, useTheme } from '@mui/material';
 
 export const Standings = () => {
     const [data, setData] = useState<LiveTiming[]>([]);
-    const standingsData : LiveTiming[] = useSelector(selectLiveTimimg)
+    const standingsData = useSelector<LiveTiming[]>(selectLiveTimimg)
 
     useEffect(() => {
         setData(standingsData)
@@ -131,10 +131,10 @@ export const Standings = () => {
         ],
         [],
     );
-
+(console.log('DH-STANDINGDATA', standingsData))
     const table = useMaterialReactTable({
         columns,
-        data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+        standingsData, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
         enableColumnOrdering: true,
         initialState: {
             density: 'compact',
@@ -142,9 +142,14 @@ export const Standings = () => {
                 'mrt-row-select': false, //hide select column
             },
         },
-        
+        enableColumnActions: false,
+        enableColumnFilters: false,
+        enablePagination: false,
+        enableSorting: false,
         enableRowSelection: true,
         enableMultiRowSelection: false,
+        enableFullScreenToggle: false,
+        enableDensityToggle: false,
         positionToolbarAlertBanner: 'none',
         muiTableBodyRowProps: ({ row }) => ({
             onClick: row.getToggleSelectedHandler(),

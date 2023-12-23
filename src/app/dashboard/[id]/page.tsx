@@ -44,7 +44,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             </CardContent>
                         </Card>
                     </div>
-                    <div key="standings" data-grid={{ x: 3, y: 0, w: 5, h: 3, minH: 2 }}>
+                    <div key="standings" className="overflow-hidden" data-grid={{ x: 3, y: 0, w: 5, h: 3, minH: 2 }}>
                         <Card className="h-full">
                             <CardHeader className="border-b p-3 drag-handle">
                                 <CardTitle className="m-0">Standings</CardTitle>
