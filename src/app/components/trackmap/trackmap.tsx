@@ -46,7 +46,7 @@ export const TrackMap = () => {
                 track.current.updatePositions();
             },
             500)
-            async () => await clearIntervalAsync(timer);
+        async () => await clearIntervalAsync(timer);
     }, [trackId])
 
     useEffect(() => {
@@ -118,31 +118,31 @@ export const TrackMap = () => {
                         //         strokeColor: '#66ff00B3'
                         //     })
 
-                            // if (pitstopTime > 0 && s.bestLaptime > 0) {
-                            //     let secondsPerPercent = (s.bestLaptime / 1000) / 100
-                            //     let pitstopPercentLost = pitstopTime / secondsPerPercent
-                            //     let distanceAfterStopRaw = lapPercent - pitstopPercentLost
-                            //     let distanceAfterStop = 0
+                        // if (pitstopTime > 0 && s.bestLaptime > 0) {
+                        //     let secondsPerPercent = (s.bestLaptime / 1000) / 100
+                        //     let pitstopPercentLost = pitstopTime / secondsPerPercent
+                        //     let distanceAfterStopRaw = lapPercent - pitstopPercentLost
+                        //     let distanceAfterStop = 0
 
-                            //     if (distanceAfterStopRaw < 100) {
-                            //         distanceAfterStop = distanceAfterStopRaw
-                            //     } else {
-                            //         distanceAfterStop = Math.abs(100 - lapPercent - pitstopPercentLost)
-                            //     }
+                        //     if (distanceAfterStopRaw < 100) {
+                        //         distanceAfterStop = distanceAfterStopRaw
+                        //     } else {
+                        //         distanceAfterStop = Math.abs(100 - lapPercent - pitstopPercentLost)
+                        //     }
 
-                            //     driverPositionData.current['PIT'] = distanceAfterStop;
+                        //     driverPositionData.current['PIT'] = distanceAfterStop;
 
-                            //     carClasses.push({
-                            //         classId: -1,
-                            //         className: s.driverName + ' after pitstop',
-                            //         classColor: classColor, /*'#33CC66B3'*/
-                            //         strokeColor: '#f64747B3'
-                            //     })
-                            //     track.current.setNodeColor('PIT', classColor);
-                            //     track.current.setNodeStrokeColor('PIT', '#f64747B3');
-                            // }
+                        //     carClasses.push({
+                        //         classId: -1,
+                        //         className: s.driverName + ' after pitstop',
+                        //         classColor: classColor, /*'#33CC66B3'*/
+                        //         strokeColor: '#f64747B3'
+                        //     })
+                        //     track.current.setNodeColor('PIT', classColor);
+                        //     track.current.setNodeStrokeColor('PIT', '#f64747B3');
+                        // }
                         // } else {
-                            track.current.setNodeStrokeColor(s.carNumber, '#555555B3');
+                        track.current.setNodeStrokeColor(s.carNumber, '#555555B3');
                         //}
                     }
 
@@ -174,13 +174,16 @@ export const TrackMap = () => {
                     setRivalTrackerJsLoaded(true)
                 }}
             />
-            <Script
-                src="/js/RivalTrackerPaths.1.0.js"
-                strategy="lazyOnload"
-                onLoad={() => {
-                    setRivalTrackerPathsJsLoaded(true)
-                }}
-            />
+            {rivalTrackerJsLoaded &&
+                <Script
+                    src="/js/RivalTrackerPaths.1.0.js"
+                    strategy="lazyOnload"
+                    onLoad={() => {
+                        setRivalTrackerPathsJsLoaded(true)
+                    }}
+                />
+            }
+
 
             <div id="track1Wrapper" className="track">
                 <div id="track1" ref={trackDiv}></div>
