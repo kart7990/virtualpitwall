@@ -41,21 +41,11 @@ export const Standings = () => {
             {
                 accessorKey: "position",
                 header: 'Position',
-                size: 150
+                size:1
             },
             {
                 accessorKey: 'classPosition',
                 header: 'classPosition',
-                size: 150,
-            },
-            {
-                accessorKey: 'standingPosition', //normal accessorKey
-                header: 'standingPosition',
-                size: 200,
-            },
-            {
-                accessorKey: 'standingClassPosition',
-                header: 'standingClassPosition',
                 size: 150,
             },
             {
@@ -64,33 +54,8 @@ export const Standings = () => {
                 size: 150,
             },
             {
-                accessorKey: 'className',
-                header: 'className',
-                size: 150,
-            },
-            {
-                accessorKey: 'iRating',
-                header: 'iRating',
-                size: 150,
-            },
-            {
-                accessorKey: 'safetyRating',
-                header: 'safetyRating',
-                size: 150,
-            },
-            {
                 accessorKey: 'driverName',
                 header: 'driverName',
-                size: 150,
-            },
-            {
-                accessorKey: 'driverShortName',
-                header: 'driverShortName',
-                size: 150,
-            },
-            {
-                accessorKey: 'teamName',
-                header: 'teamName',
                 size: 150,
             },
             {
@@ -114,6 +79,11 @@ export const Standings = () => {
                 size: 150,
             },
             {
+                accessorKey: 'teamName',
+                header: 'teamName',
+                size: 150,
+            },
+            {
                 accessorKey: 'lap',
                 header: 'lap',
                 size: 150,
@@ -127,19 +97,59 @@ export const Standings = () => {
                 accessorKey: 'stintLapCount',
                 header: 'stintLapCount',
                 size: 150,
+            },
+            {
+                accessorKey: 'standingPosition', //normal accessorKey
+                header: 'standingPosition',
+                size: 200,
+            },
+            {
+                accessorKey: 'standingClassPosition',
+                header: 'standingClassPosition',
+                size: 150,
+            },
+            {
+                accessorKey: 'className',
+                header: 'className',
+                size: 150,
+            },
+            {
+                accessorKey: 'iRating',
+                header: 'iRating',
+                size: 150,
+            },
+            {
+                accessorKey: 'safetyRating',
+                header: 'safetyRating',
+                size: 150,
+            },
+            {
+                accessorKey: 'driverShortName',
+                header: 'driverShortName',
+                size: 150,
             }
         ],
         [],
     );
-(console.log('DH-STANDINGDATA', standingsData))
     const table = useMaterialReactTable({
         columns,
-        standingsData, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+        data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
         enableColumnOrdering: true,
         initialState: {
             density: 'compact',
             columnVisibility: {
                 'mrt-row-select': false, //hide select column
+                'classPosition': false,
+                'standingPosition': false,
+                'standingClassPosition': false,
+                'className': false,
+                'iRating': false,
+                'safetyRating': false,
+                'driverShortName': false,
+                'teamName': false,
+                'lap': false,
+                'pitStopCount': false,
+                'stintLapCount': false
             },
         },
         enableColumnActions: false,

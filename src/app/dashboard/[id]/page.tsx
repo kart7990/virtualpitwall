@@ -2,7 +2,7 @@
 
 import './style.css'
 import PitwallSession from '@/app/components/connection/pitwallSession';
-import { Standings } from '@/app/components/standings/standings-ag';
+import { Standings } from '@/app/components/standings/standings';
 import { TrackMap } from '@/app/components/trackmap/trackmap';
 import { Button } from "@/components/ui/button"
 import {
