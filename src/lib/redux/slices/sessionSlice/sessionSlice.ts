@@ -34,7 +34,6 @@ export const sessionSlice = createSlice({
             )
         },
         trackSessionChange: (state, action: PayloadAction<TrackSession>) => {
-            console.log('TRACK SESSION CHANGE')
             let trackSessions = state.pitBoxSession!!.eventDetails.trackSessions.filter(ts => ts.sessionNumber < action.payload.sessionNumber)
             trackSessions?.push(action.payload)
 

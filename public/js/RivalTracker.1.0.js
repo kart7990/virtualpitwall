@@ -37,10 +37,10 @@ var RivalTracker = (function () {
         // }
 
         var track = undefined
-        console.log("dh-paths: " + trackId, RivalTracker.paths)
+        //console.log("dh-paths: " + trackId, RivalTracker.paths)
         track = RivalTracker.paths[trackId]
 
-        console.log("dh-track", track)
+        //console.log("dh-track", track)
         // for (name in RivalTracker.paths.tracks) {
         //     trackObj = RivalTracker.paths.tracks[name];
         //     console.log('DH-trackObj', trackObj)
@@ -56,7 +56,7 @@ var RivalTracker = (function () {
             track.name = 'default_map'
         }
         
-        console.log('DH-TRACK', track)
+        //console.log('DH-TRACK', track)
         
         // track.height = 50
         // track.width = 50
@@ -135,7 +135,7 @@ var RivalTracker = (function () {
             var svg = document.createElementNS(NS, "svg");
             svg.setAttribute('width', '100%');
             // determine width from parent div, otherwise use document width
-            console.log('DAVIDH PW', parentDiv.clientWidth)             
+            //console.log('DAVIDH PW', parentDiv.clientWidth)             
             var width = parentDiv.clientWidth === 0 ? document.documentElement.clientWidth : parentDiv.clientWidth;
             //a few calcs needed here, first take the actual parent div width, calculate the track specific height ratio, 
             //and then add any client requested scaling on top
