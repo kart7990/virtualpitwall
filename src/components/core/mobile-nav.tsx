@@ -7,10 +7,10 @@ import { ViewVerticalIcon } from "@radix-ui/react-icons"
 
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Icons } from "@/components/core/icons"
+import { ScrollArea } from "@/components/core/ui/scroll-area"
+import { Button } from "@/components/core/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/core/ui/sheet"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)

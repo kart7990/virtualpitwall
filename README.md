@@ -1,3 +1,14 @@
+# Virtual Pit Wall: Getting Started
+### Project Frameworks
+Core Frameworks, and Libraries: 
+* [React](https://react.dev/)
+* [Next.js](https://nextjs.org/)
+* [Redux](https://react-redux.js.org/)
+* [Tailwind CSS](https://tailwindcss.com/)
+* [shadcn/ui](https://ui.shadcn.com/)
+
+
+## START OF AUTO GEN Next.js DOCUMENTATION
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
