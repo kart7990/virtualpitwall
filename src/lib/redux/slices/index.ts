@@ -1,2 +1,2 @@
-export * from './counterSlice'
+export * from './sessionSlice'
 export * from './standingsSlice'

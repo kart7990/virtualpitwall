@@ -1,5 +1,5 @@
 /* Core */
-import { createLogger } from 'redux-logger'
+//import { createLogger } from 'redux-logger'
 
 const middleware = [
   {}
