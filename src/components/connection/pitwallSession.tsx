@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import {
+    sessionSlice,
     standingsSlice,
     useDispatch
 } from '@/lib/redux'
@@ -37,7 +38,8 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
         const joinSesion = async () => {
             setLoading(true)
             var joinSessionResponse = await axios.get(`${API_V1_URL}/pitbox/session/${pitwallSessionId}`);
-            await sleep(500)
+            dispatch(sessionSlice.actions.init(joinSessionResponse.data))
+            
             if (joinSessionResponse.data.completedLaps.length > 0) {
                 const [lastLap] = joinSessionResponse.data.completedLaps.slice(-1)
                 setJoinSessionLastLapSessionTime(lastLap.sessionTimeLapEnd)
@@ -83,17 +85,16 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
         if (sessionConnection) {
             const connect = async () => {
                 sessionConnection.on('onSessionReset', pitboxSession => {
-                    //console.log('onSessionReset', pitboxSession)
                     _lapsLastUpdate = 0
                     _lapsLastTelemetryLap = 0
+                    dispatch(sessionSlice.actions.reset())
                 })
                 sessionConnection.on('onTrackSessionChanged', trackSession => {
-                    //console.log('trackSession', trackSession)
                     _lapsLastUpdate = 0
                     _lapsLastTelemetryLap = 0
+                    dispatch(sessionSlice.actions.trackSessionChange(trackSession))
                 })
                 sessionConnection.on('onDynamicSessionDataUpdate', dynamicSessionData => {
-                    //console.log('dynamicSessionData', dynamicSessionData)
                     if (dynamicSessionData?.timing?.simTimeOfDay) {
                         var seconds = dynamicSessionData.timing.simTimeOfDay; // Some arbitrary value
                         var date = new Date(seconds * 1000); // multiply by 1000 because Date() requires miliseconds
@@ -101,6 +102,9 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                         dynamicSessionData.timing.simTimeOfDay = timeStr
                     }
                     _isCarTelemetryActive = dynamicSessionData.isCarTelemetryActive
+
+                    dispatch(sessionSlice.actions.trackSessionUpdate(dynamicSessionData))
+
                     sessionDynamicDataLastResponse = Date.now()
                 })
             }
@@ -130,7 +134,6 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
         if (standingsConnection) {
             const connect = async () => {
                 standingsConnection.on('onStandingsUpdate', standings => {
-                    //console.log('standings', standings)
                     dispatch(standingsSlice.actions.update(standings))
                     standingsDataLastResponse = Date.now()
                 })

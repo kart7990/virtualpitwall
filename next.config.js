@@ -4,7 +4,7 @@ const environment = process.env.TARGET_ENV || process.env.NODE_ENV
 
 const nextConfig = {
     productionBrowserSourceMaps: true,
-    reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify: true,
     env: getEnvConfig()
 }
