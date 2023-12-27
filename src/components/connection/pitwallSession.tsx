@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import {
     sessionSlice,
     standingsSlice,
+    telemetrySlice,
     useDispatch
 } from '@/lib/redux'
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
@@ -13,6 +14,8 @@ import { API_BASE_URL, API_V1_URL } from "@/config/urls"
 
 let sessionDynamicDataLastResponse = 1
 let standingsDataLastResponse = 1
+let telemetryDataLastResponse = 1
+let _trackSessionNumber = -1
 let _lapsLastUpdate = -1
 let _lapsLastTelemetryLap = -1
 let _isCarTelemetryActive = false
@@ -26,6 +29,8 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
     //Web-Socket Connections
     const [sessionConnection, setSessionConnection] = useState<HubConnection>();
     const [standingsConnection, setStandingsConnection] = useState<HubConnection>();
+    const [telemetryConnection, setTelemetryConnection] = useState<HubConnection>();
+    const [lapsConnection, setLapsConnection] = useState<HubConnection>();
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -39,7 +44,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
             setLoading(true)
             var joinSessionResponse = await axios.get(`${API_V1_URL}/pitbox/session/${pitwallSessionId}`);
             dispatch(sessionSlice.actions.init(joinSessionResponse.data))
-            
+
             if (joinSessionResponse.data.completedLaps.length > 0) {
                 const [lastLap] = joinSessionResponse.data.completedLaps.slice(-1)
                 setJoinSessionLastLapSessionTime(lastLap.sessionTimeLapEnd)
@@ -56,12 +61,18 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
 
 
             var sessionConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Session, joinSessionResponse.data.pitBoxSession.id)
-            var standingsConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Standings, joinSessionResponse.data.pitBoxSession.id);
+            var standingsConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Standings, joinSessionResponse.data.pitBoxSession.id)
+            var lapsConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Laps, joinSessionResponse.data.pitBoxSession.id)
+            var telemetryConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Telemetry, joinSessionResponse.data.pitBoxSession.id)
 
             await sessionConnection.start()
             await standingsConnection.start()
+            await lapsConnection.start()
+            await telemetryConnection.start()
             setSessionConnection(sessionConnection)
             setStandingsConnection(standingsConnection)
+            setLapsConnection(lapsConnection);
+            setTelemetryConnection(telemetryConnection);
 
             setLoading(false)
         }
@@ -156,6 +167,40 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
             async () => await clearIntervalAsync(timer);
         }
     }, [standingsConnection]);
+
+
+    // #region Telemetry WebSocket Connection
+    useEffect(() => {
+        if (telemetryConnection) {
+            const connect = async () => {
+                telemetryConnection.on('onTelemetryUpdate', message => {
+                    dispatch(telemetrySlice.actions.update(message))
+                    telemetryDataLastResponse = Date.now()
+                })
+            }
+            connect()
+        }
+    }, [telemetryConnection]);
+
+    useEffect(() => {
+        if (telemetryConnection /*&& isAvailable*/) {
+            var lastRequest = 0;
+            const timer = setIntervalAsync(
+                async () => {
+                    if (_isCarTelemetryActive && (telemetryDataLastResponse > lastRequest)) {
+                        lastRequest = Date.now();
+                        await telemetryConnection.invoke("RequestTelemetry", { sessionId: pitwallSessionId, teamId: "" });
+                    }
+                    else {
+                        console.log('Previous telemetry data not recieved yet, skipping.')
+                    }
+                },
+                333)
+
+            async () => await clearIntervalAsync(timer);
+        }
+    }, [telemetryConnection /*, isAvailable */]);
+    // #endregion
 
 
     function LoadingWrapper({ children }: { children: React.ReactNode }) {
