@@ -2,9 +2,9 @@ import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { MainNav } from "@/components/main-nav"
-import { MobileNav } from "@/components/mobile-nav"
-import { Icons } from "@/components/icons"
+import { MainNav } from "@/app/components/core/main-nav"
+import { MobileNav } from "@/app/components/core/mobile-nav"
+import { Icons } from "@/app/components/core/icons"
 import { Button } from "./ui/button"
 
 export function SiteHeader() {

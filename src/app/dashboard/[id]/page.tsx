@@ -4,7 +4,7 @@ import './style.css'
 import PitwallSession from '@/app/components/connection/pitwallSession';
 import { Standings } from '@/app/components/standings/standings';
 import { TrackMap } from '@/app/components/trackmap/trackmap';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/app/components/core/ui/button"
 import {
     Card,
     CardContent,
@@ -12,8 +12,8 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-import { Icons } from "@/components/icons";
+} from "@/app/components/core/ui/card"
+import { Icons } from "@/app/components/core/icons";
 
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
 
