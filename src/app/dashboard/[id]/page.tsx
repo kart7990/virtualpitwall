@@ -1,10 +1,10 @@
 "use client"
 
 import './style.css'
-import PitwallSession from '@/app/components/connection/pitwallSession';
-import { Standings } from '@/app/components/standings/standings';
-import { TrackMap } from '@/app/components/trackmap/trackmap';
-import { Button } from "@/app/components/core/ui/button"
+import PitwallSession from '@/components/connection/pitwallSession';
+import { Standings } from '@/components/standings/standings';
+import { TrackMap } from '@/components/trackmap/trackmap';
+import { Button } from "@/components/core/ui/button"
 import {
     Card,
     CardContent,
@@ -12,8 +12,8 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/app/components/core/ui/card"
-import { Icons } from "@/app/components/core/icons";
+} from "@/components/core/ui/card"
+import { Icons } from "@/components/core/icons";
 
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
 

@@ -6,8 +6,8 @@ import './globals.css'
 import '../../node_modules/react-grid-layout/css/styles.css'
 import '../../node_modules/react-resizable/css/styles.css'
 import { ThemeProvider } from "@/app/theme-provider"
-import { SiteHeader } from '@/app/components/core/site-header'
-import { SiteFooter } from '@/app/components/core/site-footer'
+import { SiteHeader } from '@/components/core/site-header'
+import { SiteFooter } from '@/components/core/site-footer'
 
 
 export const fontSans = FontSans({

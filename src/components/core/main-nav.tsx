@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation"
 
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/app/components/core/icons"
+import { Icons } from "@/components/core/icons"
 
 export function MainNav() {
   const pathname = usePathname()
