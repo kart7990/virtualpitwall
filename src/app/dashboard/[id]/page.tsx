@@ -23,11 +23,10 @@ const ResponsiveGridLayout = WidthProvider(GridLayout);
 
 export default function Page({ params }: { params: { id: string } }) {
     const pitboxSessionId = params.id
-    console.log(pitboxSessionId)
 
     // #endregion
     const onResizeStopped: ItemCallback = (layout, oldItem, newItem) => {
-        console.log('DH-Grid-RESIZE', newItem.i)
+        console.log('Grid-RESIZE', newItem.i)
     };
 
     return (
