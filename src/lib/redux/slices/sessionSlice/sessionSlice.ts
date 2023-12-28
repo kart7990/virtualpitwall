@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { DynamicSessionData, SessionState, TrackSession } from './models'
+import { DynamicSessionData, SessionState, TrackSession, Lap, LapTelemetry } from './models'
 
 const initialState: SessionState = {
     pitBoxSession: undefined,
@@ -11,21 +11,32 @@ const initialState: SessionState = {
     webSocketEndpoints: undefined
 }
 
+export interface AddLapsPayload {
+    sessionNumber: number;
+    laps: Lap[];
+}
+
+export interface AddTelemetryLapsPayload {
+    sessionNumber: number;
+    laps: LapTelemetry[];
+}
+
 export const sessionSlice = createSlice({
     name: 'session',
     initialState,
     reducers: {
         init: (state, action: PayloadAction<SessionState>) => {
+            action.payload.pitBoxSession?.eventDetails.trackSessions.forEach(trackSession => {
+                trackSession.completedLaps = action.payload.completedLaps.filter(lap => lap.sessionNumber === trackSession.sessionNumber);
+                trackSession.completedTelemetryLaps = action.payload.telemetryLaps.filter(lap => lap.sessionNumber === trackSession.sessionNumber);
+            });
             state.pitBoxSession = action.payload.pitBoxSession
-            state.completedLaps = action.payload.completedLaps
-            state.telemetryLaps = action.payload.telemetryLaps
             state.isActive = action.payload.isActive
             state.isAvailable = action.payload.isAvailable
             state.timingProviders = action.payload.timingProviders
             state.webSocketEndpoints = action.payload.webSocketEndpoints
         },
         trackSessionUpdate: (state, action: PayloadAction<DynamicSessionData>) => {
-
             state.pitBoxSession!!.eventDetails.isCarTelemetryActive = action.payload.isCarTelemetryActive
             state.pitBoxSession!!.eventDetails.isActive = action.payload.isActive
             state.pitBoxSession!!.eventDetails.isAvailable = action.payload.isAvailable
@@ -42,8 +53,18 @@ export const sessionSlice = createSlice({
             state.pitBoxSession!!.eventDetails.currentTrackSessionNumber = action.payload.sessionNumber
             state.pitBoxSession!!.eventDetails.trackSessions = trackSessions
         },
+        addLaps: (state, action: PayloadAction<AddLapsPayload>) => {
+            state.pitBoxSession!!.eventDetails.trackSessions.find(trackSession =>
+                trackSession.sessionNumber === action.payload.sessionNumber)!!.completedLaps = state.pitBoxSession!!.eventDetails.trackSessions.find(trackSession =>
+                    trackSession.sessionNumber === action.payload.sessionNumber)!!.completedLaps.concat(action.payload.laps)
+        },
+        addTelemetryLap: (state, action: PayloadAction<AddTelemetryLapsPayload>) => {
+            state.pitBoxSession!!.eventDetails.trackSessions.find(trackSession =>
+                trackSession.sessionNumber === action.payload.sessionNumber)!!.completedTelemetryLaps = state.pitBoxSession!!.eventDetails.trackSessions.find(trackSession =>
+                    trackSession.sessionNumber === action.payload.sessionNumber)!!.completedTelemetryLaps.concat(action.payload.laps)
+        },
         reset: (state) => {
-            //state = initialState
+            state = initialState
         }
     }
 })
