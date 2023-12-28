@@ -155,7 +155,7 @@ export const Standings = () => {
         enableColumnActions: false,
         enableColumnFilters: false,
         enablePagination: false,
-        enableSorting: false,
+        enableSorting: true,
         enableRowSelection: true,
         enableMultiRowSelection: false,
         enableFullScreenToggle: false,

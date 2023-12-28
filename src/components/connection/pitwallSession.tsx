@@ -218,11 +218,13 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                 lapsConnection.on('onLapsUpdate', message => {
                     console.log("DAVIDHLAPSUPDATE", message)
                     _lapsLastUpdate = message.item1
-                    dispatch(sessionSlice.actions.addLaps({ sessionNumber: _trackSessionNumber, laps: message.item2 }))
+                    if (_trackSessionNumber) {
+                        dispatch(sessionSlice.actions.addLaps({ sessionNumber: _trackSessionNumber, laps: message.item2 }))
+                    }
                 })
 
                 lapsConnection.on('onLapsReceived', async () => {
-                    if (_trackSessionNumber >= 0) {
+                    if (_trackSessionNumber && _trackSessionNumber >= 0) {
                         console.log("DAVIDHonLapsReceived", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, sessionElapsedTime: _lapsLastUpdate })
                         await lapsConnection.invoke("RequestLaps", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, sessionElapsedTime: _lapsLastUpdate });
                     }
@@ -238,7 +240,9 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                 _lapsLastTelemetryLap = joinSessionLastTelemetryLap;
                 lapsConnection.on('onLapTelemetryUpdate', lapResponse => {
                     _lapsLastTelemetryLap = lapResponse.reduce((a: LapTelemetry, b: LapTelemetry) => a.lapNumber > b.lapNumber ? a : b).lapNumber;
-                    dispatch(sessionSlice.actions.addTelemetryLap({ sessionNumber: _trackSessionNumber, laps: lapResponse }))
+                    if (_trackSessionNumber) {
+                        dispatch(sessionSlice.actions.addTelemetryLap({ sessionNumber: _trackSessionNumber, laps: lapResponse }))
+                    }
                 })
 
                 lapsConnection.on('onLapTelemetryReceived', async () => {

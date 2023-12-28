@@ -12,7 +12,7 @@ export const TrackMap = () => {
     const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] = useState(false);
     const [allJsLoaded, setAllJsLoaded] = useState(false);
     const standings: LiveTiming[] = useSelector(selectLiveTimimg)
-    const [carClasses, setCarClasses] = useState([]);
+    const [carClasses, setCarClasses] = useState<any[]>([]);
     const isMulticlass = false
 
     const [height, setHeight] = useState(0);
@@ -23,7 +23,7 @@ export const TrackMap = () => {
 
     const trackId = '127'
 
-    const track = useRef()
+    const track = useRef<any>()
     const trackDiv = useRef<HTMLDivElement>(null)
 
     const options = {
@@ -43,7 +43,9 @@ export const TrackMap = () => {
     useEffect(() => {
         const timer = setIntervalAsync(
             async () => {
-                track.current.updatePositions();
+                if(track.current) {
+                    track.current.updatePositions();
+                }
             },
             500)
         async () => await clearIntervalAsync(timer);
@@ -74,7 +76,7 @@ export const TrackMap = () => {
     }, [trackId, allJsLoaded]);
 
     useEffect(() => {
-        var carClasses = []
+        var carClasses :any[] = []
         delete driverPositionData.current['PIT']
 
         if (standings) {
