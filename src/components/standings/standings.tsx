@@ -21,7 +21,7 @@ export const Standings = () => {
 
     useEffect(() => {
         setData(standingsData)
-     },[standingsData])
+    }, [standingsData])
 
     const tableTheme = useMemo(
         () =>
@@ -41,7 +41,7 @@ export const Standings = () => {
             {
                 accessorKey: "position",
                 header: 'Position',
-                size:1
+                size: 1
             },
             {
                 accessorKey: 'classPosition',
@@ -131,10 +131,11 @@ export const Standings = () => {
         ],
         [],
     );
+
+
     const table = useMaterialReactTable({
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-        enableColumnOrdering: true,
         initialState: {
             density: 'compact',
             columnVisibility: {
@@ -151,7 +152,14 @@ export const Standings = () => {
                 'pitStopCount': false,
                 'stintLapCount': false
             },
+            sorting: [
+                {
+                    id: 'position', //sort by age by default on page load
+                    desc: false,
+                }
+            ],
         },
+        enableColumnOrdering: true,
         enableColumnActions: false,
         enableColumnFilters: false,
         enablePagination: false,
@@ -167,8 +175,10 @@ export const Standings = () => {
         }),
     });
     return (
-        <ThemeProvider theme={tableTheme}>
-            <MaterialReactTable table={table} />
-        </ThemeProvider>
+        <div className="h-full overflow-auto">
+            <ThemeProvider theme={tableTheme}>
+                <MaterialReactTable table={table} />
+            </ThemeProvider>
+        </div>
     );
 }
