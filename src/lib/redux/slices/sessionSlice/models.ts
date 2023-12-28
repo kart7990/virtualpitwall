@@ -41,6 +41,8 @@ export interface TrackSession {
     playerCustId: number | null;
     isSpectator: boolean;
     track: Track;
+    completedLaps: Lap[];
+    completedTelemetryLaps: LapTelemetry[];
 }
 
 export interface Track {
