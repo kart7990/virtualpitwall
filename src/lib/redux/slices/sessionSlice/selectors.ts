@@ -7,6 +7,8 @@ const getTrackSessions = (state: ReduxState) => state.session.pitBoxSession!!.ev
 
 export const selectTelemetryActive = (state: ReduxState) => state.session.pitBoxSession?.eventDetails.isCarTelemetryActive
 export const selectCurrentTrackSessionNumber = (state: ReduxState) => state.session.pitBoxSession?.eventDetails.currentTrackSessionNumber
+
+
 export const selectCurrentSessionConditions = createSelector(
     [getCurrentTrackSessionNumber, getTrackSessions],
     (currentTrackSessionNumber, trackSessions) => {
