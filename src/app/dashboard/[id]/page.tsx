@@ -17,6 +17,7 @@ import { Icons } from "@/components/core/icons";
 
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
 import { DashboardCard } from './dashboard-card';
+import { Conditions } from '@/components/conditions/conditions';
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
 
@@ -46,7 +47,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     </div>
                     <div key="b" data-grid={{ x: 0, y: 3, w: 3, h: 2, minW: 2, maxW: 4 }}>
                         <DashboardCard title='Conditions'>
-                            <></>
+                            <Conditions/>
                         </DashboardCard>
                     </div>
                 </ResponsiveGridLayout>

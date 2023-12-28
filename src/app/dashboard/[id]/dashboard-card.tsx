@@ -7,7 +7,7 @@ import {
 
 export function DashboardCard({ children, title }: { children: React.ReactNode, title: string }) {
     return (
-        <Card className="h-full">
+        <Card className="h-full overflow-hidden">
             <CardHeader className="border-b p-3 drag-handle">
                 <CardTitle className="m-0">{title}</CardTitle>
             </CardHeader>
