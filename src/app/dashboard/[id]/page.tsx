@@ -16,8 +16,8 @@ import {
 import { Icons } from "@/components/core/icons";
 
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
-import { DashboardCard } from './dashboard-card';
 import { Conditions } from '@/components/conditions/conditions';
+import { DashboardCard } from './components/dashboard-card';
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
 

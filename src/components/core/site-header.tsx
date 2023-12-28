@@ -6,6 +6,7 @@ import { MainNav } from "@/components/core/main-nav"
 import { MobileNav } from "@/components/core/mobile-nav"
 import { Icons } from "@/components/core/icons"
 import { Button } from "./ui/button"
+import { UserNav } from "@/app/dashboard/[id]/components/user-nav"
 
 export function SiteHeader() {
   return (
@@ -17,20 +18,24 @@ export function SiteHeader() {
           <div className="w-full flex-1 md:w-auto md:flex-none">
             {/* <CommandMenu /> */}
           </div>
-          <nav className="flex items-center">
-          <Link
-              href={siteConfig.links.github}
+        </div>
+        <div className="mr-3">
+          <nav className="flex gap-3">
+            <Link
+              href={siteConfig.links.client}
               target="_blank"
-              rel="noreferrer"
-            >
-              <Button className="w-9 px-0" variant={"ghost"}>
-                <Icons.gitHub className="h-4 w-4" />
-                <span className="sr-only">GitHub</span>
-              </Button >
+              rel="noreferrer">
+              <Button>
+                <span>Download Client</span>
+              </Button>
             </Link>
+            <div className="ml-auto flex items-center space-x-4">
+              <UserNav />
+            </div>
           </nav>
         </div>
       </div>
+
     </header>
   )
 }

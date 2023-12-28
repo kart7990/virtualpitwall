@@ -11,10 +11,10 @@ export interface PreferencesSliceState {
     measurementSystem: MeasurementSystem
 }
 
-const initialState: PreferencesSliceState = {
-    measurementSystem: localStorage.getItem(STORAGE_KEY) ?
+export const initialState: PreferencesSliceState = {
+    measurementSystem: (typeof window !== 'undefined' && window.localStorage) ? localStorage.getItem(STORAGE_KEY) ?
         MeasurementSystem[localStorage.getItem(STORAGE_KEY) as keyof typeof MeasurementSystem]
-        : MeasurementSystem.Metric,
+        : MeasurementSystem.Metric : MeasurementSystem.Metric
 }
 
 export const preferencesSlice = createSlice({

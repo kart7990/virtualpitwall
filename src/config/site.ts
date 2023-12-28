@@ -9,6 +9,7 @@ export const siteConfig = {
     "Virtual Pitbox - Realtime web-based race dashboard for iRacing",
   links: {
     github: "https://github.com/kart7990/virtualpitwall",
+    client: BASE_URL + "/app/setup.exe"
   },
 }
 
