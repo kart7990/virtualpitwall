@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "build-staging": "set \"TARGET_ENV=staging\" && next build",
     "build-dev": "set \"TARGET_ENV=development\" && next build",
@@ -25,6 +25,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
+    "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "1.9.5",
     "ag-grid-react": "^31.0.1",
     "axios": "^1.6.2",

@@ -32,11 +32,11 @@ export default function Home() {
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                   </svg>
                   <span className="sr-only">Info</span>
-                  <h3 className="text-lg font-medium">This is a warning alert</h3>
+                  <h3 className="text-lg font-medium">Early Access</h3>
                 </div>
                 <div className="mt-2 mb-4 text-sm">
-                  The virtual pitbox platform is currently in beta. We are excited to share our progress with the community, but do not expect a bug-free or polished experience.
-                  There will be issues and some features may not work entirely. Please report any issues or feature requests so we can build something awesome together.
+                  The virtual pitbox platform is a work in progress. We are excited to share it with the community, but do not expect a bug-free or polished experience.
+                  There will be issues and some features may not work. Please report any issues or feature requests in Discord so we can build something awesome together.
                 </div>
               </div>
             </div>
