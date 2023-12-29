@@ -4,17 +4,6 @@ import './style.css'
 import PitwallSession from '@/components/connection/pitwallSession';
 import { Standings } from '@/components/standings/standings';
 import { TrackMap } from '@/components/trackmap/trackmap';
-import { Button } from "@/components/core/ui/button"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/core/ui/card"
-import { Icons } from "@/components/core/icons";
-
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
 import { Conditions } from '@/components/conditions/conditions';
 import { DashboardCard } from './components/dashboard-card';

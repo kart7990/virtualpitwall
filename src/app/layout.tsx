@@ -6,9 +6,6 @@ import './globals.css'
 import '../../node_modules/react-grid-layout/css/styles.css'
 import '../../node_modules/react-resizable/css/styles.css'
 import { ThemeProvider } from "@/app/theme-provider"
-import { SiteHeader } from '@/components/core/site-header'
-import { SiteFooter } from '@/components/core/site-footer'
-
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -21,7 +18,7 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {
@@ -32,11 +29,7 @@ export default function RootLayout({
           <ThemeProvider
             attribute="class"
             defaultTheme="dark">
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="flex-1 border-b">{children}</div>
-              <SiteFooter />
-            </div>
+              {children}
           </ThemeProvider>
         </body>
       </html>

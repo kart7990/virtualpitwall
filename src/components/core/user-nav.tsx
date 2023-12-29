@@ -1,11 +1,11 @@
 'use client';
 import { Icons } from "@/components/core/icons";
+import { Button } from "@/components/core/ui/button"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/core/ui/avatar"
-import { Button } from "@/components/core/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,13 +17,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/core/ui/dropdown-menu"
 
+
 export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <Icons.profile className="h-8 w-8 p-1" />
+            <Icons.profile className="h-8 w-8" />
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
