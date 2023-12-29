@@ -12,7 +12,7 @@ import { ScrollArea } from "@/components/core/ui/scroll-area"
 import { Button } from "@/components/core/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/core/ui/sheet"
 
-export function MobileNav() {
+export function MobileNav({ isPublic }: { isPublic: boolean }) {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -35,29 +35,31 @@ export function MobileNav() {
           <Icons.logoPNG className="mr-2 h-4 w-4" />
           <span className="font-bold">{siteConfig.name}</span>
         </MobileLink>
-        <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
-          <div className="flex flex-col space-y-3">
+        {!isPublic &&
+          <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
+            <div className="flex flex-col space-y-3">
 
-            <MobileLink
-              href="/Dashboard"
-              onOpenChange={setOpen}
-            >
-              Dashboard
-            </MobileLink>
-            <MobileLink
-              href="/Dashboard"
-              onOpenChange={setOpen}
-            >
-              Account
-            </MobileLink>
-            <MobileLink
-              href="/Dashboard"
-              onOpenChange={setOpen}
-            >
-              Download Client
-            </MobileLink>
-          </div>
-        </ScrollArea>
+              <MobileLink
+                href="/Dashboard"
+                onOpenChange={setOpen}
+              >
+                Dashboards
+              </MobileLink>
+              <MobileLink
+                href="/Dashboard"
+                onOpenChange={setOpen}
+              >
+                Teams
+              </MobileLink>
+              <MobileLink
+                href="/Dashboard"
+                onOpenChange={setOpen}
+              >
+                Settings
+              </MobileLink>
+            </div>
+          </ScrollArea>
+        }
       </SheetContent>
     </Sheet>
   )
