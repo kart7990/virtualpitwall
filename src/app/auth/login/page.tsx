@@ -2,8 +2,24 @@
 import Link from "next/link"
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { GoogleLogin } from '@react-oauth/google'
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios'
+import { Button } from "@/components/core/ui/button";
 
 export default function Login() {
+    const googleLogin = useGoogleLogin({
+        onSuccess: async tokenResponse => {
+            console.log(tokenResponse);
+            // fetching userinfo can be done on the client or the server
+            const userInfo = await axios
+                .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                })
+                .then(res => res.data);
+
+            console.log(userInfo);
+        },
+    });
     return (
         <>
             <div className="m-auto">
@@ -15,17 +31,7 @@ export default function Login() {
                         </h2>
                     </div>
                     <div className="row-span-1">
-                        <GoogleOAuthProvider clientId="477697685987-i8d05tutmr4q51s4bqbkbqq7a5h0vigv.apps.googleusercontent.com">
-                            <GoogleLogin
-                                text="signin_with"
-                                onSuccess={credentialResponse => {
-                                    console.log(credentialResponse);
-                                }}
-                                onError={() => {
-                                    console.log('Login Failed');
-                                }}
-                            />
-                        </GoogleOAuthProvider>
+                        <Button onClick={() => googleLogin()}>Sign in with Google 🚀</Button>
                     </div>
                     <div className="row-span-1">
                         <div id="alert-additional-content-4" className=" p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800" role="alert">
