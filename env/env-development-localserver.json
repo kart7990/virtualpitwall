@@ -1,0 +1,4 @@
+{
+    "APP_ENV": "development-localserver",
+    "BASE_URL": "https://localhost:5445"
+}
