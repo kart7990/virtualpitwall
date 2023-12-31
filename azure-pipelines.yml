@@ -20,7 +20,7 @@ steps:
 
 - script: |
     npm install
-    npm run build_staging
+    npm run build-staging
   displayName: 'npm install and build staging'
 
 - task: ArchiveFiles@1
