@@ -1,4 +1,4 @@
 {
     "APP_ENV": "development",
-    "BASE_URL": "https://virtualpitwall-test.azurewebsites.net"
+    "BASE_URL": "https://staging.virtualpitwall.com"
 }
