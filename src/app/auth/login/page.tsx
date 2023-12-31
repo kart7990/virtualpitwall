@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useSearchParams } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { API_V2_URL } from "@/config/urls"
 import { useGoogleLogin } from '@react-oauth/google'
 import { Button } from "@/components/core/ui/button"
-import { ExternalLoginData, OAuthProviderData } from "../models"
+import { OAuthProviderData } from "../models"
 import {
     Alert,
     AlertDescription,
@@ -15,10 +15,11 @@ import {
 } from "@/components/core/ui/alert"
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
 import {
-    JWT,
     authSlice,
     useDispatch
 } from '@/lib/redux'
+import { Icons } from "@/components/core/icons";
+import Register from "../components/register";
 
 
 export default function Login() {
@@ -26,7 +27,7 @@ export default function Login() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [serverError, setServerError] = useState<string | null>(null);
-    const [externalData, setOAuthProviderData] = useState();
+    const [oAuthProviderData, setOAuthProviderData] = useState<OAuthProviderData | null>(null);
     const [displayRegister, setDisplayRegister] = useState(false);
     const [displayReturnToApp, setDisplayReturnToApp] = useState(false);
 
@@ -36,18 +37,18 @@ export default function Login() {
         onSuccess: async tokenResponse => {
             console.log(tokenResponse);
             // fetching userinfo can be done on the client or the server
-            const userInfo = await axios
-                .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-                    headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-                })
-                .then(res => res.data);
+            const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+            }).then(res => res.data)
 
-            await onOAuthSuccess({
+            let oAuthProviderData = {
                 email: userInfo.email,
                 name: userInfo.name,
                 provider: 'google',
                 token: tokenResponse.access_token
-            })
+            }
+            setOAuthProviderData(oAuthProviderData)
+            await onOAuthSuccess(oAuthProviderData)
         },
     })
 
@@ -77,7 +78,7 @@ export default function Login() {
                     router.replace('/pitwall/home')
                 }
             } else if (loginResponse.status === 202) {
-                router.replace('/auth/register')
+                setDisplayRegister(true)
             } else {
                 setServerError("Request failed, please try again.");
             }
@@ -88,8 +89,8 @@ export default function Login() {
         }
     }
 
-    return (
-        <div className="m-auto">
+    const RenderLogin = () => {
+        return (
             <div className="grid grid-rows-4 grid-flow-col justify-items-center">
                 <div className="row-span-1">
                     <h2 className="scroll-m-20 text-center border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
@@ -125,6 +126,24 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+        )
+    }
+
+    const RenderContent = () => {
+        if (loading) {
+            return <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        } else if (displayRegister && oAuthProviderData != null) {
+            return <Register accountFormValues={{ email: oAuthProviderData.email, name: oAuthProviderData.name, provider: oAuthProviderData.provider, token: oAuthProviderData.token, iracingCustomerId: '' }} />
+        } else if (displayReturnToApp) {
+            return <Alert variant="default" color="success">Authentication sucessful, please return to the app.</Alert>
+        } else {
+            return <RenderLogin />
+        }
+    }
+
+    return (
+        <div className="m-auto">
+            {RenderContent()}
         </div >
     )
 }
