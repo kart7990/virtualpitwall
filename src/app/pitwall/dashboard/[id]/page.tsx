@@ -1,7 +1,7 @@
 "use client"
 
 import './style.css'
-import PitwallSession from '@/components/connection/pitwallSession';
+import PitwallSession from '@/components/connection/pitwall-session';
 import { Standings } from '@/components/standings/standings';
 import { TrackMap } from '@/components/trackmap/trackmap';
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";

@@ -1,6 +1,6 @@
 import { SiteHeader } from '@/components/core/site-header'
 import { SiteFooter } from '@/components/core/site-footer'
-import RequireAuth from '../auth/components/RequireAuth'
+import RequireAuth from '../auth/components/require-auth'
 
 export default function PitWallLayout({
     children
