@@ -14,9 +14,15 @@ import {
     AlertTitle,
 } from "@/components/core/ui/alert"
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
+import {
+    JWT,
+    authSlice,
+    useDispatch
+} from '@/lib/redux'
 
 
 export default function Login() {
+    const dispatch = useDispatch()
     const router = useRouter()
     const searchParams = useSearchParams()
     const [serverError, setServerError] = useState<string | null>(null);
@@ -54,6 +60,7 @@ export default function Login() {
             if (loginResponse.status === 200) {
                 let webRedirectUrl = searchParams.get("redirect");
                 let appRedirectUrl = searchParams.get("redirect_uri");
+                dispatch(authSlice.actions.setJwt(loginResponse.data))
                 if (appRedirectUrl != null) {
                     let config = {
                         headers: {
@@ -61,12 +68,10 @@ export default function Login() {
                         }
                     }
                     setLoading(true)
-                    //dispatch(auth.onAuthSuccess(loginResponse.data, false))
                     await axios.post(`${appRedirectUrl}`, null, config);
                     setLoading(false)
                     setDisplayReturnToApp(true)
                 } else if (webRedirectUrl != null) {
-                    //dispatch(auth.onAuthSuccess(loginResponse.data, false))
                     router.replace(webRedirectUrl)
                 } else {
                     router.replace('/pitwall/home')

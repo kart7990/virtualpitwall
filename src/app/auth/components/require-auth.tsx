@@ -1,15 +1,21 @@
 "use client"
 import { useEffect } from 'react';
-import { useSelector } from "react-redux"
 import { RedirectType, redirect } from 'next/navigation'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router';
+
+import {
+    useSelector,
+    selectIsAuthenticated
+} from '@/lib/redux'
 
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
     //const authentication = useSelector(state => state.authentication)
     const pathname = usePathname()
     const params = useSearchParams()
+    
+    const isAuthenticated = useSelector<boolean>(selectIsAuthenticated)
 
     useEffect(() => {
         // Redirect if not signed in
@@ -19,7 +25,9 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
         //     history.replace("/");
         //   } else {
         //}
-        redirect(`/auth/login?redirect=${encodeURIComponent(pathname)}`)
+        if(!isAuthenticated) {
+            redirect(`/auth/login?redirect=${encodeURIComponent(pathname)}`)
+        }
     }, []);
 
     return (
