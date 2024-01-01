@@ -29,6 +29,7 @@ steps:
     npm run build-staging
     sudo cp -r public /build
     sudo cp -r .next/static /build
+    ls
   displayName: 'npm install and build staging'
 
 - task: ArchiveFiles@1
