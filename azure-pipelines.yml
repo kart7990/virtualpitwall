@@ -29,7 +29,8 @@ steps:
     npm run build-staging
     sudo mkdir /build
     sudo cp -r public build
-    sudo cp -r .next/static build
+    sudo cp -r .next build
+    ls -a
     cd build
     ls
   displayName: 'npm install and build staging'
