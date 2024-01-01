@@ -23,6 +23,15 @@ steps:
     npm run build-staging
   displayName: 'npm install and build staging'
 
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)/test/drop/build'
+  inputs:
+    Contents: |
+     build/**
+     
+    TargetFolder: '$(build.artifactstagingdirectory)/test/drop'
+    CleanTargetFolder: true
+
 - task: ArchiveFiles@1
   displayName: 'Create test package'
   inputs:
