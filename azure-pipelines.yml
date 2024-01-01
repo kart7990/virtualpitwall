@@ -18,24 +18,21 @@ steps:
 - task: UsePythonVersion@0
   displayName: 'Use Python 3.x'
 
+- task: Cache@2
+  displayName: 'Cache .next/cache'
+  inputs:
+    key: next | $(Agent.OS) | yarn.lock
+    path: '$(System.DefaultWorkingDirectory)/.next/cache'
+
 - script: |
     npm install
     npm run build-staging
   displayName: 'npm install and build staging'
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)/test/drop/build'
-  inputs:
-    Contents: |
-     build/**
-     
-    TargetFolder: '$(build.artifactstagingdirectory)/test/drop'
-    CleanTargetFolder: true
-
 - task: ArchiveFiles@1
   displayName: 'Create test package'
   inputs:
-    rootFolder: build
+    rootFolder: .next
     includeRootFolder: false
     archiveFile: '$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip'
 
