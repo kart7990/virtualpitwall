@@ -6,7 +6,8 @@ const nextConfig = {
     productionBrowserSourceMaps: true,
     reactStrictMode: false,
     swcMinify: true,
-    env: getEnvConfig()
+    env: getEnvConfig(),
+    output: 'standalone'
 }
 
 function getEnvConfig() { // for multi-file config

@@ -27,17 +27,19 @@ steps:
 - script: |
     npm install
     npm run build-staging
+    cp -r public /build
+    cp -r .next/static /build
   displayName: 'npm install and build staging'
 
 - task: ArchiveFiles@1
-  displayName: 'Create test package'
+  displayName: 'Create staging package'
   inputs:
-    rootFolder: .next
+    rootFolder: build
     includeRootFolder: false
     archiveFile: '$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish test package'
+  displayName: 'Publish staging package'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip'
     ArtifactName: 'packaged_staging_build'
