@@ -26,20 +26,6 @@ export const TrackMap = () => {
     const track = useRef<any>()
     const trackDiv = useRef<HTMLDivElement>(null)
 
-    const options = {
-        transform: "translate(0, 0) scale(1) rotate(0)",
-        height: 70,
-        scaling: 100,
-        pathColor: '#FFFFFF',
-        maxPrediction: 2000,
-        nodeSize: 15,
-        labelFont: "Arial",
-        labelFontSize: ".5em",
-        labelColor: '#000000',
-    };
-    var track1Options = JSON.parse(JSON.stringify(options));
-    track1Options.nodeSize = 8;
-
     useEffect(() => {
         const timer = setIntervalAsync(
             async () => {
@@ -71,6 +57,20 @@ export const TrackMap = () => {
 
     useEffect(() => {
         if (allJsLoaded) {
+            const options = {
+                transform: "translate(0, 0) scale(1) rotate(0)",
+                height: 70,
+                scaling: 100,
+                pathColor: '#FFFFFF',
+                maxPrediction: 2000,
+                nodeSize: 15,
+                labelFont: "Arial",
+                labelFontSize: ".5em",
+                labelColor: '#000000',
+            };
+            var track1Options = JSON.parse(JSON.stringify(options));
+            track1Options.nodeSize = 8;
+
             track.current = new window.RivalTracker("track1", trackId, driverPositionData.current, track1Options);
         }
     }, [trackId, allJsLoaded]);
@@ -78,6 +78,17 @@ export const TrackMap = () => {
     useEffect(() => {
         var carClasses :any[] = []
         delete driverPositionData.current['PIT']
+
+        const colors = [
+            "#ecf0f1",
+            "#e74c3c",
+            "#3498db",
+            "#2ecc71",
+            "#f1c40f",
+            "#9b59b6",
+            "#34495e",
+            "#1abc9c"
+        ]
 
         if (standings) {
             standings.forEach(s => {
@@ -154,18 +165,8 @@ export const TrackMap = () => {
             });
             setCarClasses(carClasses.sort((a, b) => a.classId - b.classId))
         }
-    }, [standings]);
+    }, [standings, isMulticlass]);
 
-    const colors = [
-        "#ecf0f1",
-        "#e74c3c",
-        "#3498db",
-        "#2ecc71",
-        "#f1c40f",
-        "#9b59b6",
-        "#34495e",
-        "#1abc9c"
-    ]
 
     return (
         <>

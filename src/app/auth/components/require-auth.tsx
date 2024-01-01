@@ -28,7 +28,7 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
         if(!isAuthenticated) {
             redirect(`/auth/login?redirect=${encodeURIComponent(pathname)}`)
         }
-    }, []);
+    }, [isAuthenticated, pathname]);
 
     return (
         <>

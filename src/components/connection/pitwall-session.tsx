@@ -48,6 +48,8 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
     const oAuthToken = useSelector(selectOAuthToken)
     _trackSessionNumber = trackSessionNumber
 
+
+
     // #region Session Join Request
     useEffect(() => {
         const joinSesion = async () => {
@@ -69,6 +71,17 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                 setJoinSessionLastTelemetryLap(0)
             }
 
+            const buildHubConnection = (socketEndpoint: string, sessionId: string) => {
+                const options: IHttpConnectionOptions = {
+                    accessTokenFactory: () => oAuthToken!!.accessToken
+                }
+            
+                return new HubConnectionBuilder()
+                    .withUrl(API_BASE_URL + socketEndpoint + "?sessionId=" + sessionId, options)
+                    .withAutomaticReconnect()
+                    .build()
+            }
+
             var sessionConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Session, joinSessionResponse.data.pitBoxSession.id)
             var standingsConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Standings, joinSessionResponse.data.pitBoxSession.id)
             var lapsConnection = buildHubConnection(joinSessionResponse.data.webSocketEndpoints.Laps, joinSessionResponse.data.pitBoxSession.id)
@@ -86,191 +99,179 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
             setLoading(false)
         }
         joinSesion();
-    }, []);
+    }, [pitwallSessionId, dispatch, oAuthToken]);
+    // #endregion
 
-
-    const buildHubConnection = (socketEndpoint: string, sessionId: string) => {
-        const options : IHttpConnectionOptions = {
-            accessTokenFactory: () => oAuthToken!!.accessToken
-        }
-
-        return new HubConnectionBuilder()
-                .withUrl(API_BASE_URL + socketEndpoint + "?sessionId=" + sessionId, options)
-                .withAutomaticReconnect()
-                .build()
-        }
-        // #endregion
-
-        // #region Session WebSocket Connection
-        useEffect(() => {
-            if (sessionConnection) {
-                const connect = async () => {
-                    sessionConnection.on('onSessionReset', pitboxSession => {
-                        _lapsLastUpdate = 0
-                        _lapsLastTelemetryLap = 0
-                        dispatch(sessionSlice.actions.reset())
-                    })
-                    sessionConnection.on('onTrackSessionChanged', trackSession => {
-                        _lapsLastUpdate = 0
-                        _lapsLastTelemetryLap = 0
-                        dispatch(sessionSlice.actions.trackSessionChange(trackSession))
-                    })
-                    sessionConnection.on('onDynamicSessionDataUpdate', dynamicSessionData => {
-                        if (dynamicSessionData?.timing?.simTimeOfDay) {
-                            var seconds = dynamicSessionData.timing.simTimeOfDay; // Some arbitrary value
-                            var date = new Date(seconds * 1000); // multiply by 1000 because Date() requires miliseconds
-                            var timeStr = date.toISOString();
-                            dynamicSessionData.timing.simTimeOfDay = timeStr
-                        }
-                        _isCarTelemetryActive = dynamicSessionData.isCarTelemetryActive
-
-                        dispatch(sessionSlice.actions.trackSessionUpdate(dynamicSessionData))
-
-                        sessionDynamicDataLastResponse = Date.now()
-                    })
-                }
-                connect()
-            }
-        }, [sessionConnection]);
-
-        useEffect(() => {
-            if (sessionConnection) {
-                var lastRequest1 = 0;
-                const timer = setIntervalAsync(
-                    async () => {
-                        if ((sessionDynamicDataLastResponse > lastRequest1)) {
-                            lastRequest1 = Date.now();
-                            await sessionConnection.invoke("RequestDynamicSessionData", { sessionId: pitwallSessionId, teamId: "" });
-                        }
-                    },
-                    1000)
-                async () => await clearIntervalAsync(timer);
-            }
-        }, [sessionConnection]);
-
-        // #endregion
-
-        // #region Standings WebSocket Connection
-        useEffect(() => {
-            if (standingsConnection) {
-                const connect = async () => {
-                    standingsConnection.on('onStandingsUpdate', standings => {
-                        dispatch(standingsSlice.actions.update(standings))
-                        standingsDataLastResponse = Date.now()
-                    })
-                }
-                connect()
-            }
-        }, [standingsConnection]);
-
-        useEffect(() => {
-            if (standingsConnection) {
-                var lastRequest = 0;
-                const timer = setIntervalAsync(
-                    async () => {
-                        if ((standingsDataLastResponse > lastRequest)) {
-                            lastRequest = Date.now();
-                            await standingsConnection.invoke("RequestStandings", { sessionId: pitwallSessionId, teamId: "" });
-                        }
-                    },
-                    700)
-                async () => await clearIntervalAsync(timer);
-            }
-        }, [standingsConnection]);
-
-
-        // #region Telemetry WebSocket Connection
-        useEffect(() => {
-            if (telemetryConnection) {
-                const connect = async () => {
-                    telemetryConnection.on('onTelemetryUpdate', message => {
-                        dispatch(telemetrySlice.actions.update(message))
-                        telemetryDataLastResponse = Date.now()
-                    })
-                }
-                connect()
-            }
-        }, [telemetryConnection]);
-
-        useEffect(() => {
-            if (telemetryConnection /*&& isAvailable*/) {
-                var lastRequest = 0;
-                const timer = setIntervalAsync(
-                    async () => {
-                        if (_isCarTelemetryActive && (telemetryDataLastResponse > lastRequest)) {
-                            lastRequest = Date.now();
-                            await telemetryConnection.invoke("RequestTelemetry", { sessionId: pitwallSessionId, teamId: "" });
-                        }
-                        else {
-                            //console.log('Previous telemetry data not recieved yet, skipping.')
-                        }
-                    },
-                    333)
-
-                async () => await clearIntervalAsync(timer);
-            }
-        }, [telemetryConnection /*, isAvailable */]);
-        // #endregion
-
-        // #region Laps WebSocket Connection
-        useEffect(() => {
+    // #region Session WebSocket Connection
+    useEffect(() => {
+        if (sessionConnection) {
             const connect = async () => {
-                // don't need isActive check, laps are only requested when notified of new laps
-                if (lapsConnection && joinSessionLastLapSessionTime > -1) {
-                    _lapsLastUpdate = joinSessionLastLapSessionTime;
-                    lapsConnection.on('onLapsUpdate', message => {
-                        console.log("DAVIDHLAPSUPDATE", message)
-                        _lapsLastUpdate = message.item1
-                        if (_trackSessionNumber) {
-                            dispatch(sessionSlice.actions.addLaps({ sessionNumber: _trackSessionNumber, laps: message.item2 }))
-                        }
-                    })
+                sessionConnection.on('onSessionReset', pitboxSession => {
+                    _lapsLastUpdate = 0
+                    _lapsLastTelemetryLap = 0
+                    dispatch(sessionSlice.actions.reset())
+                })
+                sessionConnection.on('onTrackSessionChanged', trackSession => {
+                    _lapsLastUpdate = 0
+                    _lapsLastTelemetryLap = 0
+                    dispatch(sessionSlice.actions.trackSessionChange(trackSession))
+                })
+                sessionConnection.on('onDynamicSessionDataUpdate', dynamicSessionData => {
+                    if (dynamicSessionData?.timing?.simTimeOfDay) {
+                        var seconds = dynamicSessionData.timing.simTimeOfDay; // Some arbitrary value
+                        var date = new Date(seconds * 1000); // multiply by 1000 because Date() requires miliseconds
+                        var timeStr = date.toISOString();
+                        dynamicSessionData.timing.simTimeOfDay = timeStr
+                    }
+                    _isCarTelemetryActive = dynamicSessionData.isCarTelemetryActive
 
-                    lapsConnection.on('onLapsReceived', async () => {
-                        if (_trackSessionNumber && _trackSessionNumber >= 0) {
-                            console.log("DAVIDHonLapsReceived", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, sessionElapsedTime: _lapsLastUpdate })
-                            await lapsConnection.invoke("RequestLaps", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, sessionElapsedTime: _lapsLastUpdate });
-                        }
-                    })
-                }
+                    dispatch(sessionSlice.actions.trackSessionUpdate(dynamicSessionData))
+
+                    sessionDynamicDataLastResponse = Date.now()
+                })
             }
             connect()
-        }, [lapsConnection, joinSessionLastLapSessionTime]);
+        }
+    }, [sessionConnection, dispatch]);
 
-        useEffect(() => {
+    useEffect(() => {
+        if (sessionConnection) {
+            var lastRequest1 = 0;
+            const timer = setIntervalAsync(
+                async () => {
+                    if ((sessionDynamicDataLastResponse > lastRequest1)) {
+                        lastRequest1 = Date.now();
+                        await sessionConnection.invoke("RequestDynamicSessionData", { sessionId: pitwallSessionId, teamId: "" });
+                    }
+                },
+                1000)
+            async () => await clearIntervalAsync(timer);
+        }
+    }, [sessionConnection, pitwallSessionId]);
+
+    // #endregion
+
+    // #region Standings WebSocket Connection
+    useEffect(() => {
+        if (standingsConnection) {
             const connect = async () => {
-                if (lapsConnection && joinSessionLastTelemetryLap > -1) {
-                    _lapsLastTelemetryLap = joinSessionLastTelemetryLap;
-                    lapsConnection.on('onLapTelemetryUpdate', lapResponse => {
-                        _lapsLastTelemetryLap = lapResponse.reduce((a: LapTelemetry, b: LapTelemetry) => a.lapNumber > b.lapNumber ? a : b).lapNumber;
-                        if (_trackSessionNumber) {
-                            dispatch(sessionSlice.actions.addTelemetryLap({ sessionNumber: _trackSessionNumber, laps: lapResponse }))
-                        }
-                    })
-
-                    lapsConnection.on('onLapTelemetryReceived', async () => {
-                        if (_trackSessionNumber != null) {
-                            await lapsConnection.invoke("RequestTelemetryLaps", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, lastLapNumber: _lapsLastTelemetryLap });
-                        }
-                    })
-                }
+                standingsConnection.on('onStandingsUpdate', standings => {
+                    dispatch(standingsSlice.actions.update(standings))
+                    standingsDataLastResponse = Date.now()
+                })
             }
             connect()
-        }, [lapsConnection, joinSessionLastTelemetryLap]);
-        // #endregion
+        }
+    }, [standingsConnection, dispatch]);
+
+    useEffect(() => {
+        if (standingsConnection) {
+            var lastRequest = 0;
+            const timer = setIntervalAsync(
+                async () => {
+                    if ((standingsDataLastResponse > lastRequest)) {
+                        lastRequest = Date.now();
+                        await standingsConnection.invoke("RequestStandings", { sessionId: pitwallSessionId, teamId: "" });
+                    }
+                },
+                700)
+            async () => await clearIntervalAsync(timer);
+        }
+    }, [standingsConnection, pitwallSessionId]);
 
 
-        function LoadingWrapper({ children }: { children: React.ReactNode }) {
-            if (isLoading) {
-                return <div> loading... </div>
-            } else {
-                return children
+    // #region Telemetry WebSocket Connection
+    useEffect(() => {
+        if (telemetryConnection) {
+            const connect = async () => {
+                telemetryConnection.on('onTelemetryUpdate', message => {
+                    dispatch(telemetrySlice.actions.update(message))
+                    telemetryDataLastResponse = Date.now()
+                })
+            }
+            connect()
+        }
+    }, [telemetryConnection, dispatch]);
+
+    useEffect(() => {
+        if (telemetryConnection /*&& isAvailable*/) {
+            var lastRequest = 0;
+            const timer = setIntervalAsync(
+                async () => {
+                    if (_isCarTelemetryActive && (telemetryDataLastResponse > lastRequest)) {
+                        lastRequest = Date.now();
+                        await telemetryConnection.invoke("RequestTelemetry", { sessionId: pitwallSessionId, teamId: "" });
+                    }
+                    else {
+                        //console.log('Previous telemetry data not recieved yet, skipping.')
+                    }
+                },
+                333)
+
+            async () => await clearIntervalAsync(timer);
+        }
+    }, [telemetryConnection /*, isAvailable */, pitwallSessionId]);
+    // #endregion
+
+    // #region Laps WebSocket Connection
+    useEffect(() => {
+        const connect = async () => {
+            // don't need isActive check, laps are only requested when notified of new laps
+            if (lapsConnection && joinSessionLastLapSessionTime > -1) {
+                _lapsLastUpdate = joinSessionLastLapSessionTime;
+                lapsConnection.on('onLapsUpdate', message => {
+                    console.log("DAVIDHLAPSUPDATE", message)
+                    _lapsLastUpdate = message.item1
+                    if (_trackSessionNumber) {
+                        dispatch(sessionSlice.actions.addLaps({ sessionNumber: _trackSessionNumber, laps: message.item2 }))
+                    }
+                })
+
+                lapsConnection.on('onLapsReceived', async () => {
+                    if (_trackSessionNumber && _trackSessionNumber >= 0) {
+                        console.log("DAVIDHonLapsReceived", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, sessionElapsedTime: _lapsLastUpdate })
+                        await lapsConnection.invoke("RequestLaps", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, sessionElapsedTime: _lapsLastUpdate });
+                    }
+                })
             }
         }
+        connect()
+    }, [lapsConnection, joinSessionLastLapSessionTime, pitwallSessionId, dispatch]);
 
-        return (
-            <>
-                {LoadingWrapper({ children })}
-            </>
-        )
+    useEffect(() => {
+        const connect = async () => {
+            if (lapsConnection && joinSessionLastTelemetryLap > -1) {
+                _lapsLastTelemetryLap = joinSessionLastTelemetryLap;
+                lapsConnection.on('onLapTelemetryUpdate', lapResponse => {
+                    _lapsLastTelemetryLap = lapResponse.reduce((a: LapTelemetry, b: LapTelemetry) => a.lapNumber > b.lapNumber ? a : b).lapNumber;
+                    if (_trackSessionNumber) {
+                        dispatch(sessionSlice.actions.addTelemetryLap({ sessionNumber: _trackSessionNumber, laps: lapResponse }))
+                    }
+                })
+
+                lapsConnection.on('onLapTelemetryReceived', async () => {
+                    if (_trackSessionNumber != null) {
+                        await lapsConnection.invoke("RequestTelemetryLaps", { sessionId: pitwallSessionId, teamId: "", sessionNumber: _trackSessionNumber, lastLapNumber: _lapsLastTelemetryLap });
+                    }
+                })
+            }
+        }
+        connect()
+    }, [lapsConnection, joinSessionLastTelemetryLap, pitwallSessionId, dispatch]);
+    // #endregion
+
+
+    function LoadingWrapper({ children }: { children: React.ReactNode }) {
+        if (isLoading) {
+            return <div> loading... </div>
+        } else {
+            return children
+        }
     }
+
+    return (
+        <>
+            {LoadingWrapper({ children })}
+        </>
+    )
+}

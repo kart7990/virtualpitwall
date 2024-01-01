@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import { API_V2_URL } from "@/config/urls"
 
@@ -66,23 +66,11 @@ export default function Register({ accountFormValues }: { accountFormValues: Acc
         defaultValues,
     })
 
-    useEffect(() => {
-        //SILENT REGISTER - No additional fields required beyond what OAuth provider gives.
-        const silentRegister = async () => {
-            await onSubmit(accountFormValues)
-        }
-        if (accountFormValues) {
-            silentRegister()
-        }
-    }, []);
 
-
-    async function onSubmit(data: AccountFormValues) {
+    const onSubmit = useCallback(async (data: AccountFormValues) => {
         setLoading(true)
         try {
-            console.log(accountFormValues)
-            var registerResponse = await axios.post(`${API_V2_URL}/authentication/registerexternal`, accountFormValues);
-            console.log(registerResponse)
+            var registerResponse = await axios.post(`${API_V2_URL}/authentication/registerexternal`, data);
             if (registerResponse.status === 200) {
                 dispatch(authSlice.actions.setJwt(registerResponse.data))
                 router.replace('/pitwall/home')
@@ -94,7 +82,17 @@ export default function Register({ accountFormValues }: { accountFormValues: Acc
         } finally {
             setLoading(false)
         }
-    }
+    }, [dispatch, router])
+
+    useEffect(() => {
+        //SILENT REGISTER - No additional fields required beyond what OAuth provider gives.
+        const silentRegister = async () => {
+            await onSubmit(accountFormValues)
+        }
+        if (accountFormValues) {
+            silentRegister()
+        }
+    }, [accountFormValues, onSubmit]);
 
     return (
         <div className="m-auto">
