@@ -21,7 +21,7 @@ steps:
 - task: Cache@2
   displayName: 'Cache .next/cache'
   inputs:
-    key: next | $(Agent.OS) | yarn.lock
+    key: next | $(Agent.OS) | package-lock.json
     path: '$(System.DefaultWorkingDirectory)/.next/cache'
 
 - script: |
