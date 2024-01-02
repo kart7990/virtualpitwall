@@ -36,7 +36,7 @@ steps:
     sudo cp -r .next/static build/.next/static
     cd build
     ls
-    sudo sed -i '' 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' server.js
+    sudo sed -i -e 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' server.js
   displayName: 'npm install and build staging'
 
 - task: ArchiveFiles@1
