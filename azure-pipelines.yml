@@ -39,6 +39,8 @@ steps:
     ls
     sudo sed -i -e 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' server.js
   displayName: 'npm install and build staging'
+  env:
+    TARGET_ENV: staging
 
 - task: ArchiveFiles@1
   displayName: 'Create staging package'
