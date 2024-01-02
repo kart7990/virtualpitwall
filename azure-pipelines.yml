@@ -24,6 +24,7 @@ steps:
     key: next | $(Agent.OS) | package-lock.json
     path: '$(System.DefaultWorkingDirectory)/.next/cache'
 
+#parseInt(process.env.PORT, 10) azure windows app service issue - https://github.com/vercel/next.js/discussions/38448
 - script: |
     npm install
     npm run build-staging
