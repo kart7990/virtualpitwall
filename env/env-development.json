@@ -1,4 +1,5 @@
 {
     "APP_ENV": "development",
-    "BASE_URL": "https://staging.virtualpitwall.com"
+    "BASE_URL": "https://localhost:3000",
+    "BASE_API_URL": "https://staging.api.virtualpitwall.com"
 }
