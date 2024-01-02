@@ -1,4 +1,5 @@
 {
     "APP_ENV": "production",
-    "API_URL": ""  
+    "API_URL": "",
+    "BASE_API_URL": ""
 }

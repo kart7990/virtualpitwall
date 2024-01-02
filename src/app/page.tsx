@@ -1,5 +1,4 @@
 "use client"
-import Image from 'next/image'
 import { SiteHeader } from '@/components/core/site-header'
 import { SiteFooter } from '@/components/core/site-footer'
 import { Button } from '@/components/core/ui/button'
@@ -24,7 +23,9 @@ export default function Home() {
               <div>
                 <Link href={'/pitwall/home'}><Button className='my-6'>Get Started</Button></Link></div>
             </div>
-            <div><img src="generic_monitor_dashboard.png" className="img-fluid" alt="" /></div>
+            <div>
+              <img src="/generic_monitor_dashboard.png" className="img-fluid" alt="" />
+            </div>
             <div className="col-span-2">
               <div id="alert-additional-content-4" className="p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800" role="alert">
                 <div className="flex items-center">
