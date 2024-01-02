@@ -33,6 +33,7 @@ steps:
     sudo cp -r .next/standalone build
     sudo cp -r public build/public
     sudo cp -r .next/static build/.next/static
+    sed -i '' 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' /build/server.js
   displayName: 'npm install and build staging'
 
 - task: ArchiveFiles@1
