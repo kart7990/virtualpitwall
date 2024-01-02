@@ -35,8 +35,6 @@ steps:
     sudo cp -r .next/standalone build
     sudo cp -r public build/public
     sudo cp -r .next/static build/.next/static
-    cd build
-    ls
     sudo sed -i -e 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' server.js
   displayName: 'npm install and build staging'
   env:
