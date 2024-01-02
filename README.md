@@ -7,6 +7,18 @@ Core Frameworks, and Libraries:
 * [Tailwind CSS](https://tailwindcss.com/)
 * [shadcn/ui](https://ui.shadcn.com/)
 
+### Project URLs
+App Url: https://staging.virtualpitwall.com
+API Url": https://staging.api.virtualpitwall.com
+
+### CI/CD
+A passing build and at least one approval is required to merge. Changes merged to main branch will be automatically deployed to https://staging.virtualpitwall.com. This typically takes less than 5 minutes.
+
+### Data Model
+The best way to explore the data model is to use redux devtools and explore the chart and leaf properties of objects. Be sure to select the appropriate web app in the drop down - (At the time of writing it is "Create Next App"). The data model is sure to change, but as long as redux selectors are used, it shouldn't be too painful to update call sites in the app.
+
+![ReduxChart](https://github.com/kart7990/virtualpitwall/assets/15096469/2efaa7f0-82bc-4b62-9e96-41612bba2d07)
+![ReduxChartTrackSessionProperties](https://github.com/kart7990/virtualpitwall/assets/15096469/717aab3b-d256-4c3b-9351-aa7df44b387a)
 
 ## START OF AUTO GEN Next.js DOCUMENTATION
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
