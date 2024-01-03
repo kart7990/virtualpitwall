@@ -112,6 +112,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                     dispatch(sessionSlice.actions.reset())
                 })
                 sessionConnection.on('onTrackSessionChanged', trackSession => {
+                    //TODO: DH - This isn't working
                     _lapsLastUpdate = 0
                     _lapsLastTelemetryLap = 0
                     dispatch(sessionSlice.actions.trackSessionChange(trackSession))
