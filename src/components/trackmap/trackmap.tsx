@@ -1,18 +1,17 @@
 "use client"
-import { LiveTiming, selectLiveTimimg, selectCurrentTrack, useSelector } from '@/lib/redux';
+import { LiveTiming, selectLiveTiming, selectCurrentTrack, useSelector } from '@/lib/redux';
 import Script from 'next/script';
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useDebounce } from 'use-debounce';
 import { setIntervalAsync } from 'set-interval-async/dynamic'
 import { clearIntervalAsync } from 'set-interval-async'
-import { Track } from '@/lib/redux/slices/sessionSlice/models';
 
 
 export const TrackMap = () => {
     const [rivalTrackerJsLoaded, setRivalTrackerJsLoaded] = useState(false);
     const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] = useState(false);
     const [allJsLoaded, setAllJsLoaded] = useState(false);
-    const standings: LiveTiming[] = useSelector(selectLiveTimimg)
+    const standings: LiveTiming[] = useSelector(selectLiveTiming)
     const track = useSelector(selectCurrentTrack)
     const [carClasses, setCarClasses] = useState<any[]>([]);
     const isMulticlass = false
@@ -29,7 +28,7 @@ export const TrackMap = () => {
     useEffect(() => {
         const timer = setIntervalAsync(
             async () => {
-                if(trackMap.current) {
+                if (trackMap.current) {
                     trackMap.current.updatePositions();
                 }
             },
@@ -76,7 +75,7 @@ export const TrackMap = () => {
     }, [track, allJsLoaded]);
 
     useEffect(() => {
-        var carClasses :any[] = []
+        var carClasses: any[] = []
         delete driverPositionData.current['PIT']
 
         const colors = [
@@ -186,6 +185,10 @@ export const TrackMap = () => {
                     }}
                 />
             }
+
+            <div>
+                <span className="flex p-3 text-transform: uppercase font-weight-bold">{track?.name ?? "n/a"}</span>
+            </div>
 
             <div id="track1Wrapper" className="track">
                 <div id="track1" ref={trackDiv}></div>

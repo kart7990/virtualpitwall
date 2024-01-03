@@ -52,7 +52,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
 
     // #region Session Join Request
     useEffect(() => {
-        const joinSesion = async () => {
+        const joinSession = async () => {
             setLoading(true)
             var joinSessionResponse = await axios.get(`${API_V1_URL}/pitbox/session/${pitwallSessionId}`);
             dispatch(sessionSlice.actions.init(joinSessionResponse.data))
@@ -75,7 +75,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                 const options: IHttpConnectionOptions = {
                     accessTokenFactory: () => oAuthToken!!.accessToken
                 }
-            
+
                 return new HubConnectionBuilder()
                     .withUrl(API_BASE_URL + socketEndpoint + "?sessionId=" + sessionId, options)
                     .withAutomaticReconnect()
@@ -98,7 +98,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
 
             setLoading(false)
         }
-        joinSesion();
+        joinSession();
     }, [pitwallSessionId, dispatch, oAuthToken]);
     // #endregion
 
@@ -120,7 +120,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                 sessionConnection.on('onDynamicSessionDataUpdate', dynamicSessionData => {
                     if (dynamicSessionData?.timing?.simTimeOfDay) {
                         var seconds = dynamicSessionData.timing.simTimeOfDay; // Some arbitrary value
-                        var date = new Date(seconds * 1000); // multiply by 1000 because Date() requires miliseconds
+                        var date = new Date(seconds * 1000); // multiply by 1000 because Date() requires milliseconds
                         var timeStr = date.toISOString();
                         dynamicSessionData.timing.simTimeOfDay = timeStr
                     }
@@ -204,7 +204,7 @@ export default function PitwallSession({ children, pitwallSessionId }: { childre
                         await telemetryConnection.invoke("RequestTelemetry", { sessionId: pitwallSessionId, teamId: "" });
                     }
                     else {
-                        //console.log('Previous telemetry data not recieved yet, skipping.')
+                        //console.log('Previous telemetry data not received yet, skipping.')
                     }
                 },
                 333)

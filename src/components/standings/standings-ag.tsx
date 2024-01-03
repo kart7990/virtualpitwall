@@ -14,7 +14,7 @@ import './style.css'
 
 import {
     useSelector,
-    selectLiveTimimg,
+    selectLiveTiming,
     LiveTiming,
 } from '@/lib/redux'
 import { useMemo, useState, useRef, useCallback } from 'react';
@@ -23,7 +23,7 @@ import { useMemo, useState, useRef, useCallback } from 'react';
 export const Standings = () => {
     const gridRef = useRef<AgGridReact<LiveTiming>>(null);
     const [selectedCar, setSelectedCar] = useState<string>();
-    const standingsData: LiveTiming[] = useSelector(selectLiveTimimg)
+    const standingsData: LiveTiming[] = useSelector(selectLiveTiming)
 
     const [columnDefs, setColumnDefs] = useState<ColDef<LiveTiming>[]>([
         { field: 'position' },
@@ -49,7 +49,7 @@ export const Standings = () => {
     const onSelectionChanged = useCallback(() => {
         console.log('onselectionchange')
         const selectedRows = gridRef.current!.api.getSelectedRows()
-        if(selectedRows[0]) {
+        if (selectedRows[0]) {
             setSelectedCar(selectedRows[0].carNumber)
         }
     }, []);

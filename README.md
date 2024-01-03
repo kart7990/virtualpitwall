@@ -1,6 +1,6 @@
 # Virtual Pit Wall: Getting Started
 ### Project Frameworks
-Core Frameworks, and Libraries: 
+Core Frameworks, and Libraries:
 * [React](https://react.dev/)
 * [Next.js](https://nextjs.org/)
 * [Redux](https://react-redux.js.org/)
@@ -8,8 +8,8 @@ Core Frameworks, and Libraries:
 * [shadcn/ui](https://ui.shadcn.com/)
 
 ### Project URLs
-App Url: https://staging.virtualpitwall.com
-API Url": https://staging.api.virtualpitwall.com
+* App Url: https://staging.virtualpitwall.com
+* API Url: https://staging.api.virtualpitwall.com
 
 ### CI/CD
 A passing build and at least one approval is required to merge. Changes merged to main branch will be automatically deployed to https://staging.virtualpitwall.com. This typically takes less than 5 minutes. If the CI build fails, test the build locally and ensure there are no errors or warnings: `npm run build-dev` (or `build-staging`).
