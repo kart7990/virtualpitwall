@@ -17,7 +17,7 @@ export default function Home() {
                 The realtime web-based race dashboard for iRacing
               </h2>
               <p>
-                The virtual pitbox platform displays all relevant race event data directly to a web-based dashboard.
+                The Virtual Pit Wall platform displays all relevant race event data directly to a web-based dashboard.
                 Designed for collaborative racing events where a race engineer can give your team the edge over the competition.
                 Simply give the dashboard link to anyone you wish to share with, all they need is a modern web browser!
               </p>
@@ -38,7 +38,7 @@ export default function Home() {
                   <h3 className="text-lg font-medium">Early Access</h3>
                 </div>
                 <div className="mt-2 mb-4 text-sm">
-                  The virtual pitbox platform is a work in progress. We are excited to share it with the community, but do not expect a bug-free or polished experience.
+                  The Virtual Pit Wall platform is a work in progress. We are excited to share it with the community, but do not expect a bug-free or polished experience.
                   There will be issues and some features may not work. Please report any issues or feature requests in Discord so we can build something awesome together.
                 </div>
               </div>

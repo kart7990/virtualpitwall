@@ -10,7 +10,7 @@ export default function Home() {
 
     return (
         <div>
-            <h2>Pitwall Home</h2>
+            <h2>Pit Wall Home</h2>
             <Button onClick={() => authenticatedPing()}>Authenticated Ping</Button>
         </div>
     )

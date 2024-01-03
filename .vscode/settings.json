@@ -1,0 +1,22 @@
+{
+    "cSpell.words": [
+        "dbaeumer",
+        "endregion",
+        "Laptime",
+        "Multiclass",
+        "pitbox",
+        "Pitwall",
+        "reduxjs",
+        "signalr",
+        "trackmap"
+    ],
+    "eslint.format.enable": true,
+    "editor.formatOnSave": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "[typescript]": {
+        // override if setted per-language
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+}

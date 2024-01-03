@@ -2,7 +2,7 @@
 import { StatusOnlineIcon } from "@heroicons/react/outline";
 import {
     useSelector,
-    selectLiveTimimg,
+    selectLiveTiming,
     LiveTiming,
 } from '@/lib/redux'
 import { useMemo, useState, useEffect } from 'react';
@@ -17,7 +17,7 @@ import { createTheme, ThemeProvider, useTheme } from '@mui/material';
 
 export const Standings = () => {
     const [data, setData] = useState<LiveTiming[]>([]);
-    const standingsData = useSelector<LiveTiming[]>(selectLiveTimimg)
+    const standingsData = useSelector<LiveTiming[]>(selectLiveTiming)
 
     useEffect(() => {
         setData(standingsData)

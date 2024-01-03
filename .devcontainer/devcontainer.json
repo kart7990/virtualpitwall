@@ -1,9 +1,19 @@
 // See https://containers.dev/implementors/json_reference/ for configuration reference
 {
-	"name": "Virtual Pitwall Project",
+	"name": "Virtual Pit Wall Project",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-	"forwardPorts": [3000],
-  "remoteUser": "node"
+	"forwardPorts": [
+		3000
+	],
+	"remoteUser": "node",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"streetsidesoftware.code-spell-checker",
+				"dbaeumer.vscode-eslint"
+			]
+		}
+	}
 }
