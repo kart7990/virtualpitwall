@@ -12,7 +12,7 @@ App Url: https://staging.virtualpitwall.com
 API Url": https://staging.api.virtualpitwall.com
 
 ### CI/CD
-A passing build and at least one approval is required to merge. Changes merged to main branch will be automatically deployed to https://staging.virtualpitwall.com. This typically takes less than 5 minutes.
+A passing build and at least one approval is required to merge. Changes merged to main branch will be automatically deployed to https://staging.virtualpitwall.com. This typically takes less than 5 minutes. If the CI build fails, test the build locally and ensure there are no errors or warnings: `npm run build-dev` (or `build-staging`).
 
 ### Data Model
 The best way to explore the data model is to use redux devtools and explore the chart and leaf object properties. Be sure to select the appropriate web app in the drop down - (At the time of writing it is "Create Next App"). The data model is sure to change, but as long as redux selectors are used, it shouldn't be too painful to update call sites in the app.

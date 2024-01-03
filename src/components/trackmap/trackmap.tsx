@@ -1,10 +1,11 @@
 "use client"
-import { LiveTiming, selectLiveTimimg, useSelector } from '@/lib/redux';
+import { LiveTiming, selectLiveTimimg, selectCurrentTrack, useSelector } from '@/lib/redux';
 import Script from 'next/script';
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useDebounce } from 'use-debounce';
 import { setIntervalAsync } from 'set-interval-async/dynamic'
 import { clearIntervalAsync } from 'set-interval-async'
+import { Track } from '@/lib/redux/slices/sessionSlice/models';
 
 
 export const TrackMap = () => {
@@ -12,6 +13,7 @@ export const TrackMap = () => {
     const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] = useState(false);
     const [allJsLoaded, setAllJsLoaded] = useState(false);
     const standings: LiveTiming[] = useSelector(selectLiveTimimg)
+    const track = useSelector(selectCurrentTrack)
     const [carClasses, setCarClasses] = useState<any[]>([]);
     const isMulticlass = false
 
@@ -21,21 +23,19 @@ export const TrackMap = () => {
     const [debouncedHeight] = useDebounce(height, 400);
     const [debouncedWidth] = useDebounce(width, 400);
 
-    const trackId = '127'
-
-    const track = useRef<any>()
+    const trackMap = useRef<any>()
     const trackDiv = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const timer = setIntervalAsync(
             async () => {
-                if(track.current) {
-                    track.current.updatePositions();
+                if(trackMap.current) {
+                    trackMap.current.updatePositions();
                 }
             },
             500)
         async () => await clearIntervalAsync(timer);
-    }, [trackId])
+    }, [])
 
     useEffect(() => {
         if (!trackDiv.current) return;
@@ -56,7 +56,7 @@ export const TrackMap = () => {
     }, [rivalTrackerJsLoaded, rivalTrackerPathsJsLoaded]);
 
     useEffect(() => {
-        if (allJsLoaded) {
+        if (allJsLoaded && track) {
             const options = {
                 transform: "translate(0, 0) scale(1) rotate(0)",
                 height: 70,
@@ -71,9 +71,9 @@ export const TrackMap = () => {
             var track1Options = JSON.parse(JSON.stringify(options));
             track1Options.nodeSize = 8;
 
-            track.current = new window.RivalTracker("track1", trackId, driverPositionData.current, track1Options);
+            trackMap.current = new window.RivalTracker("track1", track.id, driverPositionData.current, track1Options);
         }
-    }, [trackId, allJsLoaded]);
+    }, [track, allJsLoaded]);
 
     useEffect(() => {
         var carClasses :any[] = []
@@ -119,8 +119,8 @@ export const TrackMap = () => {
                             classColor = existingClass.classColor
                         }
                     }
-                    if (track.current != null) {
-                        track.current.setNodeColor(s.carNumber, classColor); /*'#f64747B3'*/
+                    if (trackMap.current != null) {
+                        trackMap.current.setNodeColor(s.carNumber, classColor); /*'#f64747B3'*/
                         // if (s.carNumber === standingsSelectedCarNumber) {
                         //     track.current.setNodeStrokeColor(s.carNumber, '#66ff00B3');
 
@@ -155,7 +155,7 @@ export const TrackMap = () => {
                         //     track.current.setNodeStrokeColor('PIT', '#f64747B3');
                         // }
                         // } else {
-                        track.current.setNodeStrokeColor(s.carNumber, '#555555B3');
+                        trackMap.current.setNodeStrokeColor(s.carNumber, '#555555B3');
                         //}
                     }
 
@@ -186,7 +186,6 @@ export const TrackMap = () => {
                     }}
                 />
             }
-
 
             <div id="track1Wrapper" className="track">
                 <div id="track1" ref={trackDiv}></div>

@@ -1,4 +1,4 @@
-import { BASE_URL } from "./urls"
+import { BASE_URL, API_BASE_URL } from "./urls"
 
 
 export const siteConfig = {
@@ -9,7 +9,7 @@ export const siteConfig = {
     "Virtual Pitbox - Realtime web-based race dashboard for iRacing",
   links: {
     github: "https://github.com/kart7990/virtualpitwall",
-    client: BASE_URL + "/app/setup.exe"
+    client: API_BASE_URL + "/app/setup.exe"
   },
 }
 
