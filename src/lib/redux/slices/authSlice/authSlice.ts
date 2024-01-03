@@ -20,11 +20,11 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setJwt: (state, action: PayloadAction<JWT>) => {
+        authSuccess: (state, action: PayloadAction<JWT>) => {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(action.payload))
             state.oAuthToken = action.payload
         },
-        clearJwt: (state) => {
+        logoff: (state) => {
             localStorage.removeItem(STORAGE_KEY)
             state = { oAuthToken: undefined }
         }

@@ -61,7 +61,7 @@ export default function Login() {
             if (loginResponse.status === 200) {
                 let webRedirectUrl = searchParams.get("redirect");
                 let appRedirectUrl = searchParams.get("redirect_uri");
-                dispatch(authSlice.actions.setJwt(loginResponse.data))
+                dispatch(authSlice.actions.authSuccess(loginResponse.data))
                 if (appRedirectUrl != null) {
                     let config = {
                         headers: {
