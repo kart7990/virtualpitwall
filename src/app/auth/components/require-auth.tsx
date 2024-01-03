@@ -1,38 +1,39 @@
 "use client"
 import { useEffect } from 'react';
-import { RedirectType, redirect } from 'next/navigation'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/router';
+import { useRouter } from "next/navigation";
 
 import {
     useSelector,
     selectIsAuthenticated
 } from '@/lib/redux'
+import { Icons } from '@/components/core/icons';
+import { delay } from '@/lib/utils';
 
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
     //const authentication = useSelector(state => state.authentication)
     const pathname = usePathname()
     const params = useSearchParams()
-    
+    const router = useRouter()
+
     const isAuthenticated = useSelector<boolean>(selectIsAuthenticated)
 
     useEffect(() => {
-        // Redirect if not signed in
-        // if (authentication.isAuthenticated === false || getTokens() === null) {
-        //   if (authentication.isUserLogout) {
-        //     // Use replace instead of push so you don't break back button
-        //     history.replace("/");
-        //   } else {
-        //}
-        if(!isAuthenticated) {
-            redirect(`/auth/login?redirect=${encodeURIComponent(pathname)}`)
+        if (!isAuthenticated) {
+            router.push(`/auth/login?redirect=${encodeURIComponent(pathname)}`)
         }
     }, [isAuthenticated, pathname]);
 
     return (
         <>
-            {children}
+            {!isAuthenticated ?
+                <div className="m-auto">
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                </div>
+                :
+                { children }
+            }
         </>
     )
 }

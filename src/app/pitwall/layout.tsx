@@ -11,9 +11,11 @@ export default function PitWallLayout({
         <RequireAuth>
             <div className="relative flex min-h-screen flex-col">
                 <SiteHeader isPublic={false} />
-                <div className="flex-1 border-b">{children}</div>
+                <div className="flex-1 border-b">
+                    {children}
+                </div>
                 <SiteFooter />
-            </div>
+            </div >
         </RequireAuth>
     )
 }
