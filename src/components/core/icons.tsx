@@ -1,10 +1,8 @@
-import Image from "next/image"
-
 type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
   logoPNG: (props: IconProps) => (
-    <Image src="/logo192.png" width={32} height={32} alt="logo" className="h-auto px-1 md:px-0 md:ml-6 " />
+    <img src="/logo192.png" width={32} alt="logo" className="h-auto px-1 md:px-0 md:ml-6 " />
   ),
   download: (props: IconProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" height="110" width="110" viewBox="0 0 110 110">

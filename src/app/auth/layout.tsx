@@ -11,11 +11,11 @@ export default function AuthLayout({
 }) {
     return (
         <div className="relative flex h-screen flex-col">
-                <SiteHeader isPublic={true} />
-                <GoogleOAuthProvider clientId="477697685987-i8d05tutmr4q51s4bqbkbqq7a5h0vigv.apps.googleusercontent.com">
-                    <div className="flex h-full border-b">{children}</div>
-                </GoogleOAuthProvider>
-                <SiteFooter />
+            <SiteHeader isPublic={true} />
+            <GoogleOAuthProvider clientId="477697685987-i8d05tutmr4q51s4bqbkbqq7a5h0vigv.apps.googleusercontent.com">
+                <div className="flex h-full border-b">{children}</div>
+            </GoogleOAuthProvider>
+            <SiteFooter />
         </div>
     )
 }

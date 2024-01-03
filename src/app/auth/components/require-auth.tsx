@@ -1,29 +1,50 @@
 "use client"
+
+import axios from 'axios';
 import { useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useRouter } from "next/navigation";
 
 import {
     useSelector,
-    selectIsAuthenticated
+    selectIsAuthenticated,
+    selectOAuthToken,
+    authSlice,
+    JWT,
+    useDispatch
 } from '@/lib/redux'
 import { Icons } from '@/components/core/icons';
-import { delay } from '@/lib/utils';
 
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
-    //const authentication = useSelector(state => state.authentication)
     const pathname = usePathname()
-    const params = useSearchParams()
     const router = useRouter()
+    const dispatch = useDispatch()
 
     const isAuthenticated = useSelector<boolean>(selectIsAuthenticated)
+    const oAuthToken = useSelector<JWT | undefined>(selectOAuthToken)
 
     useEffect(() => {
         if (!isAuthenticated) {
             router.push(`/auth/login?redirect=${encodeURIComponent(pathname)}`)
         }
-    }, [isAuthenticated, pathname]);
+    }, [isAuthenticated, pathname, router]);
+
+    useEffect(() => {
+        axios.interceptors.request.clear()
+        if (oAuthToken != undefined) {
+            axios.interceptors.request.use(async (config) => {
+                let expiration = new Date(0).setUTCSeconds(oAuthToken.expires);
+                if (Date.now() < expiration - 10 /*10 is slight buffer to ensure request won't expire in transit*/) {
+                    config.headers.Authorization = `Bearer ${oAuthToken.accessToken}`
+                } else {
+                    dispatch(authSlice.actions.logoff())
+                }
+                return config
+            });
+        }
+        return () => { axios.interceptors.request.clear() }
+    }, [oAuthToken, dispatch])
 
     return (
         <>
@@ -32,7 +53,9 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 </div>
                 :
-                { children }
+                <div>
+                    {children}
+                </div>
             }
         </>
     )

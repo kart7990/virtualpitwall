@@ -3,8 +3,16 @@ import { SiteHeader } from '@/components/core/site-header'
 import { SiteFooter } from '@/components/core/site-footer'
 import { Button } from '@/components/core/ui/button'
 import Link from 'next/link'
+import axios from 'axios'
+import { API_V1_URL } from "@/config/urls"
 
 export default function Home() {
+
+  const authenticatedPing = async () => {
+    console.log(await axios.get(`${API_V1_URL}/ping`))
+  }
+
+
   return (
     <div className="relative min-h-screen flex flex-col">
       <SiteHeader isPublic={true} />
@@ -21,7 +29,11 @@ export default function Home() {
                 Simply give the dashboard link to anyone you wish to share with, all they need is a modern web browser!
               </p>
               <div>
-                <Link href={'/pitwall/home'}><Button className='my-6'>Get Started</Button></Link></div>
+                <Link href={'/pitwall/home'}><Button className='my-6'>Get Started</Button></Link>
+              </div>
+              <div>
+                <Button onClick={() => authenticatedPing()}>Authenticated Ping</Button>
+              </div>
             </div>
             <div>
               <img src="/generic_monitor_dashboard.png" className="img-fluid" alt="" />

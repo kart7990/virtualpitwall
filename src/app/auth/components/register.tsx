@@ -72,7 +72,7 @@ export default function Register({ accountFormValues }: { accountFormValues: Acc
         try {
             var registerResponse = await axios.post(`${API_V2_URL}/authentication/registerexternal`, data);
             if (registerResponse.status === 200) {
-                dispatch(authSlice.actions.setJwt(registerResponse.data))
+                dispatch(authSlice.actions.authSuccess(registerResponse.data))
                 router.replace('/pitwall/home')
             } else {
                 setServerError("Register failed");
