@@ -22,7 +22,7 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
     const dispatch = useDispatch()
 
     const isAuthenticated = useSelector<boolean>(selectIsAuthenticated)
-    const oAuthToken = useSelector<JWT | undefined>(selectOAuthToken)
+    const oAuthToken = useSelector<JWT | null>(selectOAuthToken)
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -31,8 +31,9 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
     }, [isAuthenticated, pathname, router]);
 
     useEffect(() => {
+        console.log('oAuthToken', oAuthToken)
         axios.interceptors.request.clear()
-        if (oAuthToken != undefined) {
+        if (oAuthToken != null) {
             axios.interceptors.request.use(async (config) => {
                 let expiration = new Date(0).setUTCSeconds(oAuthToken.expires);
                 if (Date.now() < expiration - 10 /*10 is slight buffer to ensure request won't expire in transit*/) {

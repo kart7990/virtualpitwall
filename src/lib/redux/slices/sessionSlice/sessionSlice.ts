@@ -64,6 +64,7 @@ export const sessionSlice = createSlice({
                     trackSession.sessionNumber === action.payload.sessionNumber)!!.completedTelemetryLaps.concat(action.payload.laps)
         },
         reset: (state) => {
+            //this might not work, had issues in other slices, need to test
             state = initialState
         }
     }

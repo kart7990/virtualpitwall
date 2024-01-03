@@ -17,8 +17,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/core/ui/dropdown-menu"
 
+import {
+  authSlice,
+  useDispatch
+} from '@/lib/redux'
 
 export function UserNav() {
+  const dispatch = useDispatch()
+
+  const logout = () => {
+    console.log('logoff')
+    dispatch(authSlice.actions.logoff())
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,7 +65,7 @@ export function UserNav() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
