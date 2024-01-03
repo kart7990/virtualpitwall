@@ -19,11 +19,16 @@ import {
 
 import {
   authSlice,
+  selectUser,
+  useSelector,
   useDispatch
 } from '@/lib/redux'
+import { User } from "@/lib/redux/slices/authSlice/models";
 
 export function UserNav() {
   const dispatch = useDispatch()
+
+  const user = useSelector<User>(selectUser)
 
   const logout = () => {
     console.log('logoff')
@@ -42,9 +47,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
+            <p className="text-sm font-medium leading-none">{user.name}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
+              {user.email}
             </p>
           </div>
         </DropdownMenuLabel>
