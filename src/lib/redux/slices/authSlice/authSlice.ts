@@ -1,15 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import { OAuthToken } from './models'
 
 const STORAGE_KEY: string = "auth_oauthToken"
 
-export interface JWT {
-    accessToken: string,
-    expires: number
-    refreshToken: string
-}
-
 export interface AuthSliceState {
-    oAuthToken: JWT | null
+    oAuthToken: OAuthToken | null
 }
 
 const initialState: AuthSliceState = {
@@ -20,7 +15,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        authSuccess: (state, action: PayloadAction<JWT>) => {
+        authSuccess: (state, action: PayloadAction<OAuthToken>) => {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(action.payload))
             state.oAuthToken = action.payload
         },

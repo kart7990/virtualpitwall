@@ -10,11 +10,10 @@ import {
     selectIsAuthenticated,
     selectOAuthToken,
     authSlice,
-    JWT,
     useDispatch
 } from '@/lib/redux'
 import { Icons } from '@/components/core/icons';
-
+import { OAuthToken } from '@/lib/redux/slices/authSlice/models';
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
@@ -22,7 +21,7 @@ export default function RequireAuth({ children }: { children: React.ReactNode })
     const dispatch = useDispatch()
 
     const isAuthenticated = useSelector<boolean>(selectIsAuthenticated)
-    const oAuthToken = useSelector<JWT | null>(selectOAuthToken)
+    const oAuthToken = useSelector<OAuthToken | null>(selectOAuthToken)
 
     useEffect(() => {
         if (!isAuthenticated) {
