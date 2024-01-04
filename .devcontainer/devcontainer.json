@@ -1,6 +1,6 @@
 // See https://containers.dev/implementors/json_reference/ for configuration reference
 {
-	"name": "Virtual Pit Wall Project",
+	"name": "Virtual Pitwall",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},

@@ -1,4 +1,6 @@
-# Virtual Pit Wall: Getting Started
+# Virtual Pitwall
+The Virtual Pitwall platform, displays all relevant iRacing event data on a web-based dashboard.
+
 ### Project Frameworks
 Core Frameworks, and Libraries:
 * [React](https://react.dev/)
