@@ -3,6 +3,7 @@ import { SiteHeader } from '@/components/core/site-header'
 import { SiteFooter } from '@/components/core/site-footer'
 import { Button } from '@/components/core/ui/button'
 import Link from 'next/link'
+import { siteConfig } from '@/config/site'
 
 export default function Home() {
 
@@ -14,10 +15,10 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-4 max-w-screen-lg">
             <div className="">
               <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-                The realtime web-based race dashboard for iRacing
+                {siteConfig.descriptionShort}
               </h2>
               <p>
-                The Virtual Pit Wall platform displays all relevant race event data directly to a web-based dashboard.
+                The Virtual Pitwall platform displays all relevant race event data directly to a web-based dashboard.
                 Designed for collaborative racing events where a race engineer can give your team the edge over the competition.
                 Simply give the dashboard link to anyone you wish to share with, all they need is a modern web browser!
               </p>
@@ -38,7 +39,7 @@ export default function Home() {
                   <h3 className="text-lg font-medium">Early Access</h3>
                 </div>
                 <div className="mt-2 mb-4 text-sm">
-                  The Virtual Pit Wall platform is a work in progress. We are excited to share it with the community, but do not expect a bug-free or polished experience.
+                  The Virtual Pitwall platform is a work in progress. We are excited to share it with the community, but do not expect a bug-free or polished experience.
                   There will be issues and some features may not work. Please report any issues or feature requests in Discord so we can build something awesome together.
                 </div>
               </div>

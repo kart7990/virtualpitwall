@@ -6,6 +6,7 @@ import './globals.css'
 import '../../node_modules/react-grid-layout/css/styles.css'
 import '../../node_modules/react-resizable/css/styles.css'
 import { ThemeProvider } from "@/app/theme-provider"
+import { siteConfig } from '@/config/site'
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -13,8 +14,8 @@ export const fontSans = FontSans({
 })
 
 export const metadata: Metadata = {
-  title: 'Virtual Pit Wall',
-  description: 'The Virtual Pit Wall platform, displays all relevant iRacing event data on a web-based dashboard.',
+  title: siteConfig.name,
+  description: siteConfig.description,
 }
 
 export default function RootLayout({

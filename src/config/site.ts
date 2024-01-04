@@ -2,11 +2,11 @@ import { BASE_URL, API_BASE_URL } from "./urls"
 
 
 export const siteConfig = {
-  name: "Virtual Pit Wall",
+  name: "Virtual Pitwall",
   url: BASE_URL,
   ogImage: BASE_URL + "/logo.png",
-  description:
-    "Virtual Pit Wall - Realtime web-based race dashboard for iRacing",
+  descriptionShort: "Realtime web-based iRacing dashboard",
+  description: "Virtual Pitwall - Realtime web-based iRacing dashboard",
   links: {
     github: "https://github.com/kart7990/virtualpitwall",
     client: API_BASE_URL + "/app/setup.exe"
