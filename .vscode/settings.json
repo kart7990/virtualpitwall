@@ -1,23 +1,33 @@
 {
-    "cSpell.words": [
-        "dbaeumer",
-        "endregion",
-        "Laptime",
-        "Multiclass",
-        "pitbox",
-        "Pitwall",
-        "reduxjs",
-        "shadcn",
-        "signalr",
-        "trackmap"
-    ],
-    "eslint.format.enable": true,
-    "editor.formatOnSave": true,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    "[typescript]": {
-        // override if setted per-language
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-    },
+  "cSpell.words": [
+    "azuretools",
+    "bradlc",
+    "clsx",
+    "dbaeumer",
+    "endregion",
+    "esbenp",
+    "heroicons",
+    "hookform",
+    "Laptime",
+    "localserver",
+    "Multiclass",
+    "pitbox",
+    "Pitwall",
+    "reduxjs",
+    "shadcn",
+    "signalr",
+    "tailwindcss",
+    "trackmap",
+    "vaul"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true
 }
