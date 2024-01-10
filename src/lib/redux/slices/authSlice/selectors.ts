@@ -18,7 +18,7 @@ export const selectUser = createSelector(
         }
 
         const decoded = jwtDecode<JwtPayload>(oAuthToken.accessToken)
-        const user: User = { email: decoded.sub, name: decoded.name }
+        const user: User = { email: decoded.sub, name: decoded.name, pitBoxSessionId: decoded.PitBoxSessionId}
         return user
     }
 )

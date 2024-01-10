@@ -6,10 +6,12 @@ export interface OAuthToken {
 
 export interface JwtPayload {
     sub: string,
-    name: string
+    name: string,
+    PitBoxSessionId: string,
 }
 
 export interface User {
     name: string,
-    email: string
+    email: string,
+    pitBoxSessionId: string,
 }
