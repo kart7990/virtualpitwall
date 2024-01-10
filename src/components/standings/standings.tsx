@@ -1,23 +1,30 @@
 'use client'
-import { StatusOnlineIcon } from "@heroicons/react/outline";
 import {
     useSelector,
     selectLiveTiming,
     LiveTiming,
+    selectedCarNumber,
+    standingsSlice,
+    useDispatch,
 } from '@/lib/redux'
 import { useMemo, useState, useEffect } from 'react';
 import {
     MaterialReactTable,
     useMaterialReactTable,
     type MRT_ColumnDef,
+    MRT_RowSelectionState,
 } from 'material-react-table';
 
 import { createTheme, ThemeProvider, useTheme } from '@mui/material';
+import { convertMsToDisplay } from '../utils/formatter/UnitConversion';
 
 
 export const Standings = () => {
+    const dispatch = useDispatch()
+
     const [data, setData] = useState<LiveTiming[]>([]);
     const standingsData = useSelector<LiveTiming[]>(selectLiveTiming)
+    const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
     useEffect(() => {
         setData(standingsData)
@@ -40,43 +47,50 @@ export const Standings = () => {
         () => [
             {
                 accessorKey: "position",
-                header: 'Position',
-                size: 1
+                header: 'Pos.',
+                size: 70,
+                enableColumnOrdering: false,
             },
             {
                 accessorKey: 'classPosition',
                 header: 'classPosition',
-                size: 150,
+                size: 1,
             },
             {
                 accessorKey: 'carNumber',
-                header: 'carNumber',
-                size: 150,
+                header: 'Car #',
+                size: 80,
+                enableColumnOrdering: false,
             },
             {
                 accessorKey: 'driverName',
-                header: 'driverName',
+                header: 'Driver Name',
                 size: 150,
             },
             {
                 accessorKey: 'leaderDelta',
-                header: 'leaderDelta',
-                size: 150,
+                header: 'Gap',
+                size: 100,
+                enableSorting: false,
             },
             {
                 accessorKey: 'nextCarDelta',
-                header: 'nextCarDelta',
-                size: 150,
+                header: 'Int',
+                size: 100,
+                enableSorting: false,
             },
             {
                 accessorKey: 'lastLaptime',
-                header: 'lastLaptime',
+                header: 'Last Laptime',
                 size: 150,
+                Cell: ({ cell }) => convertMsToDisplay(cell.getValue())
             },
             {
                 accessorKey: 'bestLaptime',
-                header: 'bestLaptime',
+                header: 'Best Laptime',
                 size: 150,
+                Cell: ({ cell }) => convertMsToDisplay(cell.getValue())
+
             },
             {
                 accessorKey: 'teamName',
@@ -85,18 +99,24 @@ export const Standings = () => {
             },
             {
                 accessorKey: 'lap',
-                header: 'lap',
-                size: 150,
+                header: 'Lap #',
+                size: 60,
+                enableColumnOrdering: false,
+                enableSorting: false,
             },
             {
                 accessorKey: 'pitStopCount',
-                header: 'pitStopCount',
-                size: 150,
+                header: 'Pit Stop #',
+                size: 85,
+                enableColumnOrdering: false,
+                enableSorting: false,
             },
             {
                 accessorKey: 'stintLapCount',
-                header: 'stintLapCount',
-                size: 150,
+                header: 'Stint Laps',
+                size: 99,
+                enableColumnOrdering: false,
+                enableSorting: false,
             },
             {
                 accessorKey: 'standingPosition', //normal accessorKey
@@ -132,6 +152,12 @@ export const Standings = () => {
         [],
     );
 
+    // Store the selected car in the state so that we can show it in other components
+    useEffect(() => {
+        const keys = Object.keys(rowSelection)
+        const value = keys !== undefined ? keys[0] : undefined
+        dispatch(standingsSlice.actions.updateSelectedCar(value));
+    }, [dispatch, rowSelection]);
 
     const table = useMaterialReactTable({
         columns,
@@ -148,9 +174,9 @@ export const Standings = () => {
                 'safetyRating': false,
                 'driverShortName': false,
                 'teamName': false,
-                'lap': false,
-                'pitStopCount': false,
-                'stintLapCount': false
+                'lap': true,
+                'pitStopCount': true,
+                'stintLapCount': true
             },
             sorting: [
                 {
@@ -159,13 +185,17 @@ export const Standings = () => {
                 }
             ],
         },
+        getRowId: (row) => row.carNumber,
         enableColumnOrdering: true,
         enableColumnActions: false,
         enableColumnFilters: false,
+        enableColumnResizing: true,
         enablePagination: false,
         enableSorting: true,
         enableRowSelection: true,
         enableMultiRowSelection: false,
+        onRowSelectionChange: setRowSelection,
+        state: { rowSelection},
         enableFullScreenToggle: false,
         enableDensityToggle: false,
         positionToolbarAlertBanner: 'none',
