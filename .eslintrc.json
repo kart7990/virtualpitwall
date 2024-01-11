@@ -1,5 +1,7 @@
 {
-  "extends": "next/core-web-vitals",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": ["next/core-web-vitals", "prettier"],
   "rules": {
     "react/no-unescaped-entities": 0,
     "@next/next/no-img-element": "off"

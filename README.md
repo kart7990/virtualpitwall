@@ -1,28 +1,47 @@
 # Virtual Pitwall
+
 The Virtual Pitwall platform, displays all relevant iRacing event data on a web-based dashboard.
 
 ### Project Frameworks
+
 Core Frameworks, and Libraries:
-* [React](https://react.dev/)
-* [Next.js](https://nextjs.org/)
-* [Redux](https://react-redux.js.org/)
-* [Tailwind CSS](https://tailwindcss.com/)
-* [shadcn/ui](https://ui.shadcn.com/)
+
+- [React](https://react.dev/)
+- [Next.js](https://nextjs.org/)
+- [Redux](https://react-redux.js.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
 
 ### Project URLs
-* App Url: https://staging.virtualpitwall.com
-* API Url: https://staging.api.virtualpitwall.com
+
+- App Url: https://staging.virtualpitwall.com
+- API Url: https://staging.api.virtualpitwall.com
 
 ### CI/CD
+
 A passing build and at least one approval is required to merge. Changes merged to main branch will be automatically deployed to https://staging.virtualpitwall.com. This typically takes less than 5 minutes. If the CI build fails, test the build locally and ensure there are no errors or warnings: `npm run build-dev` (or `build-staging`).
 
 ### Data Model
+
 The best way to explore the data model is to use redux devtools and explore the chart and leaf object properties. Be sure to select the appropriate web app in the drop down - (At the time of writing it is "Create Next App"). The data model is sure to change, but as long as redux selectors are used, it shouldn't be too painful to update call sites in the app.
 
 ![ReduxChart](https://github.com/kart7990/virtualpitwall/assets/15096469/2efaa7f0-82bc-4b62-9e96-41612bba2d07)
 ![ReduxChartTrackSessionProperties](https://github.com/kart7990/virtualpitwall/assets/15096469/717aab3b-d256-4c3b-9351-aa7df44b387a)
 
+### Development Setup
+
+The Virtual Pitwall comes with a [Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) setup for [Visual Studio Code](https://code.visualstudio.com/). This contains all the tools and configurations, that are needed to develop the UI. To use this functionality, you need to have Docker installed, as well as the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
+
+#### Code formatting
+
+For code formatting we use [Prettier](https://prettier.io/), to format the code as well as [ESLint](https://eslint.org/), to lint the code.
+
+To make sure, that the code is formatted before being committed, we use [husky](https://typicode.github.io/husky/) as a pre-commit hook in combination with [lint-staged](https://github.com/lint-staged/lint-staged). This formats the code before committing it. Or as the lint-staged repo phrases it:
+
+> Run linters against staged git files and don't let 💩 slip into your code base!
+
 ## START OF AUTO GEN Next.js DOCUMENTATION
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

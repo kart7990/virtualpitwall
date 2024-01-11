@@ -1,5 +1,5 @@
 {
-  "name": "virtualpitwall",
+  "name": "virtual-pitwall",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,13 @@
     "build-staging": "set \"TARGET_ENV=staging\" && next build",
     "build-dev": "set \"TARGET_ENV=development\" && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "prepare": "husky install",
+    "postinstall": "husky install"
+  },
+  "lint-staged": {
+    "**/*": "prettier --check --ignore-unknown"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -58,10 +64,18 @@
     "@types/react-dom": "^18",
     "@types/react-grid-layout": "^1.3.5",
     "@types/signalr": "^2.4.3",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "postcss": "^8",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.10",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
