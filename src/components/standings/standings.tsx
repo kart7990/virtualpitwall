@@ -3,9 +3,9 @@ import {
     useSelector,
     selectLiveTiming,
     LiveTiming,
-    selectedCarNumber,
     standingsSlice,
     useDispatch,
+    selectCurrentSession,
 } from '@/lib/redux'
 import { useMemo, useState, useEffect } from 'react';
 import {
@@ -13,10 +13,12 @@ import {
     useMaterialReactTable,
     type MRT_ColumnDef,
     MRT_RowSelectionState,
+    MRT_Row,
 } from 'material-react-table';
 
 import { createTheme, ThemeProvider, useTheme } from '@mui/material';
 import { convertMsToDisplay } from '../utils/formatter/UnitConversion';
+import tinycolor from 'tinycolor2';
 
 
 export const Standings = () => {
@@ -25,6 +27,7 @@ export const Standings = () => {
     const [data, setData] = useState<LiveTiming[]>([]);
     const standingsData = useSelector<LiveTiming[]>(selectLiveTiming)
     const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
+    const session = useSelector(selectCurrentSession)
 
     useEffect(() => {
         setData(standingsData)
@@ -159,6 +162,21 @@ export const Standings = () => {
         dispatch(standingsSlice.actions.updateSelectedCar(value));
     }, [dispatch, rowSelection]);
 
+  // Set the background color of the rows to the multiclass color, when in a multiclass race
+  const getRowSx = (row: MRT_Row<LiveTiming>) => {
+    const classColor = tinycolor(row.original.classColor);
+    classColor.setAlpha(0.1);
+
+    const backgroundColorStyle = session?.isMulticlass ? { backgroundColor: classColor.toHex8String() } : {};
+
+    const res = {
+    cursor: "pointer",
+    ...backgroundColorStyle
+    };
+
+    return res;
+  };
+
     const table = useMaterialReactTable({
         columns,
         data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
@@ -201,7 +219,7 @@ export const Standings = () => {
         positionToolbarAlertBanner: 'none',
         muiTableBodyRowProps: ({ row }) => ({
             onClick: row.getToggleSelectedHandler(),
-            sx: { cursor: 'pointer' },
+            sx: getRowSx(row),
         }),
     });
     return (

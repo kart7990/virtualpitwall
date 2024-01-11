@@ -13,8 +13,9 @@ export const selectIsAuthenticated = createSelector(
 
 export const selectUser = createSelector(
     [selectOAuthToken], (oAuthToken) => {
+        // TODO: this is a temporary fix, and need to be reworked properly
         if (oAuthToken == null) {
-            throw Error("oAuthToken null, unable to retrieve user")
+            return {} as User
         }
 
         const decoded = jwtDecode<JwtPayload>(oAuthToken.accessToken)

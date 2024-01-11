@@ -10,6 +10,7 @@
         "reduxjs",
         "shadcn",
         "signalr",
+        "tinycolor",
         "trackmap"
     ],
     "eslint.format.enable": true,
