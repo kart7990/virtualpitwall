@@ -1,10 +1,9 @@
-/* Instruments */
 import {
+  authSlice,
+  preferencesSlice,
   sessionSlice,
   standingsSlice,
   telemetrySlice,
-  preferencesSlice,
-  authSlice,
 } from "./slices";
 
 export const reducer = {

@@ -1,14 +1,12 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
 import { Icons } from "@/components/core/icons";
+import { siteConfig } from "@/config/site";
 import { selectUser, useSelector } from "@/lib/redux";
 import { User } from "@/lib/redux/slices/authSlice/models";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function MainNav({ isPublic }: { isPublic: boolean }) {
   const pathname = usePathname();

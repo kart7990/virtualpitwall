@@ -1,11 +1,8 @@
 "use client";
+
 import { Icons } from "@/components/core/icons";
+import { Avatar } from "@/components/core/ui/avatar";
 import { Button } from "@/components/core/ui/button";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/core/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,8 +13,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/core/ui/dropdown-menu";
-
-import { authSlice, selectUser, useSelector, useDispatch } from "@/lib/redux";
+import { authSlice, selectUser, useDispatch, useSelector } from "@/lib/redux";
 import { User } from "@/lib/redux/slices/authSlice/models";
 
 export function UserNav() {

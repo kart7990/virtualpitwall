@@ -1,5 +1,5 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { OAuthToken } from "./models";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const STORAGE_KEY: string = "auth_oauthToken";
 

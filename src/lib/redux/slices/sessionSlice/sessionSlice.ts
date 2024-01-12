@@ -1,11 +1,11 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import {
   DynamicSessionData,
-  SessionState,
-  TrackSession,
   Lap,
   LapTelemetry,
+  SessionState,
+  TrackSession,
 } from "./models";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: SessionState = {
   pitBoxSession: undefined,

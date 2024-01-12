@@ -1,4 +1,4 @@
-import { BASE_URL, API_BASE_URL } from "./urls";
+import { API_BASE_URL, BASE_URL } from "./urls";
 
 export const siteConfig = {
   name: "Virtual Pitwall",

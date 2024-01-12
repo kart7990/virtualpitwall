@@ -1,9 +1,10 @@
 "use client";
-import { SiteHeader } from "@/components/core/site-header";
+
 import { SiteFooter } from "@/components/core/site-footer";
+import { SiteHeader } from "@/components/core/site-header";
 import { Button } from "@/components/core/ui/button";
-import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import Link from "next/link";
 
 export default function Home() {
   return (

@@ -1,22 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import axios from "axios";
-import { API_V2_URL } from "@/config/urls";
-import { useGoogleLogin } from "@react-oauth/google";
-import { Button } from "@/components/core/ui/button";
+import Register from "../components/register";
 import { OAuthProviderData } from "../models";
+import { Icons } from "@/components/core/icons";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
 } from "@/components/core/ui/alert";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/core/ui/button";
+import { API_V2_URL } from "@/config/urls";
 import { authSlice, useDispatch } from "@/lib/redux";
-import { Icons } from "@/components/core/icons";
-import Register from "../components/register";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
   const dispatch = useDispatch();

@@ -1,8 +1,9 @@
 "use client";
-import axios from "axios";
-import { API_V1_URL } from "@/config/urls";
+
 import { Button } from "@/components/core/ui/button";
 import { siteConfig } from "@/config/site";
+import { API_V1_URL } from "@/config/urls";
+import axios from "axios";
 
 export default function Home() {
   const authenticatedPing = async () => {

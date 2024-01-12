@@ -1,18 +1,10 @@
-import { AgGridReact } from "ag-grid-react"; // React Grid Logic
-import {
-  ColDef,
-  ColGroupDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  createGrid,
-} from "ag-grid-community";
-import "ag-grid-community/styles/ag-grid.css"; // Core CSS
-import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import "./style.css";
-
-import { useSelector, selectLiveTiming, LiveTiming } from "@/lib/redux";
-import { useMemo, useState, useRef, useCallback } from "react";
+import { LiveTiming, selectLiveTiming, useSelector } from "@/lib/redux";
+import { ColDef, GridReadyEvent } from "ag-grid-community";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import { AgGridReact } from "ag-grid-react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 export const Standings = () => {
   const gridRef = useRef<AgGridReact<LiveTiming>>(null);

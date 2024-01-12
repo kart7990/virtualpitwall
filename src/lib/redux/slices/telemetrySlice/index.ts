@@ -1,2 +1,2 @@
-export * from "./telemetrySlice";
 export * from "./selectors";
+export * from "./telemetrySlice";

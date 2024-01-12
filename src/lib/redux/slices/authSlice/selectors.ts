@@ -1,7 +1,7 @@
+import { JwtPayload, User } from "./models";
 import type { ReduxState } from "@/lib/redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
-import { JwtPayload, User } from "./models";
 
 export const selectOAuthToken = (state: ReduxState) => state.auth.oAuthToken;
 

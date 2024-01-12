@@ -1,15 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { API_BASE_URL, API_V1_URL } from "@/config/urls";
 import {
+  selectCurrentTrackSessionNumber,
+  selectOAuthToken,
   sessionSlice,
   standingsSlice,
   telemetrySlice,
   useDispatch,
   useSelector,
-  selectCurrentTrackSessionNumber,
-  selectOAuthToken,
 } from "@/lib/redux";
-
 import { LapTelemetry } from "@/lib/redux/slices/sessionSlice/models";
 import {
   HubConnection,
@@ -17,9 +17,9 @@ import {
   IHttpConnectionOptions,
 } from "@microsoft/signalr";
 import axios from "axios";
-import { setIntervalAsync } from "set-interval-async/dynamic";
+import { useEffect, useState } from "react";
 import { clearIntervalAsync } from "set-interval-async";
-import { API_BASE_URL, API_V1_URL } from "@/config/urls";
+import { setIntervalAsync } from "set-interval-async/dynamic";
 
 let sessionDynamicDataLastResponse = 1;
 let standingsDataLastResponse = 1;
@@ -48,8 +48,6 @@ export default function PitwallSession({
   const [telemetryConnection, setTelemetryConnection] =
     useState<HubConnection>();
   const [lapsConnection, setLapsConnection] = useState<HubConnection>();
-
-  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   //Session state
   const [joinSessionLastLapSessionTime, setJoinSessionLastLapSessionTime] =
@@ -136,7 +134,7 @@ export default function PitwallSession({
   useEffect(() => {
     if (sessionConnection) {
       const connect = async () => {
-        sessionConnection.on("onSessionReset", (pitboxSession) => {
+        sessionConnection.on("onSessionReset", () => {
           _lapsLastUpdate = 0;
           _lapsLastTelemetryLap = 0;
           dispatch(sessionSlice.actions.reset());

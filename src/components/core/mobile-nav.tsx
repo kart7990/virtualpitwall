@@ -1,16 +1,15 @@
 "use client";
 
-import * as React from "react";
-import Link, { LinkProps } from "next/link";
-import { useRouter } from "next/navigation";
-import { ViewVerticalIcon } from "@radix-ui/react-icons";
-
+import { Icons } from "@/components/core/icons";
+import { Button } from "@/components/core/ui/button";
+import { ScrollArea } from "@/components/core/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/core/ui/sheet";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { Icons } from "@/components/core/icons";
-import { ScrollArea } from "@/components/core/ui/scroll-area";
-import { Button } from "@/components/core/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/core/ui/sheet";
+import { ViewVerticalIcon } from "@radix-ui/react-icons";
+import Link, { LinkProps } from "next/link";
+import { useRouter } from "next/navigation";
+import * as React from "react";
 
 export function MobileNav({ isPublic }: { isPublic: boolean }) {
   const [open, setOpen] = React.useState(false);

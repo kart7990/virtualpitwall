@@ -1,7 +1,9 @@
 "use client";
+
+import { Icons } from "./icons";
+import { Button } from "@/components/core/ui/button";
 import { Input } from "@/components/core/ui/input";
 import { Label } from "@/components/core/ui/label";
-import { Button } from "@/components/core/ui/button";
 import {
   Sheet,
   SheetClose,
@@ -12,7 +14,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/core/ui/sheet";
-import { Icons } from "./icons";
 
 export function Settings() {
   return (

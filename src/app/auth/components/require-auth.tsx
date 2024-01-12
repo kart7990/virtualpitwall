@@ -1,19 +1,17 @@
 "use client";
 
-import axios from "axios";
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-
+import { Icons } from "@/components/core/icons";
 import {
-  useSelector,
+  authSlice,
   selectIsAuthenticated,
   selectOAuthToken,
-  authSlice,
   useDispatch,
+  useSelector,
 } from "@/lib/redux";
-import { Icons } from "@/components/core/icons";
 import { OAuthToken } from "@/lib/redux/slices/authSlice/models";
+import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function RequireAuth({
   children,

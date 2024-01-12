@@ -1,5 +1,5 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { Telemetry } from "./models";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: TelemetrySliceState = {
   telemetry: {

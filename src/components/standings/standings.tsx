@@ -1,23 +1,23 @@
 "use client";
+
+import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
 import {
-  useSelector,
-  selectLiveTiming,
   LiveTiming,
+  selectCurrentSession,
+  selectLiveTiming,
   standingsSlice,
   useDispatch,
-  selectCurrentSession,
+  useSelector,
 } from "@/lib/redux";
-import { useMemo, useState, useEffect } from "react";
+import { ThemeProvider, createTheme } from "@mui/material";
 import {
+  MRT_Row,
+  MRT_RowSelectionState,
   MaterialReactTable,
   useMaterialReactTable,
   type MRT_ColumnDef,
-  MRT_RowSelectionState,
-  MRT_Row,
 } from "material-react-table";
-
-import { createTheme, ThemeProvider, useTheme } from "@mui/material";
-import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
+import { useEffect, useMemo, useState } from "react";
 import tinycolor from "tinycolor2";
 
 export const Standings = () => {

@@ -1,16 +1,17 @@
 "use client";
+
 import {
   LiveTiming,
-  selectLiveTiming,
   selectCurrentTrack,
-  useSelector,
+  selectLiveTiming,
   selectedCarNumber,
+  useSelector,
 } from "@/lib/redux";
 import Script from "next/script";
-import React, { useRef, useState, useEffect, useCallback } from "react";
-import { useDebounce } from "use-debounce";
-import { setIntervalAsync } from "set-interval-async/dynamic";
+import { useEffect, useRef, useState } from "react";
 import { clearIntervalAsync } from "set-interval-async";
+import { setIntervalAsync } from "set-interval-async/dynamic";
+import { useDebounce } from "use-debounce";
 
 export const TrackMap = () => {
   const [rivalTrackerJsLoaded, setRivalTrackerJsLoaded] = useState(false);

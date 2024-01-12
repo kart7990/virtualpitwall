@@ -1,8 +1,8 @@
 import { DataDisplay } from "../core/ui/data-display";
 import {
   convertWeatherType,
-  formatTemp,
   formatSpeed,
+  formatTemp,
 } from "../utils/formatter/UnitConversion";
 import { selectCurrentSessionConditions, useSelector } from "@/lib/redux";
 

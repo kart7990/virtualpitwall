@@ -1,13 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-import { API_V2_URL } from "@/config/urls";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
+import { Icons } from "@/components/core/icons";
 import { Button } from "@/components/core/ui/button";
 import {
   Form,
@@ -19,9 +12,14 @@ import {
   FormMessage,
 } from "@/components/core/ui/form";
 import { Input } from "@/components/core/ui/input";
-import { useRouter } from "next/navigation";
+import { API_V2_URL } from "@/config/urls";
 import { authSlice, useDispatch } from "@/lib/redux";
-import { Icons } from "@/components/core/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const accountFormSchema = z.object({
   name: z
@@ -57,7 +55,7 @@ export default function Register({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [serverError, setServerError] = useState<string>();
+  const [, setServerError] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<AccountFormValues>({

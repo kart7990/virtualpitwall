@@ -1,12 +1,12 @@
 "use client";
 
+import { DashboardCard } from "./components/dashboard-card";
 import "./style.css";
+import { Conditions } from "@/components/conditions/conditions";
 import PitwallSession from "@/components/connection/pitwall-session";
 import { Standings } from "@/components/standings/standings";
 import { TrackMap } from "@/components/trackmap/trackmap";
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
-import { Conditions } from "@/components/conditions/conditions";
-import { DashboardCard } from "./components/dashboard-card";
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
 

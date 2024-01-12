@@ -1,7 +1,5 @@
-import { SiteHeader } from "@/components/core/site-header";
 import { SiteFooter } from "@/components/core/site-footer";
-import RequireAuth from "./components/require-auth";
-
+import { SiteHeader } from "@/components/core/site-header";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function AuthLayout({

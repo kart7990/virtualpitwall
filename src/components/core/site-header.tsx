@@ -1,13 +1,10 @@
-import Link from "next/link";
-
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { MainNav } from "@/components/core/main-nav";
-import { MobileNav } from "@/components/core/mobile-nav";
-import { Icons } from "@/components/core/icons";
+import { Settings } from "./settings";
 import { Button } from "./ui/button";
 import { UserNav } from "./user-nav";
-import { Settings } from "./settings";
+import { MainNav } from "@/components/core/main-nav";
+import { MobileNav } from "@/components/core/mobile-nav";
+import { siteConfig } from "@/config/site";
+import Link from "next/link";
 
 export function SiteHeader({ isPublic }: { isPublic: boolean }) {
   return (
