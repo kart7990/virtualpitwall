@@ -1,5 +1,5 @@
 "use client"
-import { LiveTiming, selectLiveTiming, selectCurrentTrack, useSelector } from '@/lib/redux';
+import { LiveTiming, selectLiveTiming, selectCurrentTrack, useSelector, selectedCarNumber } from '@/lib/redux';
 import Script from 'next/script';
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { useDebounce } from 'use-debounce';
@@ -15,6 +15,7 @@ export const TrackMap = () => {
     const track = useSelector(selectCurrentTrack)
     const [carClasses, setCarClasses] = useState<any[]>([]);
     const isMulticlass = false
+    const selectedCar = useSelector(selectedCarNumber)
 
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(0);
@@ -120,8 +121,8 @@ export const TrackMap = () => {
                     }
                     if (trackMap.current != null) {
                         trackMap.current.setNodeColor(s.carNumber, classColor); /*'#f64747B3'*/
-                        // if (s.carNumber === standingsSelectedCarNumber) {
-                        //     track.current.setNodeStrokeColor(s.carNumber, '#66ff00B3');
+                        if (s.carNumber === selectedCar) {
+                            trackMap.current.setNodeStrokeColor(s.carNumber, '#FFFF00');
 
                         //     carClasses.push({
                         //         classId: -2,
@@ -153,9 +154,9 @@ export const TrackMap = () => {
                         //     track.current.setNodeColor('PIT', classColor);
                         //     track.current.setNodeStrokeColor('PIT', '#f64747B3');
                         // }
-                        // } else {
-                        trackMap.current.setNodeStrokeColor(s.carNumber, '#555555B3');
-                        //}
+                        } else {
+                            trackMap.current.setNodeStrokeColor(s.carNumber, '#555555B3');
+                        }
                     }
 
                 } else {
@@ -164,7 +165,7 @@ export const TrackMap = () => {
             });
             setCarClasses(carClasses.sort((a, b) => a.classId - b.classId))
         }
-    }, [standings, isMulticlass]);
+    }, [standings, isMulticlass, selectedCar]);
 
 
     return (

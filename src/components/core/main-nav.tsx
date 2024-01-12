@@ -7,9 +7,17 @@ import { usePathname } from "next/navigation"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/core/icons"
+import {
+  selectUser,
+  useSelector,
+} from '@/lib/redux'
+import { User } from "@/lib/redux/slices/authSlice/models";
 
 export function MainNav({ isPublic }: { isPublic: boolean }) {
   const pathname = usePathname()
+
+  const user = useSelector<User>(selectUser)
+  const dashboardHref = "/pitwall/dashboard/" + user.pitBoxSessionId
 
   return (
     <div className="mr-4 hidden md:flex">
@@ -22,13 +30,13 @@ export function MainNav({ isPublic }: { isPublic: boolean }) {
       {!isPublic &&
         <nav className="flex items-center space-x-6 text-sm font-medium">
           <Link
-            href="/docs"
+            href={dashboardHref}
             className={cn(
               "transition-colors hover:text-foreground/80",
-              pathname === "/docs" ? "text-foreground" : "text-foreground/60"
+              pathname?.startsWith("/pitwall/dashboard") ? "text-foreground" : "text-foreground/60",
             )}
           >
-            Dashboards
+            Dashboard
           </Link>
           <Link
             href="/docs/components"

@@ -2,6 +2,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 const initialState: StandingSliceState = {
     liveTiming: [],
+    selectedCarNumber: undefined
 }
 
 export const standingsSlice = createSlice({
@@ -37,6 +38,9 @@ export const standingsSlice = createSlice({
                 }
             })
         },
+        updateSelectedCar: (state, action: PayloadAction<String | undefined>) => {
+            state.selectedCarNumber = action.payload
+        },
         reset: (state) => {
             state = initialState
         }
@@ -45,6 +49,7 @@ export const standingsSlice = createSlice({
 
 export interface StandingSliceState {
     liveTiming: LiveTiming[]
+    selectedCarNumber: String | undefined
 }
 
 export interface LiveTimingDto {
@@ -99,7 +104,3 @@ export interface LiveTiming {
     pitStopCount: number,
     stintLapCount: number,
 }
-
-
-
-

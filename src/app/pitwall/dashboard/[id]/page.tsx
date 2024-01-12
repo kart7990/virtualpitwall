@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             <TrackMap />
                         </DashboardCard>
                     </div>
-                    <div key="standings" className="overflow-hidden" data-grid={{ x: 3, y: 0, w: 5, h: 3, minH: 2 }}>
+                    <div key="standings" className="overflow-hidden" data-grid={{ x: 3, y: 0, w: 9, h: 7, minH: 2 }}>
                         <DashboardCard title='Standings'>
                             <Standings />
                         </DashboardCard>

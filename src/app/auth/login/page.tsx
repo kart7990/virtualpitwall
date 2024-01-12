@@ -135,7 +135,7 @@ export default function Login() {
         } else if (displayRegister && oAuthProviderData != null) {
             return <Register accountFormValues={{ email: oAuthProviderData.email, name: oAuthProviderData.name, provider: oAuthProviderData.provider, token: oAuthProviderData.token, iracingCustomerId: '' }} />
         } else if (displayReturnToApp) {
-            return <Alert variant="default" color="success">Authentication sucessful, please return to the app.</Alert>
+            return <Alert variant="default" color="success">Authentication successful, please return to the app.</Alert>
         } else {
             return <RenderLogin />
         }
