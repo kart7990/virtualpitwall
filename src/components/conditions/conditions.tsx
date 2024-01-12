@@ -14,7 +14,7 @@ export const Conditions = () => {
     <>
       {!conditions && <p>waiting for data</p>}
       {conditions && (
-        <div className="flex p-3 flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 p-3">
           <DataDisplay
             title="Track Temp"
             content={formatTemp(

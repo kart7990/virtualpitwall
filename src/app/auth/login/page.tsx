@@ -93,9 +93,9 @@ export default function Login() {
 
   const RenderLogin = () => {
     return (
-      <div className="grid grid-rows-4 grid-flow-col justify-items-center">
+      <div className="grid grid-flow-col grid-rows-4 justify-items-center">
         <div className="row-span-1">
-          <h2 className="scroll-m-20 text-center border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          <h2 className="scroll-m-20 border-b pb-2 text-center text-3xl font-semibold tracking-tight first:mt-0">
             SIGN IN
           </h2>
         </div>
@@ -114,12 +114,12 @@ export default function Login() {
         <div className="row-span-1">
           <div
             id="alert-additional-content-4"
-            className=" p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
+            className="mb-4 rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-yellow-800 dark:border-yellow-800 dark:bg-gray-800 dark:text-yellow-300"
             role="alert"
           >
             <div className="flex items-center">
               <svg
-                className="flex-shrink-0 w-4 h-4 me-2"
+                className="me-2 h-4 w-4 flex-shrink-0"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -132,7 +132,7 @@ export default function Login() {
                 More auth providers coming soon.
               </h3>
             </div>
-            <div className="mt-2 mb-4 text-sm">
+            <div className="mb-4 mt-2 text-sm">
               If you don't have a Google account, it only takes a few minutes to
               create one. We expect to add more login providers in the future.
             </div>

@@ -202,7 +202,7 @@ export const TrackMap = () => {
       )}
 
       <div>
-        <span className="flex p-3 text-transform: uppercase font-weight-bold">
+        <span className="font-weight-bold flex p-3 uppercase">
           {track?.name ?? "n/a"}
         </span>
       </div>

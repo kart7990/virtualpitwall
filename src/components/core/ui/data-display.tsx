@@ -8,12 +8,10 @@ export const DataDisplay = ({
   return (
     <div>
       <div>
-        <span className="text-muted text-transform: uppercase">{title}</span>
+        <span className="uppercase text-muted">{title}</span>
       </div>
       <div>
-        <span className="text-transform: uppercase font-weight-bold">
-          {content}
-        </span>
+        <span className="font-weight-bold uppercase">{content}</span>
       </div>
     </div>
   );

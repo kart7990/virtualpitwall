@@ -56,7 +56,7 @@ export const Standings = () => {
 
   return (
     <div
-      className="ag-theme-quartz-dark w-full h-full"
+      className="ag-theme-quartz-dark h-full w-full"
       style={{ width: "100%", height: "100%" }}
     >
       <AgGridReact<LiveTiming>

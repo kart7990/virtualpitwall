@@ -6,7 +6,7 @@ export const Icons = {
       src="/logo192.png"
       width={32}
       alt="logo"
-      className="h-auto px-1 md:px-0 md:ml-6 "
+      className="h-auto px-1 md:ml-6 md:px-0"
     />
   ),
   download: (props: IconProps) => (
