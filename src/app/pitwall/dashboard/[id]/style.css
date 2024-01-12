@@ -1,4 +1,4 @@
-.react-grid-item>.react-resizable-handle::after {
+.react-grid-item > .react-resizable-handle::after {
   content: "";
   position: absolute;
   right: 3px;

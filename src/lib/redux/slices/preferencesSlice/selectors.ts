@@ -1,3 +1,4 @@
-import type { ReduxState, } from '@/lib/redux'
+import type { ReduxState } from "@/lib/redux";
 
-export const selectMeasurementSystem = (state: ReduxState) => state.preferences.measurementSystem
+export const selectMeasurementSystem = (state: ReduxState) =>
+  state.preferences.measurementSystem;

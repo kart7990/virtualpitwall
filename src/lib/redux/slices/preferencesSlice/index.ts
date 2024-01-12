@@ -1,2 +1,2 @@
-export * from './preferencesSlice'
-export * from './selectors'
+export * from "./preferencesSlice";
+export * from "./selectors";

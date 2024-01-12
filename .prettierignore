@@ -1,0 +1,3 @@
+# ignore the RivalTracker and TrackPaths files
+public/js/RivalTracker*
+public/js/TrackPaths*

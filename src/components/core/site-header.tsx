@@ -1,13 +1,13 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { MainNav } from "@/components/core/main-nav"
-import { MobileNav } from "@/components/core/mobile-nav"
-import { Icons } from "@/components/core/icons"
-import { Button } from "./ui/button"
-import { UserNav } from "./user-nav"
-import { Settings } from "./settings"
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { MainNav } from "@/components/core/main-nav";
+import { MobileNav } from "@/components/core/mobile-nav";
+import { Icons } from "@/components/core/icons";
+import { Button } from "./ui/button";
+import { UserNav } from "./user-nav";
+import { Settings } from "./settings";
 
 export function SiteHeader({ isPublic }: { isPublic: boolean }) {
   return (
@@ -20,13 +20,14 @@ export function SiteHeader({ isPublic }: { isPublic: boolean }) {
             {/* TODO: Find a way to not use this spacer */}
           </div>
         </div>
-        {!isPublic &&
+        {!isPublic && (
           <div className="mr-4">
             <nav className="flex gap-3">
               <Link
                 href={siteConfig.links.client}
                 target="_blank"
-                rel="noreferrer">
+                rel="noreferrer"
+              >
                 <Button>
                   <span>Download Client</span>
                 </Button>
@@ -38,9 +39,8 @@ export function SiteHeader({ isPublic }: { isPublic: boolean }) {
               </div>
             </nav>
           </div>
-        }
+        )}
       </div>
-
     </header>
-  )
+  );
 }

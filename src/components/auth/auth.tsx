@@ -1,7 +1,6 @@
 // import { useRouter } from 'next/router';
 // import { ComponentType, ReactElement } from 'react';
 
-
 // //TODO: Implement - Currently just a placeholder
 
 // type AuthProps = {

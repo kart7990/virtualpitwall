@@ -1,12 +1,11 @@
-"use client"
-import { SiteHeader } from '@/components/core/site-header'
-import { SiteFooter } from '@/components/core/site-footer'
-import { Button } from '@/components/core/ui/button'
-import Link from 'next/link'
-import { siteConfig } from '@/config/site'
+"use client";
+import { SiteHeader } from "@/components/core/site-header";
+import { SiteFooter } from "@/components/core/site-footer";
+import { Button } from "@/components/core/ui/button";
+import Link from "next/link";
+import { siteConfig } from "@/config/site";
 
 export default function Home() {
-
   return (
     <div className="relative min-h-screen flex flex-col">
       <SiteHeader isPublic={true} />
@@ -18,29 +17,52 @@ export default function Home() {
                 {siteConfig.descriptionShort}
               </h2>
               <p>
-                The Virtual Pitwall platform displays all relevant race event data directly to a web-based dashboard.
-                Designed for collaborative racing events where a race engineer can give your team the edge over the competition.
-                Simply give the dashboard link to anyone you wish to share with, all they need is a modern web browser!
+                The Virtual Pitwall platform displays all relevant race event
+                data directly to a web-based dashboard. Designed for
+                collaborative racing events where a race engineer can give your
+                team the edge over the competition. Simply give the dashboard
+                link to anyone you wish to share with, all they need is a modern
+                web browser!
               </p>
               <div>
-                <Link href={'/pitwall/home'}><Button className='my-6'>Get Started</Button></Link>
+                <Link href={"/pitwall/home"}>
+                  <Button className="my-6">Get Started</Button>
+                </Link>
               </div>
             </div>
             <div>
-              <img src="/generic_monitor_dashboard.png" className="img-fluid" alt="" />
+              <img
+                src="/generic_monitor_dashboard.png"
+                className="img-fluid"
+                alt=""
+              />
             </div>
             <div className="col-span-2">
-              <div id="alert-additional-content-4" className="p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800" role="alert">
+              <div
+                id="alert-additional-content-4"
+                className="p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
+                role="alert"
+              >
                 <div className="flex items-center">
-                  <svg className="flex-shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    className="flex-shrink-0 w-4 h-4 me-2"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                   </svg>
                   <span className="sr-only">Info</span>
                   <h3 className="text-lg font-medium">Early Access</h3>
                 </div>
                 <div className="mt-2 mb-4 text-sm">
-                  The Virtual Pitwall platform is a work in progress. We are excited to share it with the community, but do not expect a bug-free or polished experience.
-                  There will be issues and some features may not work. Please report any issues or feature requests in Discord so we can build something awesome together.
+                  The Virtual Pitwall platform is a work in progress. We are
+                  excited to share it with the community, but do not expect a
+                  bug-free or polished experience. There will be issues and some
+                  features may not work. Please report any issues or feature
+                  requests in Discord so we can build something awesome
+                  together.
                 </div>
               </div>
             </div>
@@ -49,5 +71,5 @@ export default function Home() {
       </div>
       <SiteFooter />
     </div>
-  )
+  );
 }

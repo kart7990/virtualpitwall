@@ -1,5 +1,5 @@
 {
-    "APP_ENV": "staging",
-    "BASE_URL": "https://staging.virtualpitwall.com",
-    "BASE_API_URL": "https://staging.api.virtualpitwall.com"
+  "APP_ENV": "staging",
+  "BASE_URL": "https://staging.virtualpitwall.com",
+  "BASE_API_URL": "https://staging.api.virtualpitwall.com"
 }

@@ -10,7 +10,7 @@
     "build-dev": "set \"TARGET_ENV=development\" && next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --check --ignore-path .gitignore .",
+    "format": "prettier --check .",
     "prepare": "husky install",
     "postinstall": "husky install"
   },
