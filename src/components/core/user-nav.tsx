@@ -1,11 +1,8 @@
-'use client';
+"use client";
+
 import { Icons } from "@/components/core/icons";
-import { Button } from "@/components/core/ui/button"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/core/ui/avatar"
+import { Avatar } from "@/components/core/ui/avatar";
+import { Button } from "@/components/core/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,25 +12,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/core/ui/dropdown-menu"
-
-import {
-  authSlice,
-  selectUser,
-  useSelector,
-  useDispatch
-} from '@/lib/redux'
+} from "@/components/core/ui/dropdown-menu";
+import { authSlice, selectUser, useDispatch, useSelector } from "@/lib/redux";
 import { User } from "@/lib/redux/slices/authSlice/models";
 
 export function UserNav() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const user = useSelector<User>(selectUser)
+  const user = useSelector<User>(selectUser);
 
   const logout = () => {
-    console.log('logoff')
-    dispatch(authSlice.actions.logoff())
-  }
+    console.log("logoff");
+    dispatch(authSlice.actions.logoff());
+  };
 
   return (
     <DropdownMenu>
@@ -76,5 +67,5 @@ export function UserNav() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

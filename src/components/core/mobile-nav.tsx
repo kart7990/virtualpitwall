@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link, { LinkProps } from "next/link"
-import { useRouter } from "next/navigation"
-import { ViewVerticalIcon } from "@radix-ui/react-icons"
-
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/core/icons"
-import { ScrollArea } from "@/components/core/ui/scroll-area"
-import { Button } from "@/components/core/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/core/ui/sheet"
+import { Icons } from "@/components/core/icons";
+import { Button } from "@/components/core/ui/button";
+import { ScrollArea } from "@/components/core/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/core/ui/sheet";
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { ViewVerticalIcon } from "@radix-ui/react-icons";
+import Link, { LinkProps } from "next/link";
+import { useRouter } from "next/navigation";
+import * as React from "react";
 
 export function MobileNav({ isPublic }: { isPublic: boolean }) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -35,40 +34,30 @@ export function MobileNav({ isPublic }: { isPublic: boolean }) {
           <Icons.logoPNG className="mr-2 h-4 w-4" />
           <span className="font-bold">{siteConfig.name}</span>
         </MobileLink>
-        {!isPublic &&
+        {!isPublic && (
           <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
             <div className="flex flex-col space-y-3">
-
-              <MobileLink
-                href="/Dashboard"
-                onOpenChange={setOpen}
-              >
+              <MobileLink href="/Dashboard" onOpenChange={setOpen}>
                 Dashboards
               </MobileLink>
-              <MobileLink
-                href="/Dashboard"
-                onOpenChange={setOpen}
-              >
+              <MobileLink href="/Dashboard" onOpenChange={setOpen}>
                 Teams
               </MobileLink>
-              <MobileLink
-                href="/Dashboard"
-                onOpenChange={setOpen}
-              >
+              <MobileLink href="/Dashboard" onOpenChange={setOpen}>
                 Settings
               </MobileLink>
             </div>
           </ScrollArea>
-        }
+        )}
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
 interface MobileLinkProps extends LinkProps {
-  onOpenChange?: (open: boolean) => void
-  children: React.ReactNode
-  className?: string
+  onOpenChange?: (open: boolean) => void;
+  children: React.ReactNode;
+  className?: string;
 }
 
 function MobileLink({
@@ -78,18 +67,18 @@ function MobileLink({
   children,
   ...props
 }: MobileLinkProps) {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Link
       href={href}
       onClick={() => {
-        router.push(href.toString())
-        onOpenChange?.(false)
+        router.push(href.toString());
+        onOpenChange?.(false);
       }}
       className={cn(className)}
       {...props}
     >
       {children}
     </Link>
-  )
+  );
 }

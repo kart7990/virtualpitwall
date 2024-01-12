@@ -1,13 +1,15 @@
-/* Core */
-import { configureStore, type ThunkAction, type Action } from '@reduxjs/toolkit'
+import { reducer } from "./rootReducer";
 import {
-  useSelector as useReduxSelector,
+  configureStore,
+  type Action,
+  type ThunkAction,
+} from "@reduxjs/toolkit";
+import {
   useDispatch as useReduxDispatch,
+  useSelector as useReduxSelector,
   type TypedUseSelectorHook,
-} from 'react-redux'
+} from "react-redux";
 
-/* Instruments */
-import { reducer } from './rootReducer'
 //import { middleware } from './middleware'
 
 export const reduxStore = configureStore({
@@ -15,17 +17,17 @@ export const reduxStore = configureStore({
   // middleware: (getDefaultMiddleware) => {
   //   return getDefaultMiddleware().concat(middleware)
   // },
-})
-export const useDispatch = () => useReduxDispatch<ReduxDispatch>()
-export const useSelector: TypedUseSelectorHook<ReduxState> = useReduxSelector
+});
+export const useDispatch = () => useReduxDispatch<ReduxDispatch>();
+export const useSelector: TypedUseSelectorHook<ReduxState> = useReduxSelector;
 
 /* Types */
-export type ReduxStore = typeof reduxStore
-export type ReduxState = ReturnType<typeof reduxStore.getState>
-export type ReduxDispatch = typeof reduxStore.dispatch
+export type ReduxStore = typeof reduxStore;
+export type ReduxState = ReturnType<typeof reduxStore.getState>;
+export type ReduxDispatch = typeof reduxStore.dispatch;
 export type ReduxThunkAction<ReturnType = void> = ThunkAction<
   ReturnType,
   ReduxState,
   unknown,
   Action
->
+>;

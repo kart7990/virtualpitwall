@@ -10,7 +10,7 @@
     "build-dev": "set \"TARGET_ENV=development\" && next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --check --ignore-path .gitignore .",
+    "format": "prettier --check .",
     "prepare": "husky install",
     "postinstall": "husky install"
   },
@@ -60,6 +60,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

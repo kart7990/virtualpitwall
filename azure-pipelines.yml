@@ -4,52 +4,52 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+  - main
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "18.x"
+    displayName: "Install Node.js"
 
-- task: UsePythonVersion@0
-  displayName: 'Use Python 3.x'
+  - task: UsePythonVersion@0
+    displayName: "Use Python 3.x"
 
-- task: Cache@2
-  displayName: 'Cache .next/cache'
-  inputs:
-    key: next | $(Agent.OS) | package-lock.json
-    path: '$(System.DefaultWorkingDirectory)/.next/cache'
+  - task: Cache@2
+    displayName: "Cache .next/cache"
+    inputs:
+      key: next | $(Agent.OS) | package-lock.json
+      path: "$(System.DefaultWorkingDirectory)/.next/cache"
 
-#parseInt(process.env.PORT, 10) azure windows app service issue - https://github.com/vercel/next.js/discussions/38448
-- script: |
-    npm install
-    npm run build-staging
-    sudo mkdir /build
-    sudo mkdir /build/public
-    sudo mkdir /build/.next
-    sudo mkdir /build/.next/static
-    sudo cp -r .next/standalone build
-    sudo cp -r public build/public
-    sudo cp -r .next/static build/.next/static
-    cd build
-    sudo sed -i -e 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' server.js
-  displayName: 'npm install and build staging'
-  env:
-    TARGET_ENV: staging
+  #parseInt(process.env.PORT, 10) azure windows app service issue - https://github.com/vercel/next.js/discussions/38448
+  - script: |
+      npm install
+      npm run build-staging
+      sudo mkdir /build
+      sudo mkdir /build/public
+      sudo mkdir /build/.next
+      sudo mkdir /build/.next/static
+      sudo cp -r .next/standalone build
+      sudo cp -r public build/public
+      sudo cp -r .next/static build/.next/static
+      cd build
+      sudo sed -i -e 's/parseInt(process.env.PORT, 10)/process.env.PORT/g' server.js
+    displayName: "npm install and build staging"
+    env:
+      TARGET_ENV: staging
 
-- task: ArchiveFiles@1
-  displayName: 'Create staging package'
-  inputs:
-    rootFolder: build
-    includeRootFolder: false
-    archiveFile: '$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip'
+  - task: ArchiveFiles@1
+    displayName: "Create staging package"
+    inputs:
+      rootFolder: build
+      includeRootFolder: false
+      archiveFile: "$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip"
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish staging package'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip'
-    ArtifactName: 'packaged_staging_build'
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish staging package"
+    inputs:
+      PathtoPublish: "$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip"
+      ArtifactName: "packaged_staging_build"

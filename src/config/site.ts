@@ -1,5 +1,4 @@
-import { BASE_URL, API_BASE_URL } from "./urls"
-
+import { API_BASE_URL, BASE_URL } from "./urls";
 
 export const siteConfig = {
   name: "Virtual Pitwall",
@@ -9,8 +8,8 @@ export const siteConfig = {
   description: "Virtual Pitwall - Realtime web-based iRacing dashboard",
   links: {
     github: "https://github.com/kart7990/virtualpitwall",
-    client: API_BASE_URL + "/app/setup.exe"
+    client: API_BASE_URL + "/app/setup.exe",
   },
-}
+};
 
-export type SiteConfig = typeof siteConfig
+export type SiteConfig = typeof siteConfig;
