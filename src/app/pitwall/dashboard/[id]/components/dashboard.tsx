@@ -4,7 +4,6 @@ import { DashboardCard } from "./dashboard-card";
 import { MultiClassDetails } from "@/components/car-class-details/multi-class";
 import { SingleClassDetails } from "@/components/car-class-details/single-class";
 import { Conditions } from "@/components/conditions/conditions";
-import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
 import { TrackMap } from "@/components/trackmap/trackmap";
 import { selectCurrentSession, useSelector } from "@/lib/redux";
