@@ -1,5 +1,6 @@
 "use client";
 
+import { parseTrackId } from "../utils/formatter/TrackConversion";
 import {
   LiveTiming,
   selectCurrentTrack,
@@ -78,7 +79,7 @@ export const TrackMap = () => {
 
       trackMap.current = new window.RivalTracker(
         "track1",
-        track.id,
+        parseTrackId(track.id),
         driverPositionData.current,
         track1Options,
       );
