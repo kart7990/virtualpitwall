@@ -26,24 +26,27 @@ export interface EventDetails {
 }
 
 export interface TrackSession {
-  sessionNumber: number;
-  sessionType: string;
-  sessionName: string;
-  raceLaps: string;
-  flags: string;
-  raceTime: number;
-  isTimed: boolean;
-  isRace: boolean;
-  isQualify: boolean;
-  isPractice: boolean;
-  isFixedLaps: boolean;
-  isMulticlass: boolean;
-  playerCustId: number | null;
-  isSpectator: boolean;
-  track: Track;
-  conditions: Conditions;
   completedLaps: Lap[];
   completedTelemetryLaps: LapTelemetry[];
+  conditions: Conditions;
+  flags: string;
+  isFixedLaps: boolean;
+  isMulticlass: boolean;
+  isPractice: boolean;
+  isQualify: boolean;
+  isRace: boolean;
+  isSpectator: boolean;
+  isTimed: boolean;
+  playerCustId: number | null;
+  raceLaps: number;
+  raceTime: number;
+  sessionLapsRemaining: number;
+  sessionName: string;
+  sessionNumber: number;
+  sessionState: string;
+  sessionType: string;
+  timing: SessionTiming;
+  track: Track;
 }
 
 export interface Track {
@@ -140,12 +143,12 @@ export interface DynamicSessionData {
 }
 
 export interface SessionTiming {
-  sessionTime: number;
-  raceTimeRemaining: number;
   estimatedRaceLaps: number;
   estimatedWholeRaceLaps: number;
   leaderLapsRemaining: number;
   leaderWholeLapsRemaining: number;
+  raceTimeRemaining: number;
+  sessionTime: number;
+  simDate: number;
   simTimeOfDay: number;
-  simDate: string;
 }

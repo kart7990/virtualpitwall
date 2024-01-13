@@ -148,12 +148,6 @@ export default function PitwallSession({
         sessionConnection.on(
           "onDynamicSessionDataUpdate",
           (dynamicSessionData) => {
-            if (dynamicSessionData?.timing?.simTimeOfDay) {
-              var seconds = dynamicSessionData.timing.simTimeOfDay; // Some arbitrary value
-              var date = new Date(seconds * 1000); // multiply by 1000 because Date() requires milliseconds
-              var timeStr = date.toISOString();
-              dynamicSessionData.timing.simTimeOfDay = timeStr;
-            }
             _isCarTelemetryActive = dynamicSessionData.isCarTelemetryActive;
 
             dispatch(

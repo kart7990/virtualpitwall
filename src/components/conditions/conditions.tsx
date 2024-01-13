@@ -3,11 +3,17 @@ import {
   convertWeatherType,
   formatSpeed,
   formatTemp,
+  formatTime,
 } from "../utils/formatter/UnitConversion";
-import { selectCurrentSessionConditions, useSelector } from "@/lib/redux";
+import {
+  selectCurrentSessionConditions,
+  selectCurrentSessionTiming,
+  useSelector,
+} from "@/lib/redux";
 
 export const Conditions = () => {
   const conditions = useSelector(selectCurrentSessionConditions);
+  const timing = useSelector(selectCurrentSessionTiming);
   const useImperialUnits = false;
 
   return (
@@ -15,6 +21,10 @@ export const Conditions = () => {
       {!conditions && <p>waiting for data</p>}
       {conditions && (
         <div className="flex flex-wrap gap-4 p-3">
+          <DataDisplay
+            title="Sim Time"
+            content={formatTime(timing?.simTimeOfDay)}
+          />
           <DataDisplay
             title="Track Temp"
             content={formatTemp(
