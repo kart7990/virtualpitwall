@@ -1,5 +1,6 @@
 "use client";
 
+import { parseCarClassColor } from "../utils/formatter/CarConversion";
 import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
 import {
   LiveTiming,
@@ -162,11 +163,8 @@ export const Standings = () => {
 
   // Set the background color of the rows to the multiclass color, when in a multiclass race
   const getRowSx = (row: MRT_Row<LiveTiming>) => {
-    const classColor = tinycolor(row.original.classColor);
-    classColor.setAlpha(0.1);
-
     const backgroundColorStyle = session?.isMulticlass
-      ? { backgroundColor: classColor.toHex8String() }
+      ? { backgroundColor: parseCarClassColor(row.original.classColor) }
       : {};
 
     const res = {

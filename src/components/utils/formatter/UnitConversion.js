@@ -47,11 +47,15 @@ export const convertTemp = (celsius, useImperialUnits) => {
 };
 
 export const convertMsToDisplay = (ms) => {
-  var milliseconds = padMs(ms % 1000);
-  var seconds = pad(Math.floor((ms / 1000) % 60));
-  var minutes = Math.floor((ms / (60 * 1000)) % 60);
+  if (ms > 0) {
+    var milliseconds = padMs(ms % 1000);
+    var seconds = pad(Math.floor((ms / 1000) % 60));
+    var minutes = Math.floor((ms / (60 * 1000)) % 60);
 
-  return minutes + ":" + seconds + "." + milliseconds;
+    return minutes + ":" + seconds + "." + milliseconds;
+  } else {
+    return "-";
+  }
 };
 
 const padMs = (value) => {
