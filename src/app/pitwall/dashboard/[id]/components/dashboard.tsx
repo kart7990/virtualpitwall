@@ -1,10 +1,7 @@
 "use client";
 
 import { DashboardCard } from "./dashboard-card";
-import {
-  MultiClassDetails,
-  MultiClasses,
-} from "@/components/car-class-details/multi-class";
+import { MultiClassDetails } from "@/components/car-class-details/multi-class";
 import { SingleClassDetails } from "@/components/car-class-details/single-class";
 import { Conditions } from "@/components/conditions/conditions";
 import { Session } from "@/components/session/session";
@@ -36,15 +33,6 @@ export default function Dashboard() {
         onResizeStop={onResizeStopped}
         resizeHandles={["se"]}
       >
-        <div
-          key="sessionDetails"
-          className="overflow-hidden"
-          data-grid={{ x: 0, y: 0, w: 12, h: 1 }}
-        >
-          <DashboardCard title="Session Details">
-            <Session />
-          </DashboardCard>
-        </div>
         <div
           key="carClasses"
           className="overflow-hidden"
