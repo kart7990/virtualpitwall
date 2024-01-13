@@ -38,11 +38,11 @@ export const getVolumeUnit = (useImperialUnits) => {
   return unit;
 };
 
-export const convertTemp = (celcius, useImperialUnits) => {
-  celcius = Number(celcius);
+export const convertTemp = (celsius, useImperialUnits) => {
+  celsius = Number(celsius);
   let convertedValue = useImperialUnits
-    ? ((celcius * 9) / 5 + 32).toFixed(2)
-    : celcius.toFixed(2);
+    ? ((celsius * 9) / 5 + 32).toFixed(2)
+    : celsius.toFixed(2);
   return parseFloat(convertedValue);
 };
 
@@ -53,6 +53,7 @@ export const convertMsToDisplay = (ms) => {
 
   return minutes + ":" + seconds + "." + milliseconds;
 };
+
 const padMs = (value) => {
   if (value < 10) {
     return "00" + value;
@@ -71,9 +72,9 @@ const pad = (value) => {
   }
 };
 
-export const formatTemp = (celcius, useImperialUnits) => {
-  return celcius
-    ? convertTemp(celcius, useImperialUnits) +
+export const formatTemp = (celsius, useImperialUnits) => {
+  return celsius
+    ? convertTemp(celsius, useImperialUnits) +
         " " +
         getTempUnit(useImperialUnits)
     : "-";
@@ -93,4 +94,18 @@ export const convertWeatherType = (type) => {
     default:
       return "n/a";
   }
+};
+
+export const formatTime = (timeInSeconds) => {
+  //Format to M:S:MS
+  var pad = function (num, size) {
+      return ("000" + num).slice(size * -1);
+    },
+    time = parseFloat(timeInSeconds).toFixed(3),
+    hours = Math.floor(time / 60 / 60),
+    minutes = Math.floor(time / 60) % 60,
+    seconds = Math.floor(time - minutes * 60);
+
+  let formattedHours = hours > 0 ? pad(hours, 2) + ":" : "";
+  return formattedHours + pad(minutes, 2) + ":" + pad(seconds, 2);
 };
