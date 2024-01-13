@@ -1,6 +1,5 @@
 import {
   getCarClassName,
-  parseCarClassColor,
   parseIRating,
 } from "../utils/formatter/CarConversion";
 import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
@@ -10,7 +9,6 @@ import {
   selectLiveTiming,
   LiveTiming,
 } from "@/lib/redux";
-import { Faster_One } from "next/font/google";
 
 interface CarClassDetails {
   id: number;
@@ -22,7 +20,7 @@ interface CarClassDetails {
   fastestLapDriver: string;
 }
 
-export const CarClasses = () => {
+export const MultiClassDetails = () => {
   const session = useSelector(selectCurrentSession);
   const standings = useSelector<LiveTiming[]>(selectLiveTiming);
 

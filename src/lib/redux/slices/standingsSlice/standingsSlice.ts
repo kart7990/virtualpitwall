@@ -79,27 +79,27 @@ export interface LiveTimingDto {
 }
 
 export interface LiveTiming {
-  position: number;
-  classPosition: number;
-  standingPosition: number;
-  standingClassPosition: number;
-  carNumber: string;
-  className: string;
-  classId: number;
-  classColor: string;
+  bestLaptime: number;
   carName: string;
-  isCurrentDriver: boolean;
-  iRating: number;
-  safetyRating: string;
+  carNumber: string;
+  classColor: string;
+  classId: number;
+  className: string;
+  classPosition: number;
   driverName: string;
   driverShortName: string;
+  iRating: number;
+  isCurrentDriver: boolean;
+  lap: number;
   lapDistancePercent: number;
-  teamName: string;
+  lastLaptime: number;
   leaderDelta: string;
   nextCarDelta: string;
-  lastLaptime: number;
-  bestLaptime: number;
-  lap: number;
   pitStopCount: number;
+  position: number;
+  safetyRating: string;
+  standingClassPosition: number;
+  standingPosition: number;
   stintLapCount: number;
+  teamName: string;
 }

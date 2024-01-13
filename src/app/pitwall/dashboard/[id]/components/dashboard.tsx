@@ -1,8 +1,11 @@
 "use client";
 
 import { DashboardCard } from "./dashboard-card";
-import { CarClass } from "@/components/car-classes/car-class";
-import { CarClasses } from "@/components/car-classes/car-classes";
+import {
+  MultiClassDetails,
+  MultiClasses,
+} from "@/components/car-class-details/multi-class";
+import { SingleClassDetails } from "@/components/car-class-details/single-class";
 import { Conditions } from "@/components/conditions/conditions";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
@@ -20,8 +23,8 @@ export default function Dashboard() {
   };
 
   const carClassesTitle = session?.isMulticlass
-    ? "Car Classes Details"
-    : "Car Class Details";
+    ? "Multi-Class Details"
+    : "Single-Class Details";
 
   return (
     <main>
@@ -48,7 +51,11 @@ export default function Dashboard() {
           data-grid={{ x: 0, y: 2, w: 3, h: 2, minH: 2 }}
         >
           <DashboardCard title={carClassesTitle}>
-            {session?.isMulticlass ? <CarClasses /> : <CarClass />}
+            {session?.isMulticlass ? (
+              <MultiClassDetails />
+            ) : (
+              <SingleClassDetails />
+            )}
           </DashboardCard>
         </div>
         <div
