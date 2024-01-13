@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "dev-local": "set \"TARGET_ENV=development-localserver\" && next dev -p 3000",
+    "dev-mock": "MOCKING=true next dev -p 3000",
     "build": "next build",
     "build-staging": "set \"TARGET_ENV=staging\" && next build",
     "build-dev": "set \"TARGET_ENV=development\" && next build",

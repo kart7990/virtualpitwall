@@ -1,0 +1,23 @@
+{
+  "item1": 532.0000000023283,
+  "item2": [
+    {
+      "lapNumber": 2,
+      "lapTime": 104029,
+      "stint": 0,
+      "simTimeOfDay": 0,
+      "conditions": null,
+      "position": 12,
+      "classPosition": 12,
+      "driverName": "Vinícius Dean",
+      "carNumber": "29",
+      "driverCustId": 737439,
+      "sessionNumber": 2,
+      "raceTimeRemaining": 2500.016666664338,
+      "inPitLane": true,
+      "pitStopCount": 0,
+      "sessionTimeLapStart": 428.01666666899496,
+      "sessionTimeLapEnd": 532.016666668995
+    }
+  ]
+}

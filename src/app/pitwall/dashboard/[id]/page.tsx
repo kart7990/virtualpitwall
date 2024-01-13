@@ -2,10 +2,14 @@
 
 import { DashboardCard } from "./components/dashboard-card";
 import "./style.css";
+import { CarClasses } from "@/components/car-classes/car-classes";
 import { Conditions } from "@/components/conditions/conditions";
 import PitwallSession from "@/components/connection/pitwall-session";
+import PitwallSessionMock from "@/components/connection/pitwall-session-mock";
+import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
 import { TrackMap } from "@/components/trackmap/trackmap";
+import { MOCKING } from "@/config/site";
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
@@ -18,42 +22,76 @@ export default function Page({ params }: { params: { id: string } }) {
     console.log("Grid-RESIZE", newItem.i);
   };
 
-  return (
-    <PitwallSession pitwallSessionId={pitboxSessionId}>
-      <main>
-        <ResponsiveGridLayout
-          className="layout"
-          isDraggable={true}
-          isResizable={true}
-          draggableHandle=".drag-handle"
-          onResizeStop={onResizeStopped}
-          resizeHandles={["se"]}
+  const children = (
+    <main>
+      <ResponsiveGridLayout
+        className="layout"
+        isDraggable={true}
+        isResizable={true}
+        draggableHandle=".drag-handle"
+        onResizeStop={onResizeStopped}
+        resizeHandles={["se"]}
+      >
+        <div
+          key="sessionDetails"
+          className="overflow-hidden"
+          data-grid={{ x: 0, y: 0, w: 12, h: 1 }}
         >
-          <div
-            key="trackMap"
-            className="overflow-hidden"
-            data-grid={{ x: 0, y: 0, w: 3, h: 3, minH: 2 }}
-          >
-            <DashboardCard title="Track Map">
-              <TrackMap />
-            </DashboardCard>
-          </div>
-          <div
-            key="standings"
-            className="overflow-hidden"
-            data-grid={{ x: 3, y: 0, w: 9, h: 7, minH: 2 }}
-          >
-            <DashboardCard title="Standings">
-              <Standings />
-            </DashboardCard>
-          </div>
-          <div key="b" data-grid={{ x: 0, y: 3, w: 3, h: 2, minW: 2, maxW: 4 }}>
-            <DashboardCard title="Conditions">
-              <Conditions />
-            </DashboardCard>
-          </div>
-        </ResponsiveGridLayout>
-      </main>
-    </PitwallSession>
+          <DashboardCard title="Session Details">
+            <Session />
+          </DashboardCard>
+        </div>
+        <div
+          key="carClasses"
+          className="overflow-hidden"
+          data-grid={{ x: 0, y: 2, w: 3, h: 2, minH: 2 }}
+        >
+          <DashboardCard title="Car Classes">
+            <CarClasses />
+          </DashboardCard>
+        </div>
+        <div
+          key="trackMap"
+          className="overflow-hidden"
+          data-grid={{ x: 0, y: 4, w: 3, h: 2, minH: 2 }}
+        >
+          <DashboardCard title="Track Map">
+            <TrackMap />
+          </DashboardCard>
+        </div>
+        <div
+          key="standings"
+          className="overflow-hidden"
+          data-grid={{ x: 3, y: 2, w: 9, h: 7, minH: 2 }}
+        >
+          <DashboardCard title="Standings">
+            <Standings />
+          </DashboardCard>
+        </div>
+        <div key="b" data-grid={{ x: 0, y: 6, w: 3, h: 2, minW: 2, maxW: 4 }}>
+          <DashboardCard title="Conditions">
+            <Conditions />
+          </DashboardCard>
+        </div>
+      </ResponsiveGridLayout>
+    </main>
   );
+
+  const pitwallSession = () => {
+    if (MOCKING) {
+      return (
+        <PitwallSessionMock pitwallSessionId={pitboxSessionId}>
+          {children}
+        </PitwallSessionMock>
+      );
+    } else {
+      return (
+        <PitwallSession pitwallSessionId={pitboxSessionId}>
+          {children}
+        </PitwallSession>
+      );
+    }
+  };
+
+  return pitwallSession();
 }

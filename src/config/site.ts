@@ -13,3 +13,5 @@ export const siteConfig = {
 };
 
 export type SiteConfig = typeof siteConfig;
+
+export const MOCKING: boolean = process.env.MOCKING === "true";
