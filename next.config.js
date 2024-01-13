@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const { env } = require("process");
+
 const environment = process.env.TARGET_ENV || process.env.NODE_ENV;
 
 const nextConfig = {
@@ -12,7 +14,12 @@ const nextConfig = {
 
 function getEnvConfig() {
   // for multi-file config
-  return require(`./env/env-${environment}.json`);
+  let envs = require(`./env/env-${environment}.json`);
+  envs = {
+    ...envs,
+    MOCKING: process.env["MOCKING"],
+  };
+  return envs;
 }
 
 module.exports = nextConfig;

@@ -1,0 +1,32 @@
+{
+  "sessionNumber": 2,
+  "sessionState": "ParadeLaps",
+  "flags": "OneLapToGreen | StartReady",
+  "sessionLapsRemaining": 32767,
+  "isActive": true,
+  "isAvailable": true,
+  "isCarTelemetryActive": false,
+  "timing": {
+    "sessionTime": 277.3500000025599,
+    "raceTimeRemaining": -1,
+    "estimatedRaceLaps": 0,
+    "estimatedWholeRaceLaps": 0,
+    "leaderLapsRemaining": 0,
+    "leaderWholeLapsRemaining": 0,
+    "simTimeOfDay": 32377,
+    "simDate": null
+  },
+  "conditions": {
+    "airDensity": 1.162577748298645,
+    "airPressure": 99757.7734375,
+    "airTemp": 23.660104751586914,
+    "fogLevel": 0,
+    "skies": "Partly cloudy",
+    "weatherType": 1,
+    "trackTemp": 24.4444580078125,
+    "trackUsage": null,
+    "relativeHumidity": 0.641943633556366,
+    "windDirection": "W (276°)",
+    "windSpeed": 2.7469561100006104
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "item1": 602.8833333355972,
+  "item2": [
+    {
+      "lapNumber": 3,
+      "lapTime": 87787,
+      "stint": 0,
+      "simTimeOfDay": 0,
+      "conditions": null,
+      "position": 1,
+      "classPosition": 1,
+      "driverName": "Valentin Bonny",
+      "carNumber": "4",
+      "driverCustId": 451833,
+      "sessionNumber": 2,
+      "raceTimeRemaining": 2429.149999997736,
+      "inPitLane": false,
+      "pitStopCount": 0,
+      "sessionTimeLapStart": 515.8833333355972,
+      "sessionTimeLapEnd": 602.8833333355972
+    },
+    {
+      "lapNumber": 3,
+      "lapTime": 88294,
+      "stint": 0,
+      "simTimeOfDay": 0,
+      "conditions": null,
+      "position": 3,
+      "classPosition": 3,
+      "driverName": "Wesley Kaspers",
+      "carNumber": "6",
+      "driverCustId": 746572,
+      "sessionNumber": 2,
+      "raceTimeRemaining": 2429.149999997736,
+      "inPitLane": false,
+      "pitStopCount": 0,
+      "sessionTimeLapStart": 514.8833333355972,
+      "sessionTimeLapEnd": 602.8833333355972
+    },
+    {
+      "lapNumber": 3,
+      "lapTime": 88363,
+      "stint": 0,
+      "simTimeOfDay": 0,
+      "conditions": null,
+      "position": 2,
+      "classPosition": 2,
+      "driverName": "Samuel Michaels",
+      "carNumber": "2",
+      "driverCustId": 509410,
+      "sessionNumber": 2,
+      "raceTimeRemaining": 2429.149999997736,
+      "inPitLane": false,
+      "pitStopCount": 0,
+      "sessionTimeLapStart": 514.8833333355972,
+      "sessionTimeLapEnd": 602.8833333355972
+    }
+  ]
+}
