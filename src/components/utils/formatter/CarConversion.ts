@@ -4,17 +4,19 @@ import { number } from "zod";
 export const getCarClassName = (classId: number, className: string): string => {
   switch (classId) {
     case 2523:
-      return "LMP2 Class";
+      return "LMP2 Class"; // Dallara P217 LMP2
+    case 2708:
+      return "GT3 Class"; // GT3 Class
     case 3189:
-      return "TCR Class";
+      return "TCR Class"; // Touring Car
     case 4008:
-      return "GT4 Class";
+      return "GT4 Class"; // IMPCGT4 Class
     case 4011:
-      return "GTD Class";
+      return "GTD Class"; // GT3 Class
     case 4018:
-      return "LMP3 Class";
+      return "LMP3 Class"; // Ligier JS P320
     case 4029:
-      return "GPT Class";
+      return "GPT Class"; // GTP
     default:
       return className;
   }
