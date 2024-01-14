@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-const { env } = require("process");
-
 const environment = process.env.TARGET_ENV || process.env.NODE_ENV;
 
 const nextConfig = {
@@ -17,7 +15,7 @@ function getEnvConfig() {
   let envs = require(`./env/env-${environment}.json`);
   envs = {
     ...envs,
-    MOCKING: process.env["MOCKING"],
+    MOCKING: process.env.MOCKING,
   };
   return envs;
 }
