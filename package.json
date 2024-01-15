@@ -11,12 +11,12 @@
     "build-dev": "cross-env TARGET_ENV=development next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --check .",
+    "format": "prettier --write .",
     "prepare": "husky install",
     "postinstall": "husky install"
   },
   "lint-staged": {
-    "**/*": "prettier --check --ignore-unknown"
+    "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
