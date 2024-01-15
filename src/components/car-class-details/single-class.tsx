@@ -60,23 +60,38 @@ export const SingleClassDetails = () => {
     return res;
   };
 
-  const fastestCar = Object.values(carClass()).reduce((fastest, current) => {
-    return current.fastestLap < fastest.fastestLap ? current : fastest;
-  });
+  const carClassValues = Object.values(carClass());
+  const fastestCar =
+    carClassValues.length === 0
+      ? null
+      : carClassValues.reduce((fastest, current) => {
+          return current.fastestLap < fastest.fastestLap ? current : fastest;
+        });
+
+  const getFastestLapComponent = (car: CarDetails | null) => {
+    let res = "Fastest Lap: ";
+    if (car === null || car.fastestLap <= 0) {
+      res += "n/a";
+    } else {
+      res +=
+        convertMsToDisplay(car.fastestLap) + " (" + car.fastestLapDriver + ")";
+    }
+
+    return res;
+  };
 
   return (
     <>
       {!session && <p>waiting for data</p>}
       {session && (
         <div className="overflow-auto h-full pb-10">
-          <div className="flex flex-wrap gap-4 p-3">
+          <div className="flex flex-col gap-4 p-3">
             <div>
               <div className="font-medium">
                 SoF: {parseIRating(totalIRating, standings.length)}
               </div>
               <div className="font-medium">
-                Fastest Lap: {convertMsToDisplay(fastestCar.fastestLap)} (
-                {fastestCar.fastestLapDriver})
+                {getFastestLapComponent(fastestCar)}
               </div>
             </div>
             {Object.entries(carClass()).map(([carName, car]) => {
@@ -94,11 +109,10 @@ export const SingleClassDetails = () => {
                     </span>
                   </div>
                   <div>
-                    <div>
+                    <div className="flex flex-col">
                       <div className="font-medium">Car Count: {car.count}</div>
                       <div className="font-medium">
-                        Fastest Lap: {convertMsToDisplay(car.fastestLap)} (
-                        {car.fastestLapDriver})
+                        {getFastestLapComponent(car)}
                       </div>
                     </div>
                   </div>
