@@ -1,0 +1,23 @@
+{
+  "item1": 500.0500000016124,
+  "item2": [
+    {
+      "lapNumber": 4,
+      "lapTime": 96806,
+      "stint": 0,
+      "simTimeOfDay": 0,
+      "conditions": null,
+      "position": 1,
+      "classPosition": 1,
+      "driverName": "Joss Marie",
+      "carNumber": "1",
+      "driverCustId": 494644,
+      "sessionNumber": 2,
+      "raceTimeRemaining": 604800,
+      "inPitLane": false,
+      "pitStopCount": 0,
+      "sessionTimeLapStart": 404.0500000016124,
+      "sessionTimeLapEnd": 500.0500000016124
+    }
+  ]
+}
