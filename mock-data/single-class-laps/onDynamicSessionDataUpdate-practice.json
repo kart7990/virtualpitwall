@@ -1,0 +1,32 @@
+{
+  "sessionNumber": 0,
+  "sessionState": "Racing",
+  "flags": "StartHidden",
+  "sessionLapsRemaining": 32767,
+  "isActive": true,
+  "isAvailable": true,
+  "isCarTelemetryActive": false,
+  "timing": {
+    "sessionTime": 108.40000305175653,
+    "raceTimeRemaining": 71.61666361491015,
+    "estimatedRaceLaps": 0,
+    "estimatedWholeRaceLaps": 0,
+    "leaderLapsRemaining": 0,
+    "leaderWholeLapsRemaining": 0,
+    "simTimeOfDay": 46608,
+    "simDate": null
+  },
+  "conditions": {
+    "airDensity": 1.1435027122497559,
+    "airPressure": 98727,
+    "airTemp": 25.55825424194336,
+    "fogLevel": 0,
+    "skies": "Partly cloudy",
+    "weatherType": 3,
+    "trackTemp": 30,
+    "trackUsage": null,
+    "relativeHumidity": 0.5499079823493958,
+    "windDirection": "N (0°)",
+    "windSpeed": 0.8940799236297607
+  }
+}

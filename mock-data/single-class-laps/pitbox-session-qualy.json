@@ -1,0 +1,215 @@
+{
+  "data": {
+    "pitBoxSession": {
+      "id": "52bbcc47-ed34-4dec-9d9d-c103fd45578b",
+      "teamId": null,
+      "creatorUserId": "c5fd46dd-b732-4771-0b6e-08dc047f1a06",
+      "eventDetails": {
+        "subSessionId": 66149080,
+        "currentTrackSessionNumber": 1,
+        "type": null,
+        "trackSessions": [
+          {
+            "sessionNumber": 0,
+            "sessionType": "Practice",
+            "sessionName": "PRACTICE",
+            "raceLaps": "unlimited",
+            "flags": "StartHidden",
+            "raceTime": 180,
+            "isTimed": true,
+            "isRace": false,
+            "isQualify": false,
+            "isPractice": true,
+            "isFixedLaps": false,
+            "isMulticlass": false,
+            "playerCustId": null,
+            "isSpectator": true,
+            "track": {
+              "id": 47,
+              "name": "WeatherTech Raceway Laguna Seca",
+              "codeName": "lagunaseca",
+              "length": 3.57
+            }
+          },
+          {
+            "sessionNumber": 1,
+            "sessionType": "Lone Qualify",
+            "sessionName": "QUALIFY",
+            "raceLaps": "2",
+            "flags": "StartHidden",
+            "raceTime": 480,
+            "isTimed": false,
+            "isRace": false,
+            "isQualify": true,
+            "isPractice": false,
+            "isFixedLaps": true,
+            "isMulticlass": false,
+            "playerCustId": null,
+            "isSpectator": true,
+            "track": {
+              "id": 47,
+              "name": "WeatherTech Raceway Laguna Seca",
+              "codeName": "lagunaseca",
+              "length": 3.57
+            }
+          }
+        ]
+      }
+    },
+    "isActive": true,
+    "isAvailable": true,
+    "timingProviders": [
+      {
+        "pitBoxUserId": "c5fd46dd-b732-4771-0b6e-08dc047f1a06",
+        "name": "Jochen Zehnder"
+      }
+    ],
+    "completedLaps": [
+      {
+        "lapNumber": 1,
+        "lapTime": 96964,
+        "stint": 0,
+        "simTimeOfDay": 0,
+        "conditions": null,
+        "position": 1,
+        "classPosition": 1,
+        "driverName": "Jaume Dalmases Torres",
+        "carNumber": "1",
+        "driverCustId": 209451,
+        "sessionNumber": 1,
+        "raceTimeRemaining": 265.96666666486567,
+        "inPitLane": true,
+        "pitStopCount": 0,
+        "sessionTimeLapStart": 118.05000000180098,
+        "sessionTimeLapEnd": 214.05000000180098
+      },
+      {
+        "lapNumber": 1,
+        "lapTime": 97562,
+        "stint": 0,
+        "simTimeOfDay": 0,
+        "conditions": null,
+        "position": 2,
+        "classPosition": 2,
+        "driverName": "Mateusz Chomiczewski",
+        "carNumber": "10",
+        "driverCustId": 618060,
+        "sessionNumber": 1,
+        "raceTimeRemaining": 265.96666666486567,
+        "inPitLane": true,
+        "pitStopCount": 0,
+        "sessionTimeLapStart": 117.05000000180098,
+        "sessionTimeLapEnd": 214.05000000180098
+      },
+      {
+        "lapNumber": 1,
+        "lapTime": 98099,
+        "stint": 0,
+        "simTimeOfDay": 0,
+        "conditions": null,
+        "position": 3,
+        "classPosition": 3,
+        "driverName": "Nicola Capobianco3",
+        "carNumber": "7",
+        "driverCustId": 976062,
+        "sessionNumber": 1,
+        "raceTimeRemaining": 265.96666666486567,
+        "inPitLane": true,
+        "pitStopCount": 0,
+        "sessionTimeLapStart": 116.05000000180098,
+        "sessionTimeLapEnd": 214.05000000180098
+      },
+      {
+        "lapNumber": 1,
+        "lapTime": 98423,
+        "stint": 0,
+        "simTimeOfDay": 0,
+        "conditions": null,
+        "position": 4,
+        "classPosition": 4,
+        "driverName": "Eric Perrin",
+        "carNumber": "12",
+        "driverCustId": 545366,
+        "sessionNumber": 1,
+        "raceTimeRemaining": 258.0166666648594,
+        "inPitLane": true,
+        "pitStopCount": 0,
+        "sessionTimeLapStart": 124.00000000180731,
+        "sessionTimeLapEnd": 222.0000000018073
+      },
+      {
+        "lapNumber": 1,
+        "lapTime": 97242,
+        "stint": 0,
+        "simTimeOfDay": 0,
+        "conditions": null,
+        "position": 2,
+        "classPosition": 2,
+        "driverName": "Joss Marie",
+        "carNumber": "2",
+        "driverCustId": 494644,
+        "sessionNumber": 1,
+        "raceTimeRemaining": 247.98333333151803,
+        "inPitLane": true,
+        "pitStopCount": 0,
+        "sessionTimeLapStart": 135.03333333514863,
+        "sessionTimeLapEnd": 232.03333333514863
+      },
+      {
+        "lapNumber": 1,
+        "lapTime": 98006,
+        "stint": 0,
+        "simTimeOfDay": 0,
+        "conditions": null,
+        "position": 4,
+        "classPosition": 4,
+        "driverName": "Benjamin Lavayssiere",
+        "carNumber": "4",
+        "driverCustId": 503798,
+        "sessionNumber": 1,
+        "raceTimeRemaining": 176.03333333154262,
+        "inPitLane": true,
+        "pitStopCount": 0,
+        "sessionTimeLapStart": 205.98333333512403,
+        "sessionTimeLapEnd": 303.98333333512403
+      }
+    ],
+    "telemetryLaps": [],
+    "webSocketEndpoints": {
+      "Session": "/v1.0/pitboxsession",
+      "Standings": "/v1.0/standings",
+      "Laps": "/v1.0/laps",
+      "Telemetry": "/v1.0/telemetry"
+    }
+  },
+  "status": 200,
+  "statusText": "OK",
+  "headers": {
+    "cache-control": "no-store,no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "pragma": "no-cache"
+  },
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "adapter": ["xhr", "http"],
+    "transformRequest": [null],
+    "transformResponse": [null],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "env": {},
+    "headers": {
+      "Accept": "application/json, text/plain, */*"
+    },
+    "method": "get",
+    "url": "https://staging.api.virtualpitwall.com/v1.0/pitbox/session/52bbcc47-ed34-4dec-9d9d-c103fd45578b"
+  },
+  "request": {}
+}

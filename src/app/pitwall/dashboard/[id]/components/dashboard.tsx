@@ -4,23 +4,23 @@ import { DashboardCard } from "./dashboard-card";
 import { MultiClassDetails } from "@/components/car-class-details/multi-class";
 import { SingleClassDetails } from "@/components/car-class-details/single-class";
 import { Conditions } from "@/components/conditions/conditions";
+import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
 import { TrackMap } from "@/components/trackmap/trackmap";
 import { selectCurrentSession, useSelector } from "@/lib/redux";
+import { useState } from "react";
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
 
 export default function Dashboard() {
   const session = useSelector(selectCurrentSession);
+  const [sessionTitle, setSessionTitle] = useState("");
+  const [carClassTitle, setCarClassTitle] = useState("");
 
   const onResizeStopped: ItemCallback = (layout, oldItem, newItem) => {
     console.log("Grid-RESIZE", newItem.i);
   };
-
-  const carClassesTitle = session?.isMulticlass
-    ? "Multi-Class Details"
-    : "Single-Class Details";
 
   return (
     <main>
@@ -33,15 +33,24 @@ export default function Dashboard() {
         resizeHandles={["se"]}
       >
         <div
+          key="session"
+          className="overflow-hidden"
+          data-grid={{ x: 0, y: 0, w: 12, h: 1 }}
+        >
+          <DashboardCard title={sessionTitle}>
+            <Session setSessionTitle={setSessionTitle} />
+          </DashboardCard>
+        </div>
+        <div
           key="carClasses"
           className="overflow-hidden"
           data-grid={{ x: 0, y: 2, w: 3, h: 2, minH: 2 }}
         >
-          <DashboardCard title={carClassesTitle}>
+          <DashboardCard title={carClassTitle}>
             {session?.isMulticlass ? (
-              <MultiClassDetails />
+              <MultiClassDetails setCarClassTitle={setCarClassTitle} />
             ) : (
-              <SingleClassDetails />
+              <SingleClassDetails setCarClassTitle={setCarClassTitle} />
             )}
           </DashboardCard>
         </div>
