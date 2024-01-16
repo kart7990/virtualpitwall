@@ -9,6 +9,7 @@ import {
   selectLiveTiming,
   LiveTiming,
 } from "@/lib/redux";
+import { useEffect } from "react";
 
 interface CarDetails {
   name: string;
@@ -18,12 +19,11 @@ interface CarDetails {
   fastestLapDriver: string;
 }
 
-interface SplitDetails {
-  iRatingTotal: number;
-  count: number;
-}
-
-export const SingleClassDetails = () => {
+export const SingleClassDetails = ({
+  setCarClassTitle,
+}: {
+  setCarClassTitle: (title: string) => void;
+}) => {
   const session = useSelector(selectCurrentSession);
   const standings = useSelector<LiveTiming[]>(selectLiveTiming);
 
@@ -31,6 +31,10 @@ export const SingleClassDetails = () => {
     (sum, current) => sum + current.iRating,
     0,
   );
+
+  useEffect(() => {
+    setCarClassTitle("Single-Class Details");
+  });
 
   const carClass = () => {
     const res = standings.reduce(
@@ -40,7 +44,8 @@ export const SingleClassDetails = () => {
             count: 1,
             name: car.carName,
             color: car.classColor,
-            fastestLap: car.bestLaptime,
+            fastestLap:
+              car.bestLaptime === -1000 ? Number.MAX_VALUE : car.bestLaptime,
             fastestLapDriver: car.driverName,
           };
         } else {
@@ -60,7 +65,7 @@ export const SingleClassDetails = () => {
     return res;
   };
 
-  const carClassValues = Object.values(carClass());
+  const carClassValues: CarDetails[] = Object.values(carClass());
   const fastestCar =
     carClassValues.length === 0
       ? null
@@ -83,10 +88,56 @@ export const SingleClassDetails = () => {
   return (
     <>
       {!session && <p>waiting for data</p>}
-      {session && (
-        <div className="overflow-auto h-full pb-10">
-          <div className="flex flex-col gap-4 p-3">
-            <div>
+      {
+        /* Single Car Class with multiple cars */
+        session && carClassValues.length > 1 && (
+          <div className="overflow-auto h-full pb-10">
+            <div className="flex flex-col gap-4 p-3">
+              <div>
+                <div className="font-medium">
+                  SoF: {parseIRating(totalIRating, standings.length)}
+                </div>
+                <div className="font-medium">
+                  {getFastestLapComponent(fastestCar)}
+                </div>
+              </div>
+              {Object.entries(carClass()).map(([carName, car]) => {
+                return (
+                  <div key={carName}>
+                    <div>
+                      <span className="flex items-center uppercase text-slate-500">
+                        {car.name}
+                        <div className="justify-center items-center ml-2 mr-1">
+                          🏎️
+                        </div>
+                        {car.count}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="flex flex-col">
+                        <div className="font-medium">
+                          {getFastestLapComponent(car)}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="relative"></div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )
+      }
+      {
+        /* Single Car Class with just one car */
+        session && carClassValues.length === 1 && (
+          <div className="overflow-auto h-full pb-10">
+            <div className="flex flex-col p-3">
+              <span className="flex items-center uppercase text-slate-500">
+                {carClassValues[0].name}
+                <div className="justify-center items-center ml-2 mr-1">🏎️</div>
+                {carClassValues[0].count}
+              </span>
               <div className="font-medium">
                 SoF: {parseIRating(totalIRating, standings.length)}
               </div>
@@ -94,35 +145,9 @@ export const SingleClassDetails = () => {
                 {getFastestLapComponent(fastestCar)}
               </div>
             </div>
-            {Object.entries(carClass()).map(([carName, car]) => {
-              return (
-                <div key={carName}>
-                  <div>
-                    <span className="flex items-center uppercase text-slate-500">
-                      <div
-                        className="w-4 h-4 rounded-full mr-2"
-                        style={{
-                          backgroundColor: car.color,
-                        }}
-                      ></div>
-                      {car.name}
-                    </span>
-                  </div>
-                  <div>
-                    <div className="flex flex-col">
-                      <div className="font-medium">Car Count: {car.count}</div>
-                      <div className="font-medium">
-                        {getFastestLapComponent(car)}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative"></div>
-                </div>
-              );
-            })}
           </div>
-        </div>
-      )}
+        )
+      }
     </>
   );
 };
