@@ -9,6 +9,7 @@ import {
   selectLiveTiming,
   LiveTiming,
 } from "@/lib/redux";
+import { useEffect } from "react";
 
 interface CarClassDetails {
   id: number;
@@ -19,10 +20,17 @@ interface CarClassDetails {
   fastestLap: number;
   fastestLapDriver: string;
 }
-
-export const MultiClassDetails = () => {
+export const MultiClassDetails = ({
+  setCarClassTitle,
+}: {
+  setCarClassTitle: (title: string) => void;
+}) => {
   const session = useSelector(selectCurrentSession);
   const standings = useSelector<LiveTiming[]>(selectLiveTiming);
+
+  useEffect(() => {
+    setCarClassTitle("Multi-Class Details");
+  });
 
   const carClasses = () => {
     const res = standings.reduce(
@@ -73,13 +81,14 @@ export const MultiClassDetails = () => {
                         }}
                       ></div>
                       {getCarClassName(carClass.id, carClass.name)}
+                      <div className="justify-center items-center ml-2 mr-1">
+                        🏎️
+                      </div>
+                      {carClass.count}
                     </span>
                   </div>
                   <div>
                     <div>
-                      <div className="font-medium">
-                        Car Count: {carClass.count}
-                      </div>
                       <div className="font-medium">
                         SoF:{" "}
                         {parseIRating(carClass.iRatingTotal, carClass.count)}
