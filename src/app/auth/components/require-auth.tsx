@@ -11,7 +11,7 @@ import {
 import { OAuthToken } from "@/lib/redux/slices/authSlice/models";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function RequireAuth({
   children,
@@ -21,6 +21,8 @@ export default function RequireAuth({
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const [isSet, setIsSet] = useState(false);
 
   const isAuthenticated = useSelector<boolean>(selectIsAuthenticated);
   const oAuthToken = useSelector<OAuthToken | null>(selectOAuthToken);
@@ -32,7 +34,6 @@ export default function RequireAuth({
   }, [isAuthenticated, pathname, router]);
 
   useEffect(() => {
-    console.log("oAuthToken", oAuthToken);
     axios.interceptors.request.clear();
     if (oAuthToken != null) {
       axios.interceptors.request.use(async (config) => {
@@ -48,6 +49,7 @@ export default function RequireAuth({
         }
         return config;
       });
+      setIsSet(true);
     }
     return () => {
       axios.interceptors.request.clear();
@@ -56,7 +58,7 @@ export default function RequireAuth({
 
   return (
     <>
-      {!isAuthenticated ? (
+      {!isAuthenticated || !isSet ? (
         <div className="m-auto">
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         </div>
