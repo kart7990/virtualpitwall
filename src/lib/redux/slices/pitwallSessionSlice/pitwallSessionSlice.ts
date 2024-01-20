@@ -2,11 +2,14 @@ import {
   BaseGameDataProvider,
   PitwallState,
   PitwallSessionResponse,
+  GameSession,
+  TrackSession,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: PitwallState = {
   session: null,
+  gameSession: null,
 };
 
 export const pitwallSessionSlice = createSlice({
@@ -30,6 +33,12 @@ export const pitwallSessionSlice = createSlice({
         }
       }
       state.session.webSocketEndpoints = action.payload.webSocketEndpoints;
+    },
+    setGameSession: (state, action: PayloadAction<GameSession>) => {
+      state.gameSession = action.payload;
+    },
+    setCurrentTrackSession: (state, action: PayloadAction<TrackSession>) => {
+      state.gameSession!!.currentTrackSession = action.payload.number;
     },
     addGameDataProvider: (
       state,
