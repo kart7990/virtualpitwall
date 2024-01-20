@@ -1,5 +1,6 @@
 "use client";
 
+import { ProviderSelection } from "./provider-selection";
 import { API_BASE_URL, API_V2_URL } from "@/config/urls";
 import {
   selectOAuthToken,
@@ -94,7 +95,6 @@ export default function PitwallSessionV2({
       pitwallSession: PitwallSession,
       oAuthToken: OAuthToken,
     ) => {
-      console.log("DH SOCK", pitwallSession.webSocketEndpoints);
       var sessionConnection = buildHubConnection(
         oAuthToken,
         pitwallSession.webSocketEndpoints.v2PitwallSession,
@@ -239,7 +239,12 @@ export default function PitwallSessionV2({
     if (isLoading) {
       return <div> loading... </div>;
     } else {
-      return children;
+      return (
+        <>
+          <ProviderSelection />
+          {children}
+        </>
+      );
     }
   }
 
