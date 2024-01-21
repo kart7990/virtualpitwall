@@ -4,6 +4,8 @@ import {
   PitwallSessionResponse,
   GameSession,
   TrackSession,
+  BaseGameSession,
+  BaseTrackSession,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
@@ -17,7 +19,6 @@ export const pitwallSessionSlice = createSlice({
   initialState,
   reducers: {
     init: (state, action: PayloadAction<PitwallSessionResponse>) => {
-      console.log("init");
       state.session = action.payload.pitwallSession;
       if (action.payload.pitwallSession.gameDataProviders.length > 0) {
         state.session.selectedDataProvider =
@@ -25,11 +26,8 @@ export const pitwallSessionSlice = createSlice({
         var iRacingSessionsCount =
           state.session.selectedDataProvider.gameAssignedSessionIds.length;
         if (iRacingSessionsCount > 0) {
-          //Select latest session (simply select last session in collection, might not be accurate, need to test)
           state.session.selectedIRacingSessionId =
-            state.session.selectedDataProvider.gameAssignedSessionIds[
-              iRacingSessionsCount - 1
-            ];
+            state.session.selectedDataProvider.currentGameAssignedSessionId;
         }
       }
       state.session.webSocketEndpoints = action.payload.webSocketEndpoints;
@@ -37,8 +35,24 @@ export const pitwallSessionSlice = createSlice({
     setGameSession: (state, action: PayloadAction<GameSession>) => {
       state.gameSession = action.payload;
     },
-    setCurrentTrackSession: (state, action: PayloadAction<TrackSession>) => {
+    changeTrackSession: (state, action: PayloadAction<BaseTrackSession>) => {
+      let sessions = state.gameSession!!.trackSessions.filter(
+        (ts) => ts.number !== action.payload.number,
+      );
+      sessions.push({
+        ...action.payload,
+        completedLaps: null,
+        currentConditions: null,
+        conditionHistory: [],
+      });
+      state.gameSession!!.trackSessions = sessions;
       state.gameSession!!.currentTrackSession = action.payload.number;
+    },
+    newGameSession: (state, action: PayloadAction<BaseGameSession>) => {
+      state.session!!.selectedIRacingSessionId =
+        action.payload.gameAssignedSessionId;
+      state.session!!.selectedDataProvider.currentGameAssignedSessionId =
+        action.payload.gameAssignedSessionId;
     },
     addGameDataProvider: (
       state,

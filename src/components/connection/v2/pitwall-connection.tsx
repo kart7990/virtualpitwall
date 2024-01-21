@@ -1,6 +1,7 @@
 "use client";
 
-import { ProviderSelection } from "./provider-selection";
+import { SourceSelection } from "./source-selection";
+import { useToast } from "@/components//core/ui/use-toast";
 import { API_BASE_URL, API_V2_URL } from "@/config/urls";
 import {
   selectOAuthToken,
@@ -15,6 +16,8 @@ import {
 import { OAuthToken } from "@/lib/redux/slices/authSlice/models";
 import {
   BaseGameDataProvider,
+  BaseGameSession,
+  BaseTrackSession,
   HubEndpoint,
   PitwallSession,
 } from "@/lib/redux/slices/pitwallSessionSlice/models";
@@ -52,14 +55,14 @@ const buildHubConnection = (
     .build();
 };
 
-export default function PitwallSessionV2({
+export default function PitwallConnection({
   children,
   pitwallSessionId,
 }: {
   children: React.ReactNode;
   pitwallSessionId: string;
 }) {
-  console.log("DAVIDH", axios.interceptors);
+  const { toast } = useToast();
   const dispatch = useDispatch();
 
   //Page State
@@ -102,50 +105,48 @@ export default function PitwallSessionV2({
       );
       await sessionConnection.start();
       setSessionConnection(sessionConnection);
+      //TODO: disconnect on unmount
     };
     if (pitwallSession != null && oAuthToken != null) {
       connectToSession(pitwallSession, oAuthToken);
     }
-  }, [pitwallSession, oAuthToken, dispatch]);
+  }, [pitwallSession?.id, oAuthToken, dispatch]);
 
   useEffect(() => {
     const connectToGameData = async (
       pitwallSession: PitwallSession,
       selectedDataProvider: BaseGameDataProvider,
-      selectedIRacingSessionId: string,
+      selectedIRacingSessionId: string | undefined,
       oAuthToken: OAuthToken,
     ) => {
-      var gameDataResponse = await axios.get(
-        `${API_V2_URL}/pitwall/session/${selectedDataProvider.pitwallSessionId}/gamedata/${selectedDataProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
-      );
+      if (selectedIRacingSessionId != null) {
+        var gameDataResponse = await axios.get(
+          `${API_V2_URL}/pitwall/session/${selectedDataProvider.pitwallSessionId}/gamedata/${selectedDataProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
+        );
 
-      dispatch(
-        pitwallSessionSlice.actions.setGameSession(gameDataResponse.data),
-      );
-
-      if (gameDataConnection != null) {
-        await gameDataConnection.stop();
+        dispatch(
+          pitwallSessionSlice.actions.setGameSession(gameDataResponse.data),
+        );
       }
 
-      //dispatch game data
+      if (gameDataConnection == null) {
+        var dataConnection = buildHubConnection(
+          oAuthToken,
+          pitwallSession.webSocketEndpoints.v2GameDataSubscriber,
+          selectedDataProvider.pitwallSessionId,
+          selectedDataProvider.id,
+        );
 
-      var dataConnection = buildHubConnection(
-        oAuthToken,
-        pitwallSession.webSocketEndpoints.v2GameDataSubscriber,
-        selectedDataProvider.pitwallSessionId,
-        selectedDataProvider.id,
-      );
-
-      await dataConnection.start();
-
-      setGameDataConnection(dataConnection);
+        await dataConnection.start();
+        //TODO: disconnect on unmount
+        setGameDataConnection(dataConnection);
+      }
 
       setLoading(false);
     };
     if (
       pitwallSession != null &&
       selectedDataProvider != null &&
-      selectedIRacingSessionId != null &&
       oAuthToken != null
     ) {
       connectToGameData(
@@ -162,11 +163,19 @@ export default function PitwallSessionV2({
   useEffect(() => {
     if (sessionConnection) {
       const connect = async () => {
-        sessionConnection.on("GameDataProviderConnected", () => {
-          //dispatch(sessionSlice.actions.reset());
-        });
+        sessionConnection.on(
+          "GameDataProviderConnected",
+          (gameDataProvider: BaseGameDataProvider) => {
+            dispatch(
+              pitwallSessionSlice.actions.addGameDataProvider(gameDataProvider),
+            );
+            toast({
+              description: `New data source available from ${gameDataProvider.name}.`,
+            });
+          },
+        );
         sessionConnection.on("GameDataProviderDisconnected", () => {
-          //dispatch(sessionSlice.actions.reset());
+          //TODO
         });
       };
       connect();
@@ -175,16 +184,21 @@ export default function PitwallSessionV2({
 
   useEffect(() => {
     const getGameSessionData = async (gameDataConnection: HubConnection) => {
-      gameDataConnection.on("NewGameSession", (gameSession) => {
-        console.log("NewGameSession", gameSession);
-        // dispatch setGameAssignedSessionId(gameSession.gameAssignedSessionId);
-        //setTrackSessionNumber(gameSession.currentTrackSession);
-      });
+      gameDataConnection.on(
+        "NewGameSession",
+        async (gameSession: BaseGameSession) => {
+          dispatch(pitwallSessionSlice.actions.newGameSession(gameSession));
+        },
+      );
 
-      gameDataConnection.on("TrackSessionChanged", (trackSession) => {
-        console.log("TrackSessionChanged", trackSession);
-        //setTrackSessionNumber(trackSession.Number);
-      });
+      gameDataConnection.on(
+        "TrackSessionChanged",
+        (trackSession: BaseTrackSession) => {
+          dispatch(
+            pitwallSessionSlice.actions.changeTrackSession(trackSession),
+          );
+        },
+      );
 
       gameDataConnection.on(
         "DynamicTrackSessionDataUpdate",
@@ -200,13 +214,6 @@ export default function PitwallSessionV2({
   }, [gameDataConnection]);
 
   useEffect(() => {
-    console.log(
-      "DYNAMIC",
-      gameDataConnection,
-      currentTrackSessionNumber,
-      selectedDataProvider,
-      selectedIRacingSessionId,
-    );
     if (
       gameDataConnection != undefined &&
       currentTrackSessionNumber != undefined &&
@@ -241,7 +248,7 @@ export default function PitwallSessionV2({
     } else {
       return (
         <>
-          <ProviderSelection />
+          <SourceSelection />
           {children}
         </>
       );

@@ -36,6 +36,7 @@ export interface BaseGameDataProvider {
   pitwallSessionId: string;
   userId: string;
   name: string;
+  currentGameAssignedSessionId: string;
   gameAssignedSessionIds: string[];
 }
 
@@ -94,8 +95,8 @@ export interface BaseTrackSession {
 }
 
 export interface TrackSession extends BaseTrackSession {
-  currentConditions: Conditions;
-  completedLaps: CompletedLaps;
+  currentConditions: Conditions | null;
+  completedLaps: CompletedLaps | null;
   conditionHistory: Conditions[];
 }
 

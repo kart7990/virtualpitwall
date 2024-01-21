@@ -18,11 +18,9 @@ import {
   useSelector,
 } from "@/lib/redux";
 
-export function ProviderSelection() {
+export function SourceSelection() {
   const pitwallSession = useSelector(getPitwallSession);
   const selectedDataProvider = useSelector(getSelectedDataProvider);
-  const selectedIRacingSessionId = useSelector(getSelectedIRacingSessionId);
-  const currentTrackSessionNumber = useSelector(getCurrentTrackSessionNumber);
   const gameSession = useSelector(getGameSession);
 
   function DataProviderItems() {
@@ -89,35 +87,11 @@ export function ProviderSelection() {
             <SelectContent>{DataProviderItems()}</SelectContent>
           </Select>
         </div>
-        {selectedDataProvider && (
-          <div className="grid gap-2">
-            <Label htmlFor="game-session-id">iRacing Session ID</Label>
-            <Select defaultValue={selectedIRacingSessionId}>
-              <SelectTrigger id="game-session-id">
-                <SelectValue placeholder="---Select---" />
-              </SelectTrigger>
-
-              <SelectContent>{iRacingSessionIdItems()}</SelectContent>
-            </Select>
-          </div>
-        )}
-        {currentTrackSessionNumber != null && (
-          <div className="grid gap-2">
-            <Label htmlFor="track-session">Track Session</Label>
-            <Select defaultValue={currentTrackSessionNumber.toString()}>
-              <SelectTrigger id="track-session">
-                <SelectValue placeholder="---Select---" />
-              </SelectTrigger>
-              <SelectContent>{trackSessionItems()}</SelectContent>
-            </Select>
-          </div>
-        )}
-
         <div className="grid gap-2">
           <Label htmlFor="telemetry-provider">Telemetry Source</Label>
           <Select>
             <SelectTrigger id="telemetry-provider">
-              <SelectValue placeholder="---Select---" />
+              <SelectValue placeholder="---Select Driver---" />
             </SelectTrigger>
             <SelectContent>{telemetryProviders()}</SelectContent>
           </Select>

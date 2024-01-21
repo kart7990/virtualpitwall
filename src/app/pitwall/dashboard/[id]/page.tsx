@@ -4,7 +4,7 @@ import Dashboard from "./components/dashboard";
 import "./style.css";
 import PitwallSession from "@/components/connection/pitwall-session";
 import PitwallSessionMock from "@/components/connection/pitwall-session-mock";
-import PitwallSessionV2 from "@/components/connection/v2/pitwall-sessionV2";
+import PitwallConnection from "@/components/connection/v2/pitwall-connection";
 import { MOCKING } from "@/config/site";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -21,9 +21,9 @@ export default function Page({ params }: { params: { id: string } }) {
       );
     } else if (isV2) {
       return (
-        <PitwallSessionV2 pitwallSessionId={pitboxSessionId}>
+        <PitwallConnection pitwallSessionId={pitboxSessionId}>
           <div> Hi </div>
-        </PitwallSessionV2>
+        </PitwallConnection>
       );
     } else {
       return (
