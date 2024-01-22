@@ -2,6 +2,7 @@ import "../../node_modules/react-grid-layout/css/styles.css";
 import "../../node_modules/react-resizable/css/styles.css";
 import "./globals.css";
 import { ThemeProvider } from "@/app/theme-provider";
+import { Toaster } from "@/components/core/ui/toaster";
 import { siteConfig } from "@/config/site";
 import { Providers } from "@/lib/providers";
 import { cn } from "@/lib/utils";
@@ -35,6 +36,7 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="dark">
             {children}
           </ThemeProvider>
+          <Toaster />
         </body>
       </html>
     </Providers>
