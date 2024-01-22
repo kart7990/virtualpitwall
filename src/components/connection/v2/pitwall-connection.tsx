@@ -207,10 +207,7 @@ export default function PitwallConnection({
               trackSessionData,
             ),
           );
-          console.log(
-            "DynamicTrackSessionDataUpdatesdfsdfsdf",
-            trackSessionData,
-          );
+          console.log("DynamicTrackSessionDataUpdate", trackSessionData);
           sessionDynamicDataLastResponse = Date.now();
         },
       );

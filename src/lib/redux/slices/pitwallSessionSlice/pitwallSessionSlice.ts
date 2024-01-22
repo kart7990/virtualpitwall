@@ -55,20 +55,16 @@ export const pitwallSessionSlice = createSlice({
         action.payload.gameAssignedSessionId;
       state.session!!.selectedDataProvider.currentGameAssignedSessionId =
         action.payload.gameAssignedSessionId;
-      state.session!!.selectedDataProvider.gameAssignedSessionIds = [
-        ...state.session!!.selectedDataProvider.gameAssignedSessionIds,
+      state.session!!.selectedDataProvider.gameAssignedSessionIds.push(
         action.payload.gameAssignedSessionId,
-      ];
+      );
     },
     addGameDataProvider: (
       state,
       action: PayloadAction<BaseGameDataProvider>,
     ) => {
       if (state.session != null) {
-        state.session.gameDataProviders = [
-          ...state.session.gameDataProviders,
-          action.payload,
-        ];
+        state.session.gameDataProviders.push(action.payload);
       } else {
         throw Error(
           "PitwallSession is null, unable to add game data provider.",
@@ -80,41 +76,17 @@ export const pitwallSessionSlice = createSlice({
       action: PayloadAction<BaseGameDataProvider>,
     ) => {
       if (state.session != null) {
-        state.session.gameDataProviders =
-          state.session.gameDataProviders.filter(
+        state.session.gameDataProviders.splice(
+          state.session.gameDataProviders.findIndex(
             (gdp) => gdp.id !== action.payload.id,
-          );
+          ),
+          1,
+        );
       } else {
         throw Error(
           "PitwallSession is null, unable to remove game data provider.",
         );
       }
-    },
-    setDynamicTrackSessionDataUgly: (
-      state,
-      action: PayloadAction<DynamicTrackSessionData>,
-    ) => {
-      const session = state.gameSession!!.trackSessions.find(
-        (ts) => ts.number === state.gameSession!!.currentTrackSession,
-      )!!;
-      session.state = action.payload.sessionState;
-      session.flags = action.payload.flags;
-      session.lapsRemaining = action.payload.lapsRemaining;
-      session.serverTime = action.payload.serverTime;
-      session.gameDateTime = action.payload.gameDateTime;
-      session.raceTimeRemaining = action.payload.raceTimeRemaining;
-      session.estimatedRaceLaps = action.payload.estimatedRaceLaps;
-      session.estimatedWholeRaceLaps = action.payload.estimatedWholeRaceLaps;
-      session.leaderLapsRemaining = action.payload.leaderLapsRemaining;
-      session.leaderWholeLapsRemaining =
-        action.payload.leaderWholeLapsRemaining;
-      session.currentConditions = action.payload.conditions;
-
-      const sessions = state.gameSession!!.trackSessions.filter(
-        (ts) => ts.number !== state.gameSession!!.currentTrackSession,
-      );
-
-      state.gameSession!!.trackSessions = [...sessions, session];
     },
     setDynamicTrackSessionData: (
       state,
