@@ -53,6 +53,10 @@ export const pitwallSessionSlice = createSlice({
         action.payload.gameAssignedSessionId;
       state.session!!.selectedDataProvider.currentGameAssignedSessionId =
         action.payload.gameAssignedSessionId;
+      state.session!!.selectedDataProvider.gameAssignedSessionIds = [
+        ...state.session!!.selectedDataProvider.gameAssignedSessionIds,
+        action.payload.gameAssignedSessionId,
+      ];
     },
     addGameDataProvider: (
       state,

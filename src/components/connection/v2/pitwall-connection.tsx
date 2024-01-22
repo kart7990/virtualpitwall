@@ -27,12 +27,23 @@ import {
   IHttpConnectionOptions,
 } from "@microsoft/signalr";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { clearIntervalAsync } from "set-interval-async";
+import { useEffect, useRef, useState } from "react";
+import { SetIntervalAsyncTimer, clearIntervalAsync } from "set-interval-async";
 import { setIntervalAsync } from "set-interval-async/dynamic";
 
 let sessionDynamicDataLastResponse = 1;
 let _trackSessionNumber: number | undefined = -1;
+
+class ReplaceableTimer {
+  timer: NodeJS.Timeout | null = null;
+
+  replaceTimer(timer: NodeJS.Timeout) {
+    if (this.timer != null) {
+      clearInterval(this.timer);
+    }
+    this.timer = timer;
+  }
+}
 
 const buildHubConnection = (
   oAuthToken: OAuthToken,
@@ -68,9 +79,12 @@ export default function PitwallConnection({
   //Page State
   const [isLoading, setLoading] = useState(true);
 
-  //Web-Socket Connections
+  //WebSocket Connections
   const [sessionConnection, setSessionConnection] = useState<HubConnection>();
   const [gameDataConnection, setGameDataConnection] = useState<HubConnection>();
+
+  //Update timers
+  const dynamicDataRequestTimer = useRef<NodeJS.Timeout>();
 
   const oAuthToken = useSelector(selectOAuthToken);
   const pitwallSession = useSelector(getPitwallSession);
@@ -80,7 +94,7 @@ export default function PitwallConnection({
 
   // #region Session Join Request
   useEffect(() => {
-    const connectToSession = async (oAuthToken: OAuthToken) => {
+    const connectToSession = async () => {
       setLoading(true);
       var joinSessionResponse = await axios.get(
         `${API_V2_URL}/pitwall/session/${pitwallSessionId}`,
@@ -88,27 +102,27 @@ export default function PitwallConnection({
       dispatch(pitwallSessionSlice.actions.init(joinSessionResponse.data));
       setLoading(false);
     };
-    if (oAuthToken != null) {
-      connectToSession(oAuthToken);
-    }
-  }, [pitwallSessionId, dispatch, oAuthToken]);
+    connectToSession();
+  }, [pitwallSessionId, dispatch]);
 
   useEffect(() => {
-    const connectToSession = async (
-      pitwallSession: PitwallSession,
-      oAuthToken: OAuthToken,
-    ) => {
-      var sessionConnection = buildHubConnection(
+    const connectToSession = async (sessionHubConnection: HubConnection) => {
+      await sessionHubConnection.start();
+      setSessionConnection(sessionHubConnection);
+    };
+
+    if (pitwallSession != null && oAuthToken != null) {
+      const sessionHubConnection = buildHubConnection(
         oAuthToken,
         pitwallSession.webSocketEndpoints.v2PitwallSession,
         pitwallSession.id,
       );
-      await sessionConnection.start();
-      setSessionConnection(sessionConnection);
-      //TODO: disconnect on unmount
-    };
-    if (pitwallSession != null && oAuthToken != null) {
-      connectToSession(pitwallSession, oAuthToken);
+      connectToSession(sessionHubConnection);
+      return () => {
+        if (sessionHubConnection != null) {
+          sessionHubConnection.stop();
+        }
+      };
     }
   }, [pitwallSession?.id, oAuthToken, dispatch]);
 
@@ -156,6 +170,12 @@ export default function PitwallConnection({
         oAuthToken,
       );
     }
+
+    return () => {
+      if (gameDataConnection != null) {
+        gameDataConnection.stop();
+      }
+    };
   }, [selectedDataProvider, selectedIRacingSessionId, oAuthToken, dispatch]);
   // #endregion
 
@@ -221,7 +241,10 @@ export default function PitwallConnection({
       selectedIRacingSessionId != null
     ) {
       var lastRequest1 = 0;
-      const timer = setIntervalAsync(async () => {
+      if (dynamicDataRequestTimer.current != null) {
+        clearInterval(dynamicDataRequestTimer.current);
+      }
+      dynamicDataRequestTimer.current = setInterval(async () => {
         if (sessionDynamicDataLastResponse > lastRequest1) {
           lastRequest1 = Date.now();
           await gameDataConnection.invoke("RequestDynamicTrackSessionData", {
@@ -231,8 +254,12 @@ export default function PitwallConnection({
           });
         }
       }, 1000);
-      async () => await clearIntervalAsync(timer);
     }
+    return () => {
+      if (dynamicDataRequestTimer.current != null) {
+        clearInterval(dynamicDataRequestTimer.current);
+      }
+    };
   }, [
     gameDataConnection,
     selectedDataProvider,
