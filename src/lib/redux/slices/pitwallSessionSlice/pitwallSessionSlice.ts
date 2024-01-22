@@ -1,3 +1,4 @@
+import { DynamicSessionData } from "../sessionSlice/models";
 import {
   BaseGameDataProvider,
   PitwallState,
@@ -6,6 +7,7 @@ import {
   TrackSession,
   BaseGameSession,
   BaseTrackSession,
+  DynamicTrackSessionData,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
@@ -87,6 +89,52 @@ export const pitwallSessionSlice = createSlice({
           "PitwallSession is null, unable to remove game data provider.",
         );
       }
+    },
+    setDynamicTrackSessionDataUgly: (
+      state,
+      action: PayloadAction<DynamicTrackSessionData>,
+    ) => {
+      const session = state.gameSession!!.trackSessions.find(
+        (ts) => ts.number === state.gameSession!!.currentTrackSession,
+      )!!;
+      session.state = action.payload.sessionState;
+      session.flags = action.payload.flags;
+      session.lapsRemaining = action.payload.lapsRemaining;
+      session.serverTime = action.payload.serverTime;
+      session.gameDateTime = action.payload.gameDateTime;
+      session.raceTimeRemaining = action.payload.raceTimeRemaining;
+      session.estimatedRaceLaps = action.payload.estimatedRaceLaps;
+      session.estimatedWholeRaceLaps = action.payload.estimatedWholeRaceLaps;
+      session.leaderLapsRemaining = action.payload.leaderLapsRemaining;
+      session.leaderWholeLapsRemaining =
+        action.payload.leaderWholeLapsRemaining;
+      session.currentConditions = action.payload.conditions;
+
+      const sessions = state.gameSession!!.trackSessions.filter(
+        (ts) => ts.number !== state.gameSession!!.currentTrackSession,
+      );
+
+      state.gameSession!!.trackSessions = [...sessions, session];
+    },
+    setDynamicTrackSessionData: (
+      state,
+      action: PayloadAction<DynamicTrackSessionData>,
+    ) => {
+      const session = state.gameSession!!.trackSessions.find(
+        (ts) => ts.number === state.gameSession!!.currentTrackSession,
+      )!!;
+      session.state = action.payload.sessionState;
+      session.flags = action.payload.flags;
+      session.lapsRemaining = action.payload.lapsRemaining;
+      session.serverTime = action.payload.serverTime;
+      session.gameDateTime = action.payload.gameDateTime;
+      session.raceTimeRemaining = action.payload.raceTimeRemaining;
+      session.estimatedRaceLaps = action.payload.estimatedRaceLaps;
+      session.estimatedWholeRaceLaps = action.payload.estimatedWholeRaceLaps;
+      session.leaderLapsRemaining = action.payload.leaderLapsRemaining;
+      session.leaderWholeLapsRemaining =
+        action.payload.leaderWholeLapsRemaining;
+      session.currentConditions = action.payload.conditions;
     },
     reset: (state) => {
       //this might not work, had issues in other slices, need to test

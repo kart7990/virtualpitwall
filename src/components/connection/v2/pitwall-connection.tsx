@@ -202,7 +202,15 @@ export default function PitwallConnection({
       gameDataHubConnection.on(
         "DynamicTrackSessionDataUpdate",
         (trackSessionData) => {
-          console.log("DynamicTrackSessionDataUpdate", trackSessionData);
+          dispatch(
+            pitwallSessionSlice.actions.setDynamicTrackSessionData(
+              trackSessionData,
+            ),
+          );
+          console.log(
+            "DynamicTrackSessionDataUpdatesdfsdfsdf",
+            trackSessionData,
+          );
           sessionDynamicDataLastResponse = Date.now();
         },
       );

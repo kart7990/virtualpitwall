@@ -147,3 +147,17 @@ export interface Track {
   codeName: string;
   length: number;
 }
+
+export interface DynamicTrackSessionData {
+  sessionState: string;
+  flags: string;
+  lapsRemaining: number;
+  serverTime: number;
+  gameDateTime: number;
+  raceTimeRemaining: number;
+  estimatedRaceLaps: number;
+  estimatedWholeRaceLaps: number;
+  leaderLapsRemaining: number;
+  leaderWholeLapsRemaining: number;
+  conditions: Conditions;
+}
