@@ -50,6 +50,12 @@ export const pitwallSessionSlice = createSlice({
       state.gameSession!!.trackSessions = sessions;
       state.gameSession!!.currentTrackSession = action.payload.number;
     },
+    changeDataProvider: (state, action: PayloadAction<string>) => {
+      state.session!!.selectedDataProvider =
+        state.session!!.gameDataProviders.find(
+          (gdp) => gdp.id === action.payload,
+        )!!;
+    },
     newGameSession: (state, action: PayloadAction<BaseGameSession>) => {
       state.session!!.selectedIRacingSessionId =
         action.payload.gameAssignedSessionId;

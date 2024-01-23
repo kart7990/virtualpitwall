@@ -14,11 +14,14 @@ import {
   getGameSession,
   getPitwallSession,
   getSelectedDataProvider,
+  pitwallSessionSlice,
   getSelectedIRacingSessionId,
   useSelector,
+  useDispatch,
 } from "@/lib/redux";
 
 export function SourceSelection() {
+  const dispatch = useDispatch();
   const pitwallSession = useSelector(getPitwallSession);
   const selectedDataProvider = useSelector(getSelectedDataProvider);
   const gameSession = useSelector(getGameSession);
@@ -80,7 +83,12 @@ export function SourceSelection() {
       <div className="flex ml-6 my-2 space-x-6">
         <div className="grid gap-2">
           <Label htmlFor="data-provider">Data Source</Label>
-          <Select defaultValue={selectedDataProvider?.id}>
+          <Select
+            onValueChange={(e) => {
+              dispatch(pitwallSessionSlice.actions.changeDataProvider(e));
+            }}
+            defaultValue={selectedDataProvider?.id}
+          >
             <SelectTrigger id="data-provider">
               <SelectValue placeholder="---Select---" />
             </SelectTrigger>
