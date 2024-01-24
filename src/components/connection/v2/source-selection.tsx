@@ -14,7 +14,7 @@ import {
   getGameSession,
   getPitwallSession,
   getSelectedDataProvider,
-  pitwallSessionSlice,
+  pitwallSlice,
   getSelectedIRacingSessionId,
   useSelector,
   useDispatch,
@@ -85,7 +85,7 @@ export function SourceSelection() {
           <Label htmlFor="data-provider">Data Source</Label>
           <Select
             onValueChange={(e) => {
-              dispatch(pitwallSessionSlice.actions.changeDataProvider(e));
+              dispatch(pitwallSlice.actions.changeDataProvider(e));
             }}
             defaultValue={selectedDataProvider?.id}
           >

@@ -16,7 +16,7 @@ const initialState: PitwallState = {
   gameSession: null,
 };
 
-export const pitwallSessionSlice = createSlice({
+export const pitwallSlice = createSlice({
   name: "pitwallState",
   initialState,
   reducers: {

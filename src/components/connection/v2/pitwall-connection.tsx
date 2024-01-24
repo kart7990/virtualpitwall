@@ -9,7 +9,7 @@ import {
   getSelectedIRacingSessionId,
   getPitwallSession,
   getCurrentTrackSessionNumber,
-  pitwallSessionSlice,
+  pitwallSlice,
   useDispatch,
   useSelector,
 } from "@/lib/redux";
@@ -20,7 +20,7 @@ import {
   BaseTrackSession,
   HubEndpoint,
   PitwallSession,
-} from "@/lib/redux/slices/pitwallSessionSlice/models";
+} from "@/lib/redux/slices/pitwallSlice/models";
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -100,7 +100,7 @@ export default function PitwallConnection({
       var joinSessionResponse = await axios.get(
         `${API_V2_URL}/pitwall/session/${pitwallSessionId}`,
       );
-      dispatch(pitwallSessionSlice.actions.init(joinSessionResponse.data));
+      dispatch(pitwallSlice.actions.init(joinSessionResponse.data));
       setLoading(false);
     };
     connectToSession();
@@ -124,9 +124,7 @@ export default function PitwallConnection({
       sessionHubConnection.on(
         "GameDataProviderConnected",
         (gameDataProvider: BaseGameDataProvider) => {
-          dispatch(
-            pitwallSessionSlice.actions.addGameDataProvider(gameDataProvider),
-          );
+          dispatch(pitwallSlice.actions.addGameDataProvider(gameDataProvider));
           toast({
             description: `New data source available from user: ${gameDataProvider.name}`,
           });
@@ -158,9 +156,7 @@ export default function PitwallConnection({
           `${API_V2_URL}/pitwall/session/${pitwallSession.id}/gamedata/${selectedDataProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
         );
 
-        dispatch(
-          pitwallSessionSlice.actions.setGameSession(gameDataResponse.data),
-        );
+        dispatch(pitwallSlice.actions.setGameSession(gameDataResponse.data));
       }
       await gameDataHubConnection.start();
       gameDataConnection.current = gameDataHubConnection;
@@ -180,7 +176,7 @@ export default function PitwallConnection({
       gameDataHubConnection.on(
         "NewGameSession",
         async (gameSession: BaseGameSession) => {
-          dispatch(pitwallSessionSlice.actions.newGameSession(gameSession));
+          dispatch(pitwallSlice.actions.newGameSession(gameSession));
           toast({
             description: `New game session detected. Connected to iRacing server: ${gameSession.gameAssignedSessionId}`,
           });
@@ -190,9 +186,7 @@ export default function PitwallConnection({
       gameDataHubConnection.on(
         "TrackSessionChanged",
         (trackSession: BaseTrackSession) => {
-          dispatch(
-            pitwallSessionSlice.actions.changeTrackSession(trackSession),
-          );
+          dispatch(pitwallSlice.actions.changeTrackSession(trackSession));
           toast({
             description: `New track session detected: ${trackSession.type}`,
           });
@@ -203,9 +197,7 @@ export default function PitwallConnection({
         "DynamicTrackSessionDataUpdate",
         (trackSessionData) => {
           dispatch(
-            pitwallSessionSlice.actions.setDynamicTrackSessionData(
-              trackSessionData,
-            ),
+            pitwallSlice.actions.setDynamicTrackSessionData(trackSessionData),
           );
           console.log("DynamicTrackSessionDataUpdate", trackSessionData);
           sessionDynamicDataLastResponse = Date.now();

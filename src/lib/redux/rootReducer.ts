@@ -1,6 +1,6 @@
 import {
   authSlice,
-  pitwallSessionSlice,
+  pitwallSlice,
   preferencesSlice,
   sessionSlice,
   standingsSlice,
@@ -9,7 +9,7 @@ import {
 
 export const reducer = {
   session: sessionSlice.reducer,
-  pitwall: pitwallSessionSlice.reducer,
+  pitwall: pitwallSlice.reducer,
   standings: standingsSlice.reducer,
   telemetry: telemetrySlice.reducer,
   preferences: preferencesSlice.reducer,
