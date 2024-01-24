@@ -8,12 +8,15 @@ import {
   BaseGameSession,
   BaseTrackSession,
   DynamicTrackSessionData,
+  LiveTimingDto,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: PitwallState = {
   session: null,
   gameSession: null,
+  liveTiming: [],
+  selectedCarNumber: null,
 };
 
 export const pitwallSlice = createSlice({
@@ -113,6 +116,38 @@ export const pitwallSlice = createSlice({
       session.leaderWholeLapsRemaining =
         action.payload.leaderWholeLapsRemaining;
       session.currentConditions = action.payload.conditions;
+    },
+    setStandings: (state, action: PayloadAction<LiveTimingDto[]>) => {
+      state.liveTiming = action.payload.map((s) => {
+        return {
+          position: s.p,
+          classPosition: s.cp,
+          standingPosition: s.sp,
+          standingClassPosition: s.scp,
+          carNumber: s.cn,
+          className: s.cln,
+          classId: s.ci,
+          classColor: s.cc,
+          carName: s.crn,
+          isCurrentDriver: s.cd,
+          iRating: s.ir,
+          safetyRating: s.sr,
+          driverName: s.dn,
+          driverShortName: s.dns,
+          lapDistancePercent: s.d,
+          teamName: s.t,
+          leaderDelta: s.ld,
+          nextCarDelta: s.nd,
+          lastLaptime: s.lt,
+          bestLaptime: s.bt,
+          lap: s.ln,
+          pitStopCount: s.pc,
+          stintLapCount: s.sl,
+        };
+      });
+    },
+    setSelectedCar: (state, action: PayloadAction<String | null>) => {
+      state.selectedCarNumber = action.payload;
     },
     reset: (state) => {
       //this might not work, had issues in other slices, need to test

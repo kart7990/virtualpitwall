@@ -4,9 +4,8 @@ import { parseTrackId } from "../utils/formatter/TrackConversion";
 import {
   LiveTiming,
   selectCurrentTrack,
-  selectCurrentTrackSession,
-  selectLiveTiming,
-  selectedCarNumber,
+  getLiveTiming,
+  getSelectedCarNumber,
   useSelector,
 } from "@/lib/redux";
 import Script from "next/script";
@@ -20,12 +19,11 @@ export const TrackMap = () => {
   const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] =
     useState(false);
   const [allJsLoaded, setAllJsLoaded] = useState(false);
-  const standings: LiveTiming[] = useSelector(selectLiveTiming);
+  const standings: LiveTiming[] = useSelector(getLiveTiming);
   const track = useSelector(selectCurrentTrack);
-  const trackSession = useSelector(selectCurrentTrackSession);
   const [carClasses, setCarClasses] = useState<any[]>([]);
   const isMulticlass = false;
-  const selectedCar = useSelector(selectedCarNumber);
+  const selectedCar = useSelector(getSelectedCarNumber);
 
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
@@ -204,10 +202,9 @@ export const TrackMap = () => {
           }}
         />
       )}
-
       <div>
         <span className="font-weight-bold flex p-3 uppercase">
-          {track?.name ?? "n/a"}
+          {track?.name}
         </span>
       </div>
 

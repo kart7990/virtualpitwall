@@ -25,6 +25,11 @@ export const getCurrentConditions = (state: ReduxState) =>
     (ts) => ts.number === getCurrentTrackSessionNumber(state),
   );
 
+export const getLiveTiming = (state: ReduxState) => state.pitwall.liveTiming;
+
+export const getSelectedCarNumber = (state: ReduxState) =>
+  state.pitwall.selectedCarNumber;
+
 export const selectCurrentTrackSession = createSelector(
   [getCurrentTrackSessionNumber, getTrackSessions],
   (currentTrackSessionNumber, trackSessions) => {
@@ -40,5 +45,12 @@ export const selectCurrentConditions = createSelector(
   [selectCurrentTrackSession],
   (currentSession) => {
     return currentSession?.currentConditions;
+  },
+);
+
+export const selectCurrentTrack = createSelector(
+  [selectCurrentTrackSession],
+  (currentSession) => {
+    return currentSession?.track;
   },
 );

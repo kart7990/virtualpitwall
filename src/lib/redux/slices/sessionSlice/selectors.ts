@@ -48,7 +48,7 @@ export const selectCurrentSessionTiming = createSelector(
   },
 );
 
-export const selectCurrentTrack = createSelector(
+export const selectCurrentTrackOld = createSelector(
   [selectCurrentSession],
   (currentSession) => {
     return currentSession?.track;

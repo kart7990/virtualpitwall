@@ -86,6 +86,7 @@ export default function PitwallConnection({
 
   //Update timers
   const dynamicDataRequestTimer = useRef<NodeJS.Timeout>();
+  const standingsDataRequestTimer = useRef<NodeJS.Timeout>();
 
   const oAuthToken = useSelector(selectOAuthToken);
   const pitwallSession = useSelector(getPitwallSession);
@@ -199,10 +200,14 @@ export default function PitwallConnection({
           dispatch(
             pitwallSlice.actions.setDynamicTrackSessionData(trackSessionData),
           );
-          console.log("DynamicTrackSessionDataUpdate", trackSessionData);
           sessionDynamicDataLastResponse = Date.now();
         },
       );
+
+      gameDataHubConnection.on("StandingsUpdate", (standings) => {
+        dispatch(pitwallSlice.actions.setStandings(standings));
+        sessionDynamicDataLastResponse = Date.now();
+      });
 
       connectToGameData(
         pitwallSession,
@@ -219,7 +224,7 @@ export default function PitwallConnection({
   }, [selectedDataProvider, selectedIRacingSessionId, oAuthToken, dispatch]);
   // #endregion
 
-  // #region Session WebSocket Connection
+  // #region Dynamic Track Session Data
   useEffect(() => {
     if (
       gameDataConnection != undefined &&
@@ -259,7 +264,45 @@ export default function PitwallConnection({
     selectedIRacingSessionId,
     currentTrackSessionNumber,
   ]);
+  // #endregion
 
+  // #region Standings
+  useEffect(() => {
+    if (
+      gameDataConnection != undefined &&
+      currentTrackSessionNumber != undefined &&
+      selectedDataProvider != null &&
+      selectedIRacingSessionId != null
+    ) {
+      var lastRequest1 = 0;
+      if (standingsDataRequestTimer.current != null) {
+        clearInterval(standingsDataRequestTimer.current);
+      }
+      standingsDataRequestTimer.current = setInterval(async () => {
+        if (
+          sessionDynamicDataLastResponse > lastRequest1 &&
+          gameDataConnection.current?.state === HubConnectionState.Connected
+        ) {
+          lastRequest1 = Date.now();
+          await gameDataConnection.current?.invoke("RequestStandings", {
+            providerId: selectedDataProvider.id,
+            sessionNumber: currentTrackSessionNumber,
+            gameAssignedSessionId: selectedIRacingSessionId,
+          });
+        }
+      }, 250);
+    }
+    return () => {
+      if (standingsDataRequestTimer.current != null) {
+        clearInterval(standingsDataRequestTimer.current);
+      }
+    };
+  }, [
+    gameDataConnection,
+    selectedDataProvider,
+    selectedIRacingSessionId,
+    currentTrackSessionNumber,
+  ]);
   // #endregion
 
   function LoadingWrapper({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,8 @@
 export interface PitwallState {
   session: PitwallSession | null;
   gameSession: GameSession | null;
+  liveTiming: LiveTiming[];
+  selectedCarNumber: String | null;
 }
 
 export interface PitwallSessionResponse {
@@ -160,4 +162,56 @@ export interface DynamicTrackSessionData {
   leaderLapsRemaining: number;
   leaderWholeLapsRemaining: number;
   conditions: Conditions;
+}
+
+export interface LiveTimingDto {
+  p: number;
+  cp: number;
+  sp: number;
+  scp: number;
+  cn: string;
+  cln: string;
+  ci: number;
+  cc: string;
+  crn: string;
+  cd: boolean;
+  ir: number;
+  sr: string;
+  dn: string;
+  dns: string;
+  d: number;
+  t: string;
+  ld: string;
+  nd: string;
+  lt: number;
+  bt: number;
+  ln: number;
+  pc: number;
+  sl: number;
+}
+
+export interface LiveTiming {
+  bestLaptime: number;
+  carName: string;
+  carNumber: string;
+  classColor: string;
+  classId: number;
+  className: string;
+  classPosition: number;
+  driverName: string;
+  driverShortName: string;
+  iRating: number;
+  isCurrentDriver: boolean;
+  lap: number;
+  lapDistancePercent: number;
+  lastLaptime: number;
+  leaderDelta: string;
+  nextCarDelta: string;
+  pitStopCount: number;
+  position: number;
+  safetyRating: string;
+  standingClassPosition: number;
+  standingPosition: number;
+  stintLapCount: number;
+  teamName: string;
 }

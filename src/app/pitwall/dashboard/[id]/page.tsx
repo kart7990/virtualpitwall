@@ -6,6 +6,7 @@ import { Conditions } from "@/components/conditions/conditions";
 import PitwallSession from "@/components/connection/pitwall-session";
 import PitwallSessionMock from "@/components/connection/pitwall-session-mock";
 import PitwallConnection from "@/components/connection/v2/pitwall-connection";
+import { TrackMap } from "@/components/trackmap/trackmap";
 import { MOCKING } from "@/config/site";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -24,6 +25,7 @@ export default function Page({ params }: { params: { id: string } }) {
       return (
         <PitwallConnection pitwallSessionId={pitboxSessionId}>
           <Conditions />
+          <TrackMap />
         </PitwallConnection>
       );
     } else {
