@@ -4,6 +4,7 @@ import { parseTrackId } from "../utils/formatter/TrackConversion";
 import {
   LiveTiming,
   selectCurrentTrack,
+  selectCurrentTrackSession,
   selectLiveTiming,
   selectedCarNumber,
   useSelector,
@@ -21,6 +22,7 @@ export const TrackMap = () => {
   const [allJsLoaded, setAllJsLoaded] = useState(false);
   const standings: LiveTiming[] = useSelector(selectLiveTiming);
   const track = useSelector(selectCurrentTrack);
+  const trackSession = useSelector(selectCurrentTrackSession);
   const [carClasses, setCarClasses] = useState<any[]>([]);
   const isMulticlass = false;
   const selectedCar = useSelector(selectedCarNumber);

@@ -2,6 +2,7 @@
 
 import Dashboard from "./components/dashboard";
 import "./style.css";
+import { Conditions } from "@/components/conditions/conditions";
 import PitwallSession from "@/components/connection/pitwall-session";
 import PitwallSessionMock from "@/components/connection/pitwall-session-mock";
 import PitwallConnection from "@/components/connection/v2/pitwall-connection";
@@ -22,7 +23,7 @@ export default function Page({ params }: { params: { id: string } }) {
     } else if (isV2) {
       return (
         <PitwallConnection pitwallSessionId={pitboxSessionId}>
-          <div> Hi </div>
+          <Conditions />
         </PitwallConnection>
       );
     } else {
