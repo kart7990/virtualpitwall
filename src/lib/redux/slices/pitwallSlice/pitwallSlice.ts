@@ -9,14 +9,18 @@ import {
   BaseTrackSession,
   DynamicTrackSessionData,
   LiveTimingDto,
+  BaseTelemetryProvider,
+  Telemetry,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { stat } from "fs";
 
 const initialState: PitwallState = {
   session: null,
   gameSession: null,
   liveTiming: [],
   selectedCarNumber: null,
+  telemetry: null,
 };
 
 export const pitwallSlice = createSlice({
@@ -34,6 +38,10 @@ export const pitwallSlice = createSlice({
           state.session.selectedIRacingSessionId =
             state.session.selectedDataProvider.currentGameAssignedSessionId;
         }
+      }
+      if (action.payload.pitwallSession.telemetryProviders.length > 0) {
+        state.session.selectedTelemetryProvider =
+          action.payload.pitwallSession.telemetryProviders[0];
       }
       state.session.webSocketEndpoints = action.payload.webSocketEndpoints;
     },
@@ -77,6 +85,18 @@ export const pitwallSlice = createSlice({
       } else {
         throw Error(
           "PitwallSession is null, unable to add game data provider.",
+        );
+      }
+    },
+    addTelemetryProvider: (
+      state,
+      action: PayloadAction<BaseTelemetryProvider>,
+    ) => {
+      if (state.session != null) {
+        state.session.telemetryProviders.push(action.payload);
+      } else {
+        throw Error(
+          "PitwallSession is null, unable to add telemetry provider.",
         );
       }
     },
@@ -148,6 +168,9 @@ export const pitwallSlice = createSlice({
     },
     setSelectedCar: (state, action: PayloadAction<String | null>) => {
       state.selectedCarNumber = action.payload;
+    },
+    setTelemetry: (state, action: PayloadAction<Telemetry>) => {
+      state.telemetry = action.payload;
     },
     reset: (state) => {
       //this might not work, had issues in other slices, need to test

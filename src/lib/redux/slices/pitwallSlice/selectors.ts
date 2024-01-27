@@ -9,6 +9,9 @@ export const getPitwallSessionId = (state: ReduxState) =>
 export const getSelectedDataProvider = (state: ReduxState) =>
   state.pitwall.session?.selectedDataProvider;
 
+export const getSelectedTelemetryProvider = (state: ReduxState) =>
+  state.pitwall.session?.selectedTelemetryProvider;
+
 export const getSelectedIRacingSessionId = (state: ReduxState) =>
   state.pitwall.session?.selectedIRacingSessionId;
 

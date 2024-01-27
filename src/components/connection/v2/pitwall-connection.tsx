@@ -9,6 +9,7 @@ import {
   getSelectedIRacingSessionId,
   getPitwallSession,
   getCurrentTrackSessionNumber,
+  getSelectedTelemetryProvider,
   pitwallSlice,
   useDispatch,
   useSelector,
@@ -17,9 +18,11 @@ import { OAuthToken } from "@/lib/redux/slices/authSlice/models";
 import {
   BaseGameDataProvider,
   BaseGameSession,
+  BaseTelemetryProvider,
   BaseTrackSession,
   HubEndpoint,
   PitwallSession,
+  Telemetry,
 } from "@/lib/redux/slices/pitwallSlice/models";
 import {
   HubConnection,
@@ -33,18 +36,8 @@ import { SetIntervalAsyncTimer, clearIntervalAsync } from "set-interval-async";
 import { setIntervalAsync } from "set-interval-async/dynamic";
 
 let sessionDynamicDataLastResponse = 1;
-let _trackSessionNumber: number | undefined = -1;
-
-class ReplaceableTimer {
-  timer: NodeJS.Timeout | null = null;
-
-  replaceTimer(timer: NodeJS.Timeout) {
-    if (this.timer != null) {
-      clearInterval(this.timer);
-    }
-    this.timer = timer;
-  }
-}
+let standingsDataLastResponse = 1;
+let telemetryDataLastResponse = 1;
 
 const buildHubConnection = (
   oAuthToken: OAuthToken,
@@ -83,14 +76,17 @@ export default function PitwallConnection({
   //WebSocket Connections
   const sessionConnection = useRef<HubConnection>();
   const gameDataConnection = useRef<HubConnection>();
+  const telemetryConnection = useRef<HubConnection>();
 
   //Update timers
   const dynamicDataRequestTimer = useRef<NodeJS.Timeout>();
   const standingsDataRequestTimer = useRef<NodeJS.Timeout>();
+  const telemetryDataRequestTimer = useRef<NodeJS.Timeout>();
 
   const oAuthToken = useSelector(selectOAuthToken);
   const pitwallSession = useSelector(getPitwallSession);
   const selectedDataProvider = useSelector(getSelectedDataProvider);
+  const selectedTelemetryProvider = useSelector(getSelectedTelemetryProvider);
   const selectedIRacingSessionId = useSelector(getSelectedIRacingSessionId);
   const currentTrackSessionNumber = useSelector(getCurrentTrackSessionNumber);
 
@@ -132,6 +128,21 @@ export default function PitwallConnection({
         },
       );
       sessionHubConnection.on("GameDataProviderDisconnected", () => {
+        //TODO
+      });
+
+      sessionHubConnection.on(
+        "TelemetryProviderConnected",
+        (telemetryProvider: BaseTelemetryProvider) => {
+          dispatch(
+            pitwallSlice.actions.addTelemetryProvider(telemetryProvider),
+          );
+          toast({
+            description: `New telemetry source available from user: ${telemetryProvider.name}`,
+          });
+        },
+      );
+      sessionHubConnection.on("TelemetryProviderDisconnected", () => {
         //TODO
       });
 
@@ -206,7 +217,7 @@ export default function PitwallConnection({
 
       gameDataHubConnection.on("StandingsUpdate", (standings) => {
         dispatch(pitwallSlice.actions.setStandings(standings));
-        sessionDynamicDataLastResponse = Date.now();
+        standingsDataLastResponse = Date.now();
       });
 
       connectToGameData(
@@ -280,7 +291,7 @@ export default function PitwallConnection({
       }
       standingsDataRequestTimer.current = setInterval(async () => {
         if (
-          sessionDynamicDataLastResponse > lastRequest1 &&
+          standingsDataLastResponse > lastRequest1 &&
           gameDataConnection.current?.state === HubConnectionState.Connected
         ) {
           lastRequest1 = Date.now();
@@ -290,7 +301,7 @@ export default function PitwallConnection({
             gameAssignedSessionId: selectedIRacingSessionId,
           });
         }
-      }, 250);
+      }, 400);
     }
     return () => {
       if (standingsDataRequestTimer.current != null) {
@@ -302,6 +313,96 @@ export default function PitwallConnection({
     selectedDataProvider,
     selectedIRacingSessionId,
     currentTrackSessionNumber,
+  ]);
+  // #endregion
+
+  // #region Telemetry Connection
+
+  useEffect(() => {
+    const connectToTelemetry = async (
+      pitwallSession: PitwallSession,
+      selectedTelemetryProvider: BaseTelemetryProvider,
+      selectedIRacingSessionId: string | undefined,
+      telemetryHub: HubConnection,
+    ) => {
+      await telemetryConnection.current?.stop();
+      if (selectedIRacingSessionId != null) {
+        // var gameDataResponse = await axios.get(
+        //   `${API_V2_URL}/pitwall/session/${pitwallSession.id}/gamedata/${selectedTelemetryProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
+        // );
+        // dispatch(pitwallSlice.actions.setGameSession(gameDataResponse.data));
+      }
+      await telemetryHub.start();
+      telemetryConnection.current = telemetryHub;
+    };
+    if (
+      pitwallSession != null &&
+      selectedTelemetryProvider != null &&
+      oAuthToken != null
+    ) {
+      const telemetryHubConnection = buildHubConnection(
+        oAuthToken,
+        pitwallSession.webSocketEndpoints.v2TelemetrySubscriber,
+        selectedTelemetryProvider.pitwallSessionId,
+        selectedTelemetryProvider.id,
+      );
+
+      telemetryHubConnection.on("TelemetryUpdate", (telemetry: Telemetry) => {
+        dispatch(pitwallSlice.actions.setTelemetry(telemetry));
+        telemetryDataLastResponse = Date.now();
+      });
+
+      connectToTelemetry(
+        pitwallSession,
+        selectedTelemetryProvider,
+        selectedIRacingSessionId,
+        telemetryHubConnection,
+      );
+      return () => {
+        if (telemetryHubConnection != null) {
+          telemetryHubConnection.stop();
+        }
+      };
+    }
+  }, [
+    selectedTelemetryProvider,
+    selectedIRacingSessionId,
+    oAuthToken,
+    dispatch,
+  ]);
+
+  useEffect(() => {
+    if (
+      telemetryConnection != undefined &&
+      selectedTelemetryProvider != null &&
+      selectedIRacingSessionId != null
+    ) {
+      var lastRequest2 = 0;
+      if (telemetryDataRequestTimer.current != null) {
+        clearInterval(telemetryDataRequestTimer.current);
+      }
+      telemetryDataRequestTimer.current = setInterval(async () => {
+        if (
+          telemetryDataLastResponse > lastRequest2 &&
+          telemetryConnection.current?.state === HubConnectionState.Connected
+        ) {
+          lastRequest2 = Date.now();
+          await telemetryConnection.current?.invoke("RequestTelemetry", {
+            providerId: selectedTelemetryProvider.id,
+            gameAssignedSessionId: selectedIRacingSessionId,
+          });
+        }
+      }, 400);
+    }
+    return () => {
+      if (telemetryDataRequestTimer.current != null) {
+        clearInterval(telemetryDataRequestTimer.current);
+      }
+    };
+  }, [
+    telemetryConnection,
+    selectedTelemetryProvider,
+    selectedIRacingSessionId,
   ]);
   // #endregion
 

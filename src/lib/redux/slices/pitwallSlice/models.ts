@@ -3,6 +3,7 @@ export interface PitwallState {
   gameSession: GameSession | null;
   liveTiming: LiveTiming[];
   selectedCarNumber: String | null;
+  telemetry: Telemetry | null;
 }
 
 export interface PitwallSessionResponse {
@@ -17,9 +18,9 @@ export interface PitwallSession {
   creatorUserId: string;
   selectedIRacingSessionId: string;
   selectedDataProvider: BaseGameDataProvider;
-  selectedTelemetryProvider: TelemetryProvider;
+  selectedTelemetryProvider: BaseTelemetryProvider;
   gameDataProviders: BaseGameDataProvider[];
-  telemetryProviders: TelemetryProvider[];
+  telemetryProviders: BaseTelemetryProvider[];
   webSocketEndpoints: WebSocketEndpoints;
 }
 
@@ -29,8 +30,8 @@ export interface WebSocketEndpoints {
   laps: string;
   telemetry: string;
   v2PitwallSession: string;
-  v2GameDataPublisher: string;
   v2GameDataSubscriber: string;
+  v2TelemetrySubscriber: string;
 }
 
 export interface BaseGameDataProvider {
@@ -42,7 +43,7 @@ export interface BaseGameDataProvider {
   gameAssignedSessionIds: string[];
 }
 
-export interface TelemetryProvider {
+export interface BaseTelemetryProvider {
   id: string;
   pitwallSessionId: string;
   userId: string;
@@ -214,4 +215,35 @@ export interface LiveTiming {
   standingPosition: number;
   stintLapCount: number;
   teamName: string;
+}
+
+export interface Telemetry {
+  car: CarTelemetry;
+  timing: TimingTelemetry;
+}
+
+export interface CarTelemetry {
+  throttle: number;
+  brake: number;
+  clutch: number;
+  steeringAngle: number;
+  rPM: number;
+  speed: number;
+  fuelQuantity: number;
+  fuelPercent: number;
+  fuelConsumedLap: number | null;
+  fuelPressure: number;
+  oilTemp: number;
+  oilPressure: number;
+  waterTemp: number;
+  voltage: number;
+}
+
+export interface TimingTelemetry {
+  driverCurrentLap: number;
+  incidents: number;
+  driverLapsComplete: number;
+  currentLapTime: number;
+  lapDeltaToSessionBestLap: number;
+  lapDistancePercentage: number;
 }
