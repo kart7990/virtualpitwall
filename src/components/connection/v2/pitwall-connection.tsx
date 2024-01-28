@@ -162,7 +162,7 @@ export default function PitwallConnection({
         }
       };
     }
-  }, [pitwallSession?.id, oAuthToken, dispatch]);
+  }, [pitwallSession?.id, oAuthToken, dispatch, toast]);
 
   useEffect(() => {
     const connectToGameData = async (
@@ -252,7 +252,13 @@ export default function PitwallConnection({
         }
       };
     }
-  }, [selectedDataProvider, selectedIRacingSessionId, oAuthToken, dispatch]);
+  }, [
+    selectedDataProvider,
+    selectedIRacingSessionId,
+    oAuthToken,
+    dispatch,
+    toast,
+  ]);
   // #endregion
 
   // #region Laps
@@ -291,6 +297,7 @@ export default function PitwallConnection({
     selectedDataProvider,
     selectedIRacingSessionId,
     currentTrackSessionNumber,
+    dispatch,
   ]);
   // #endregion Laps
 
@@ -462,6 +469,7 @@ export default function PitwallConnection({
     selectedTelemetryProvider,
     selectedIRacingSessionId,
     currentTrackSessionNumber,
+    dispatch,
   ]);
 
   useEffect(() => {
