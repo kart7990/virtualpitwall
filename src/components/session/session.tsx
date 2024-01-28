@@ -1,7 +1,7 @@
 import { DataDisplay } from "../core/ui/data-display";
 import { LapsRemaining } from "./components/laps-remaining";
 import { TimeRemaining } from "./components/time-remaining";
-import { selectCurrentSession, useSelector } from "@/lib/redux";
+import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
 import { useEffect } from "react";
 
 export const Session = ({
@@ -9,10 +9,10 @@ export const Session = ({
 }: {
   setSessionTitle: (title: string) => void;
 }) => {
-  const session = useSelector(selectCurrentSession);
+  const session = useSelector(selectCurrentTrackSession);
 
   useEffect(() => {
-    setSessionTitle(session ? session.sessionType + " Session Details" : "n/a");
+    setSessionTitle(session ? session.type + " Session Details" : "n/a");
   }, [session, setSessionTitle]);
 
   return (
@@ -21,7 +21,7 @@ export const Session = ({
       {session && (
         <div className="flex flex-wrap gap-4 p-3">
           <TimeRemaining />
-          <DataDisplay title="Status" content={session.sessionState} />
+          <DataDisplay title="Status" content={session.state} />
           <LapsRemaining />
 
           <DataDisplay title="Flags" content={session.flags} />

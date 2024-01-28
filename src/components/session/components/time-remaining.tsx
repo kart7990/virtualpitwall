@@ -1,30 +1,27 @@
 import { DataDisplay } from "@/components/core/ui/data-display";
 import { formatTime } from "@/components/utils/formatter/UnitConversion";
-import {
-  selectCurrentSession,
-  selectCurrentSessionTiming,
-  useSelector,
-} from "@/lib/redux";
-import { TrackSession } from "@/lib/redux/slices/sessionSlice/models";
+import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
+import { TrackSession } from "@/lib/redux/slices/pitwallSlice/models";
 
 export const TimeRemaining = () => {
-  const timing = useSelector(selectCurrentSessionTiming);
-  const session: TrackSession | undefined = useSelector(selectCurrentSession);
+  const session: TrackSession | undefined = useSelector(
+    selectCurrentTrackSession,
+  );
 
   const showComponent = () => {
-    return session?.isTimed || session?.isQualify;
+    return session?.isTimed || session?.name === "QUALIFY";
   };
 
   const getTime = () => {
     let res = " - / -";
-    if (session?.sessionState === "Racing") {
+    if (session?.state === "Racing") {
       res =
-        formatTime(timing?.raceTimeRemaining?.toFixed(3)) +
+        formatTime(session?.raceTimeRemaining?.toFixed(3)) +
         " / " +
         formatTime(session?.raceTime);
-    } else if (session?.sessionState === "GetInCar" && !session?.isQualify) {
-      res = formatTime(timing?.raceTimeRemaining?.toFixed(3));
-    } else if (session?.sessionState === "ParadeLaps") {
+    } else if (session?.state === "GetInCar" && session?.name !== "QUALIFY") {
+      res = formatTime(session?.raceTimeRemaining?.toFixed(3));
+    } else if (session?.state === "ParadeLaps") {
       res =
         formatTime(session?.raceTime) + " / " + formatTime(session?.raceTime);
     }

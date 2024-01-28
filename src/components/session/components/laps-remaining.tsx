@@ -1,23 +1,23 @@
 import { DataDisplay } from "@/components/core/ui/data-display";
 import {
-  selectCurrentSession,
-  selectCurrentSessionTiming,
-  selectLiveTiming,
+  selectCurrentTrackSession,
+  getLiveTiming,
   useSelector,
 } from "@/lib/redux";
-import { TrackSession } from "@/lib/redux/slices/sessionSlice/models";
+import { TrackSession } from "@/lib/redux/slices/pitwallSlice/models";
 
 export const LapsRemaining = () => {
-  const timing = useSelector(selectCurrentSessionTiming);
-  const session: TrackSession | undefined = useSelector(selectCurrentSession);
-  const standings = useSelector(selectLiveTiming);
+  const timing = useSelector(getLiveTiming);
+  const session: TrackSession | undefined = useSelector(
+    selectCurrentTrackSession,
+  );
 
   const showComponent = () => {
-    return session?.isRace;
+    return session?.name === "RACE";
   };
 
   const getSelectedCar = () => {
-    return standings.find((car) => car.position === 1);
+    return timing.find((car) => car.position === 1);
   };
 
   const getCurrentLap = () => {
@@ -28,8 +28,8 @@ export const LapsRemaining = () => {
   const getRemainingLaps = () => {
     let res = "-";
     if (timing) {
-      if (session?.isTimed && session?.sessionState !== "ParadeLaps") {
-        res = "~" + timing?.estimatedRaceLaps.toFixed(2);
+      if (session?.isTimed && session?.state !== "ParadeLaps") {
+        res = "~" + session?.estimatedRaceLaps.toFixed(2);
       } else if (session?.isFixedLaps) {
         res = session.raceLaps.toString();
       }
