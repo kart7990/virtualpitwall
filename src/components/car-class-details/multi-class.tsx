@@ -4,11 +4,11 @@ import {
 } from "../utils/formatter/CarConversion";
 import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
 import {
-  selectCurrentSession,
+  selectCurrentTrackSession,
   useSelector,
-  selectLiveTiming,
-  LiveTiming,
+  getLiveTiming,
 } from "@/lib/redux";
+import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import { useEffect } from "react";
 
 interface CarClassDetails {
@@ -20,13 +20,14 @@ interface CarClassDetails {
   fastestLap: number;
   fastestLapDriver: string;
 }
+
 export const MultiClassDetails = ({
   setCarClassTitle,
 }: {
   setCarClassTitle: (title: string) => void;
 }) => {
-  const session = useSelector(selectCurrentSession);
-  const standings = useSelector<LiveTiming[]>(selectLiveTiming);
+  const session = useSelector(selectCurrentTrackSession);
+  const standings = useSelector<LiveTiming[]>(getLiveTiming);
 
   useEffect(() => {
     setCarClassTitle("Multi-Class Details");

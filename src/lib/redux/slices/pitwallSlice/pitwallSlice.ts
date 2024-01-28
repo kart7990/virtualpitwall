@@ -1,4 +1,3 @@
-import { DynamicSessionData } from "../sessionSlice/models";
 import {
   BaseGameDataProvider,
   PitwallState,
@@ -15,7 +14,6 @@ import {
   CompletedLaps,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { stat } from "fs";
 
 const initialState: PitwallState = {
   session: null,

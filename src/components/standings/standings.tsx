@@ -3,13 +3,13 @@
 import { parseCarClassColor } from "../utils/formatter/CarConversion";
 import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
 import {
-  LiveTiming,
-  selectCurrentSession,
-  selectLiveTiming,
-  standingsSlice,
+  selectCurrentTrackSession,
+  getLiveTiming,
   useDispatch,
   useSelector,
+  pitwallSlice,
 } from "@/lib/redux";
+import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import { ThemeProvider, createTheme } from "@mui/material";
 import {
   MRT_Row,
@@ -19,15 +19,14 @@ import {
   type MRT_ColumnDef,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
-import tinycolor from "tinycolor2";
 
 export const Standings = () => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState<LiveTiming[]>([]);
-  const standingsData = useSelector<LiveTiming[]>(selectLiveTiming);
+  const standingsData = useSelector<LiveTiming[]>(getLiveTiming);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
-  const session = useSelector(selectCurrentSession);
+  const session = useSelector(selectCurrentTrackSession);
 
   useEffect(() => {
     setData(standingsData);
@@ -157,8 +156,8 @@ export const Standings = () => {
   // Store the selected car in the state so that we can show it in other components
   useEffect(() => {
     const keys = Object.keys(rowSelection);
-    const value = keys !== undefined ? keys[0] : undefined;
-    dispatch(standingsSlice.actions.updateSelectedCar(value));
+    const value = keys !== undefined ? keys[0] : null;
+    dispatch(pitwallSlice.actions.setSelectedCar(value));
   }, [dispatch, rowSelection]);
 
   // Set the background color of the rows to the multiclass color, when in a multiclass race

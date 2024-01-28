@@ -4,11 +4,11 @@ import {
 } from "../utils/formatter/CarConversion";
 import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
 import {
-  selectCurrentSession,
+  selectCurrentTrackSession,
   useSelector,
-  selectLiveTiming,
-  LiveTiming,
+  getLiveTiming,
 } from "@/lib/redux";
+import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import { useEffect } from "react";
 
 interface CarDetails {
@@ -24,8 +24,8 @@ export const SingleClassDetails = ({
 }: {
   setCarClassTitle: (title: string) => void;
 }) => {
-  const session = useSelector(selectCurrentSession);
-  const standings = useSelector<LiveTiming[]>(selectLiveTiming);
+  const session = useSelector(selectCurrentTrackSession);
+  const standings = useSelector<LiveTiming[]>(getLiveTiming);
 
   const totalIRating = standings.reduce(
     (sum, current) => sum + current.iRating,

@@ -11,7 +11,6 @@ import { MOCKING } from "@/config/site";
 
 export default function Page({ params }: { params: { id: string } }) {
   const pitboxSessionId = params.id;
-  const isV2 = true;
 
   const pitwallSession = () => {
     if (MOCKING) {
@@ -20,18 +19,11 @@ export default function Page({ params }: { params: { id: string } }) {
           <Dashboard />
         </PitwallSessionMock>
       );
-    } else if (isV2) {
-      return (
-        <PitwallConnection pitwallSessionId={pitboxSessionId}>
-          <Conditions />
-          <TrackMap />
-        </PitwallConnection>
-      );
     } else {
       return (
-        <PitwallSession pitwallSessionId={pitboxSessionId}>
+        <PitwallConnection pitwallSessionId={pitboxSessionId}>
           <Dashboard />
-        </PitwallSession>
+        </PitwallConnection>
       );
     }
   };

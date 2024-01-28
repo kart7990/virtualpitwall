@@ -2,12 +2,12 @@
 
 import { parseTrackId } from "../utils/formatter/TrackConversion";
 import {
-  LiveTiming,
   selectCurrentTrack,
   getLiveTiming,
   getSelectedCarNumber,
   useSelector,
 } from "@/lib/redux";
+import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { clearIntervalAsync } from "set-interval-async";
@@ -142,12 +142,12 @@ export const TrackMap = () => {
             if (s.carNumber === selectedCar) {
               trackMap.current.setNodeStrokeColor(s.carNumber, "#FFFF00");
 
-              //     carClasses.push({
-              //         classId: -2,
-              //         className: s.driverName,
-              //         classColor: classColor,
-              //         strokeColor: '#66ff00B3'
-              //     })
+              carClasses.push({
+                classId: -2,
+                className: s.driverName,
+                classColor: classColor,
+                strokeColor: "#66ff00B3",
+              });
 
               // if (pitstopTime > 0 && s.bestLaptime > 0) {
               //     let secondsPerPercent = (s.bestLaptime / 1000) / 100
