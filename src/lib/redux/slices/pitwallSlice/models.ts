@@ -218,8 +218,9 @@ export interface LiveTiming {
 }
 
 export interface Telemetry {
-  car: CarTelemetry;
-  timing: TimingTelemetry;
+  car: CarTelemetry | null;
+  timing: TimingTelemetry | null;
+  laps: CompletedLapDetails[];
 }
 
 export interface CarTelemetry {
@@ -246,4 +247,37 @@ export interface TimingTelemetry {
   currentLapTime: number;
   lapDeltaToSessionBestLap: number;
   lapDistancePercentage: number;
+}
+
+export interface CompletedTelemetryLaps {
+  laps: CompletedLapDetails[];
+  lastUpdate: number;
+}
+
+export interface CompletedLapDetails {
+  lapNumber: number;
+  stintLapNumber: number;
+  sessionNumber: number;
+  lapTime: LapTime;
+  raceTimeRemaining: number;
+  fuelLapStart: number;
+  fuelLapEnd: number;
+  fuelConsumed: number;
+  maxSpeed: number;
+  minSpeed: number;
+  maxRpm: number;
+  minRpm: number;
+  incidentCountLapStart: number;
+  incidentCountLapEnd: number;
+  inPitLane: boolean;
+  greenFlagFullLap: boolean;
+  incidentCount: number;
+}
+
+export interface LapTime {
+  value: number;
+  lapNumber: number;
+  display: string;
+  diffDisplay: string;
+  displayShort: string;
 }

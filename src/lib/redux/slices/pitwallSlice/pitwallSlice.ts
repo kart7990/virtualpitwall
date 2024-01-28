@@ -11,6 +11,7 @@ import {
   LiveTimingDto,
   BaseTelemetryProvider,
   Telemetry,
+  CompletedTelemetryLaps,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { stat } from "fs";
@@ -170,7 +171,21 @@ export const pitwallSlice = createSlice({
       state.selectedCarNumber = action.payload;
     },
     setTelemetry: (state, action: PayloadAction<Telemetry>) => {
-      state.telemetry = action.payload;
+      if (state.telemetry == null) {
+        state.telemetry = action.payload;
+        state.telemetry.laps = [];
+      } else {
+        state.telemetry.car = action.payload.car;
+        state.telemetry.timing = action.payload.timing;
+      }
+    },
+    addTelemetryLaps: (
+      state,
+      action: PayloadAction<CompletedTelemetryLaps>,
+    ) => {
+      action.payload.laps.forEach((lap) => {
+        state.telemetry?.laps.push(lap);
+      });
     },
     reset: (state) => {
       //this might not work, had issues in other slices, need to test

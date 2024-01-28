@@ -20,6 +20,7 @@ import {
   BaseGameSession,
   BaseTelemetryProvider,
   BaseTrackSession,
+  CompletedTelemetryLaps,
   HubEndpoint,
   PitwallSession,
   Telemetry,
@@ -38,6 +39,7 @@ import { setIntervalAsync } from "set-interval-async/dynamic";
 let sessionDynamicDataLastResponse = 1;
 let standingsDataLastResponse = 1;
 let telemetryDataLastResponse = 1;
+let telemetryLapsLastUpdateGameTime = 0;
 
 const buildHubConnection = (
   oAuthToken: OAuthToken,
@@ -350,6 +352,23 @@ export default function PitwallConnection({
       telemetryHubConnection.on("TelemetryUpdate", (telemetry: Telemetry) => {
         dispatch(pitwallSlice.actions.setTelemetry(telemetry));
         telemetryDataLastResponse = Date.now();
+      });
+
+      telemetryHubConnection.on(
+        "CompletedLapTelemetryUpdate",
+        (telemetryLaps: CompletedTelemetryLaps) => {
+          dispatch(pitwallSlice.actions.addTelemetryLaps(telemetryLaps));
+          telemetryLapsLastUpdateGameTime = telemetryLaps.lastUpdate;
+        },
+      );
+
+      telemetryHubConnection.on("NewTelemetryLap", async () => {
+        await telemetryHubConnection.invoke("RequestTelemetryLaps", {
+          providerId: selectedTelemetryProvider.id,
+          sessionNumber: currentTrackSessionNumber,
+          gameAssignedSessionId: selectedIRacingSessionId,
+          SessionElapsedTime: telemetryLapsLastUpdateGameTime,
+        });
       });
 
       connectToTelemetry(
