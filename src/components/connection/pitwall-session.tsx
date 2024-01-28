@@ -249,7 +249,6 @@ export default function PitwallSession({
       if (lapsConnection && joinSessionLastLapSessionTime > -1) {
         _lapsLastUpdate = joinSessionLastLapSessionTime;
         lapsConnection.on("onLapsUpdate", (message) => {
-          console.log("DAVIDHLAPSUPDATE", message);
           _lapsLastUpdate = message.item1;
           if (_trackSessionNumber) {
             dispatch(
@@ -263,12 +262,6 @@ export default function PitwallSession({
 
         lapsConnection.on("onLapsReceived", async () => {
           if (_trackSessionNumber && _trackSessionNumber >= 0) {
-            console.log("DAVIDHonLapsReceived", {
-              sessionId: pitwallSessionId,
-              teamId: "",
-              sessionNumber: _trackSessionNumber,
-              sessionElapsedTime: _lapsLastUpdate,
-            });
             await lapsConnection.invoke("RequestLaps", {
               sessionId: pitwallSessionId,
               teamId: "",

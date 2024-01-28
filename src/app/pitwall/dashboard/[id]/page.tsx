@@ -14,7 +14,6 @@ export default function Page({ params }: { params: { id: string } }) {
   const isV2 = true;
 
   const pitwallSession = () => {
-    console.log("DAVIDH", "v2");
     if (MOCKING) {
       return (
         <PitwallSessionMock pitwallSessionId={pitboxSessionId}>
