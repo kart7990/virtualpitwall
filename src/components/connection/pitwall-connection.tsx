@@ -35,8 +35,6 @@ import {
 } from "@microsoft/signalr";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { SetIntervalAsyncTimer, clearIntervalAsync } from "set-interval-async";
-import { setIntervalAsync } from "set-interval-async/dynamic";
 
 let sessionDynamicDataLastResponse = 1;
 let lapsLastResponse = 1;
@@ -154,7 +152,7 @@ export default function PitwallConnection({
       sessionHubConnection.on("TelemetryProviderDisconnected", () => {
         //TODO
       });
-
+      console.log("DAVIDH!!!!!!!!!!!");
       connectToSession(sessionHubConnection);
       return () => {
         if (sessionHubConnection != null) {
@@ -162,7 +160,7 @@ export default function PitwallConnection({
         }
       };
     }
-  }, [pitwallSession?.id, oAuthToken, dispatch, toast]);
+  }, [pitwallSession, oAuthToken, dispatch, toast]);
 
   useEffect(() => {
     const connectToGameData = async (
@@ -239,7 +237,7 @@ export default function PitwallConnection({
         dispatch(pitwallSlice.actions.setStandings(standings));
         standingsDataLastResponse = Date.now();
       });
-
+      console.log("GameData!!!!!!");
       connectToGameData(
         pitwallSession,
         selectedDataProvider,
@@ -253,6 +251,7 @@ export default function PitwallConnection({
       };
     }
   }, [
+    pitwallSession,
     selectedDataProvider,
     selectedIRacingSessionId,
     oAuthToken,
@@ -418,7 +417,7 @@ export default function PitwallConnection({
         dispatch(pitwallSlice.actions.setTelemetry(telemetry));
         telemetryDataLastResponse = Date.now();
       });
-
+      console.log("TELEMETRY!!!!!!!!!!!!!!!!!!");
       connectToTelemetry(
         pitwallSession,
         selectedTelemetryProvider,
@@ -432,6 +431,7 @@ export default function PitwallConnection({
       };
     }
   }, [
+    pitwallSession,
     selectedTelemetryProvider,
     selectedIRacingSessionId,
     oAuthToken,
