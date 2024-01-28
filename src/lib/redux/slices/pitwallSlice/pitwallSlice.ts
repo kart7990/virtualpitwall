@@ -69,6 +69,12 @@ export const pitwallSlice = createSlice({
           (gdp) => gdp.id === action.payload,
         )!!;
     },
+    changeTelemetryProvider: (state, action: PayloadAction<string>) => {
+      state.session!!.selectedTelemetryProvider =
+        state.session!!.telemetryProviders.find(
+          (tp) => tp.id === action.payload,
+        )!!;
+    },
     newGameSession: (state, action: PayloadAction<BaseGameSession>) => {
       state.session!!.selectedIRacingSessionId =
         action.payload.gameAssignedSessionId;

@@ -16,6 +16,7 @@ import {
   getSelectedDataProvider,
   pitwallSlice,
   getSelectedIRacingSessionId,
+  getSelectedTelemetryProvider,
   useSelector,
   useDispatch,
 } from "@/lib/redux";
@@ -24,6 +25,8 @@ export function SourceSelection() {
   const dispatch = useDispatch();
   const pitwallSession = useSelector(getPitwallSession);
   const selectedDataProvider = useSelector(getSelectedDataProvider);
+  const selectedTelemetryProvider = useSelector(getSelectedTelemetryProvider);
+
   const gameSession = useSelector(getGameSession);
 
   function DataProviderItems() {
@@ -33,6 +36,21 @@ export function SourceSelection() {
           <div className="grid gap-2">
             <div className="flex items-center">
               {gdp.name}
+              <span className="ml-1 h-2 w-2 rounded-full bg-green-600"></span>
+            </div>
+          </div>
+        </SelectItem>
+      ));
+    }
+  }
+
+  function TelemetryProviderItems() {
+    if (pitwallSession != null) {
+      return pitwallSession.telemetryProviders.map((tp) => (
+        <SelectItem key={tp.id} value={tp.id}>
+          <div className="grid gap-2">
+            <div className="flex items-center">
+              {tp.name}
               <span className="ml-1 h-2 w-2 rounded-full bg-green-600"></span>
             </div>
           </div>
@@ -97,11 +115,16 @@ export function SourceSelection() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="telemetry-provider">Telemetry Source</Label>
-          <Select>
+          <Select
+            onValueChange={(e) => {
+              dispatch(pitwallSlice.actions.changeTelemetryProvider(e));
+            }}
+            defaultValue={selectedTelemetryProvider?.id}
+          >
             <SelectTrigger id="telemetry-provider">
               <SelectValue placeholder="---Select Driver---" />
             </SelectTrigger>
-            <SelectContent>{telemetryProviders()}</SelectContent>
+            <SelectContent>{TelemetryProviderItems()}</SelectContent>
           </Select>
         </div>
       </div>
