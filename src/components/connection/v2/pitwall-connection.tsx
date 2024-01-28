@@ -20,7 +20,9 @@ import {
   BaseGameSession,
   BaseTelemetryProvider,
   BaseTrackSession,
+  CompletedLaps,
   CompletedTelemetryLaps,
+  GameSession,
   HubEndpoint,
   PitwallSession,
   Telemetry,
@@ -37,8 +39,10 @@ import { SetIntervalAsyncTimer, clearIntervalAsync } from "set-interval-async";
 import { setIntervalAsync } from "set-interval-async/dynamic";
 
 let sessionDynamicDataLastResponse = 1;
+let lapsLastResponse = 1;
 let standingsDataLastResponse = 1;
 let telemetryDataLastResponse = 1;
+let lapsLastUpdateGameTime = 0;
 let telemetryLapsLastUpdateGameTime = 0;
 
 const buildHubConnection = (
@@ -74,6 +78,9 @@ export default function PitwallConnection({
 
   //Page State
   const [isLoading, setLoading] = useState(true);
+  const [isDataConnectionStarted, setDataConnectionStarted] = useState(false);
+  const [isTelemetryConnectionStarted, setTelemetryConnectionStarted] =
+    useState(false);
 
   //WebSocket Connections
   const sessionConnection = useRef<HubConnection>();
@@ -169,11 +176,18 @@ export default function PitwallConnection({
         var gameDataResponse = await axios.get(
           `${API_V2_URL}/pitwall/session/${pitwallSession.id}/gamedata/${selectedDataProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
         );
-
+        var gameSession: GameSession = gameDataResponse.data;
+        let lastupdate = gameSession.trackSessions.find(
+          (ts) => ts.number === gameSession.currentTrackSession,
+        )?.completedLaps?.lastUpdate;
+        if (lastupdate != null) {
+          lapsLastUpdateGameTime = lastupdate;
+        }
         dispatch(pitwallSlice.actions.setGameSession(gameDataResponse.data));
       }
       await gameDataHubConnection.start();
       gameDataConnection.current = gameDataHubConnection;
+      setDataConnectionStarted(true);
     };
     if (
       pitwallSession != null &&
@@ -191,6 +205,8 @@ export default function PitwallConnection({
         "NewGameSession",
         async (gameSession: BaseGameSession) => {
           dispatch(pitwallSlice.actions.newGameSession(gameSession));
+          lapsLastUpdateGameTime = 0;
+          telemetryLapsLastUpdateGameTime = 0;
           toast({
             description: `New game session detected. Connected to iRacing server: ${gameSession.gameAssignedSessionId}`,
           });
@@ -201,6 +217,8 @@ export default function PitwallConnection({
         "TrackSessionChanged",
         (trackSession: BaseTrackSession) => {
           dispatch(pitwallSlice.actions.changeTrackSession(trackSession));
+          lapsLastUpdateGameTime = 0;
+          telemetryLapsLastUpdateGameTime = 0;
           toast({
             description: `New track session detected: ${trackSession.type}`,
           });
@@ -236,6 +254,45 @@ export default function PitwallConnection({
     }
   }, [selectedDataProvider, selectedIRacingSessionId, oAuthToken, dispatch]);
   // #endregion
+
+  // #region Laps
+  useEffect(() => {
+    if (
+      isDataConnectionStarted &&
+      gameDataConnection?.current != undefined &&
+      currentTrackSessionNumber != undefined &&
+      selectedDataProvider != null &&
+      selectedIRacingSessionId != null
+    ) {
+      gameDataConnection.current.on(
+        "NewLapsResponse",
+        (completedLaps: CompletedLaps) => {
+          dispatch(pitwallSlice.actions.addLaps(completedLaps));
+          lapsLastUpdateGameTime = completedLaps.lastUpdate;
+          lapsLastResponse = Date.now();
+        },
+      );
+      var lapsLastRequest = 0;
+      gameDataConnection.current.on("NewLapsAvailable", async () => {
+        if (lapsLastResponse > lapsLastRequest) {
+          lapsLastRequest = Date.now();
+          await gameDataConnection.current?.invoke("RequestLaps", {
+            providerId: selectedDataProvider.id,
+            sessionNumber: currentTrackSessionNumber,
+            gameAssignedSessionId: selectedIRacingSessionId,
+            SessionElapsedTime: lapsLastUpdateGameTime,
+          });
+        }
+      });
+    }
+  }, [
+    gameDataConnection,
+    isDataConnectionStarted,
+    selectedDataProvider,
+    selectedIRacingSessionId,
+    currentTrackSessionNumber,
+  ]);
+  // #endregion Laps
 
   // #region Dynamic Track Session Data
   useEffect(() => {
@@ -318,8 +375,7 @@ export default function PitwallConnection({
   ]);
   // #endregion
 
-  // #region Telemetry Connection
-
+  // #region Telemetry
   useEffect(() => {
     const connectToTelemetry = async (
       pitwallSession: PitwallSession,
@@ -329,6 +385,7 @@ export default function PitwallConnection({
     ) => {
       await telemetryConnection.current?.stop();
       if (selectedIRacingSessionId != null) {
+        //TODO: Get lap history
         // var gameDataResponse = await axios.get(
         //   `${API_V2_URL}/pitwall/session/${pitwallSession.id}/gamedata/${selectedTelemetryProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
         // );
@@ -336,6 +393,7 @@ export default function PitwallConnection({
       }
       await telemetryHub.start();
       telemetryConnection.current = telemetryHub;
+      setTelemetryConnectionStarted(true);
     };
     if (
       pitwallSession != null &&
@@ -352,23 +410,6 @@ export default function PitwallConnection({
       telemetryHubConnection.on("TelemetryUpdate", (telemetry: Telemetry) => {
         dispatch(pitwallSlice.actions.setTelemetry(telemetry));
         telemetryDataLastResponse = Date.now();
-      });
-
-      telemetryHubConnection.on(
-        "CompletedLapTelemetryUpdate",
-        (telemetryLaps: CompletedTelemetryLaps) => {
-          dispatch(pitwallSlice.actions.addTelemetryLaps(telemetryLaps));
-          telemetryLapsLastUpdateGameTime = telemetryLaps.lastUpdate;
-        },
-      );
-
-      telemetryHubConnection.on("NewTelemetryLap", async () => {
-        await telemetryHubConnection.invoke("RequestTelemetryLaps", {
-          providerId: selectedTelemetryProvider.id,
-          sessionNumber: currentTrackSessionNumber,
-          gameAssignedSessionId: selectedIRacingSessionId,
-          SessionElapsedTime: telemetryLapsLastUpdateGameTime,
-        });
       });
 
       connectToTelemetry(
@@ -388,6 +429,39 @@ export default function PitwallConnection({
     selectedIRacingSessionId,
     oAuthToken,
     dispatch,
+  ]);
+
+  useEffect(() => {
+    if (
+      isTelemetryConnectionStarted &&
+      telemetryConnection?.current != undefined &&
+      currentTrackSessionNumber != undefined &&
+      selectedTelemetryProvider != null &&
+      selectedIRacingSessionId != null
+    ) {
+      telemetryConnection.current.on(
+        "CompletedLapTelemetryUpdate",
+        (telemetryLaps: CompletedTelemetryLaps) => {
+          dispatch(pitwallSlice.actions.addTelemetryLaps(telemetryLaps));
+          telemetryLapsLastUpdateGameTime = telemetryLaps.lastUpdate;
+        },
+      );
+
+      telemetryConnection.current.on("NewTelemetryLap", async () => {
+        await telemetryConnection.current?.invoke("RequestTelemetryLaps", {
+          providerId: selectedTelemetryProvider.id,
+          sessionNumber: currentTrackSessionNumber,
+          gameAssignedSessionId: selectedIRacingSessionId,
+          SessionElapsedTime: telemetryLapsLastUpdateGameTime,
+        });
+      });
+    }
+  }, [
+    telemetryConnection,
+    isTelemetryConnectionStarted,
+    selectedTelemetryProvider,
+    selectedIRacingSessionId,
+    currentTrackSessionNumber,
   ]);
 
   useEffect(() => {

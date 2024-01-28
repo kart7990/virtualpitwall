@@ -12,6 +12,7 @@ import {
   BaseTelemetryProvider,
   Telemetry,
   CompletedTelemetryLaps,
+  CompletedLaps,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { stat } from "fs";
@@ -166,6 +167,15 @@ export const pitwallSlice = createSlice({
           stintLapCount: s.sl,
         };
       });
+    },
+    addLaps: (state, action: PayloadAction<CompletedLaps>) => {
+      const session = state.gameSession!!.trackSessions.find(
+        (ts) => ts.number === state.gameSession!!.currentTrackSession,
+      )!!;
+      action.payload.laps.forEach((lap) => {
+        session.completedLaps?.laps.push(lap);
+      });
+      session.completedLaps!!.lastUpdate = action.payload.lastUpdate;
     },
     setSelectedCar: (state, action: PayloadAction<String | null>) => {
       state.selectedCarNumber = action.payload;
