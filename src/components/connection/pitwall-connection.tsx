@@ -152,7 +152,6 @@ export default function PitwallConnection({
       sessionHubConnection.on("TelemetryProviderDisconnected", () => {
         //TODO
       });
-      console.log("DAVIDH!!!!!!!!!!!");
       connectToSession(sessionHubConnection);
       return () => {
         if (sessionHubConnection != null) {
@@ -237,7 +236,6 @@ export default function PitwallConnection({
         dispatch(pitwallSlice.actions.setStandings(standings));
         standingsDataLastResponse = Date.now();
       });
-      console.log("GameData!!!!!!");
       connectToGameData(
         pitwallSession,
         selectedDataProvider,
@@ -417,7 +415,6 @@ export default function PitwallConnection({
         dispatch(pitwallSlice.actions.setTelemetry(telemetry));
         telemetryDataLastResponse = Date.now();
       });
-      console.log("TELEMETRY!!!!!!!!!!!!!!!!!!");
       connectToTelemetry(
         pitwallSession,
         selectedTelemetryProvider,
