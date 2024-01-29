@@ -5,10 +5,9 @@ import onStandingsUpdate from "./../../../mock-data/single-class-timed/onStandin
 import pitboxSessionData from "./../../../mock-data/single-class-timed/pitbox-session.json";
 import {
   selectOAuthToken,
-  sessionSlice,
-  standingsSlice,
   useDispatch,
   useSelector,
+  pitwallSlice,
 } from "@/lib/redux";
 import { useEffect, useState } from "react";
 
@@ -35,7 +34,7 @@ export default function PitwallSessionMock({
       setLoading(true);
 
       const sessionData = JSON.parse(JSON.stringify(pitboxSessionData));
-      dispatch(sessionSlice.actions.init(sessionData.data));
+      dispatch(pitwallSlice.actions.setStandings(sessionData.data));
 
       if (pitboxSessionData.data.completedLaps.length > 0) {
         const [lastLap] = pitboxSessionData.data.completedLaps.slice(-1);
@@ -62,7 +61,9 @@ export default function PitwallSessionMock({
     const dynamicSessionData = JSON.parse(
       JSON.stringify(onDynamicSessionDataUpdate),
     );
-    dispatch(sessionSlice.actions.trackSessionUpdate(dynamicSessionData));
+    dispatch(
+      pitwallSlice.actions.setDynamicTrackSessionData(dynamicSessionData),
+    );
   });
   //     if (sessionConnection) {
   //       const connect = async () => {
@@ -121,7 +122,7 @@ export default function PitwallSessionMock({
   //   #region Standings WebSocket Connection
   useEffect(() => {
     const standingsUpdate = JSON.parse(JSON.stringify(onStandingsUpdate));
-    dispatch(standingsSlice.actions.update(standingsUpdate));
+    dispatch(pitwallSlice.actions.setStandings(standingsUpdate));
   });
 
   // // #region Telemetry WebSocket Connection

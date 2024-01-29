@@ -2,12 +2,12 @@
 
 import { parseTrackId } from "../utils/formatter/TrackConversion";
 import {
-  LiveTiming,
   selectCurrentTrack,
-  selectLiveTiming,
-  selectedCarNumber,
+  getLiveTiming,
+  getSelectedCarNumber,
   useSelector,
 } from "@/lib/redux";
+import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
 import { clearIntervalAsync } from "set-interval-async";
@@ -19,11 +19,11 @@ export const TrackMap = () => {
   const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] =
     useState(false);
   const [allJsLoaded, setAllJsLoaded] = useState(false);
-  const standings: LiveTiming[] = useSelector(selectLiveTiming);
+  const standings: LiveTiming[] = useSelector(getLiveTiming);
   const track = useSelector(selectCurrentTrack);
   const [carClasses, setCarClasses] = useState<any[]>([]);
   const isMulticlass = false;
-  const selectedCar = useSelector(selectedCarNumber);
+  const selectedCar = useSelector(getSelectedCarNumber);
 
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
@@ -142,12 +142,12 @@ export const TrackMap = () => {
             if (s.carNumber === selectedCar) {
               trackMap.current.setNodeStrokeColor(s.carNumber, "#FFFF00");
 
-              //     carClasses.push({
-              //         classId: -2,
-              //         className: s.driverName,
-              //         classColor: classColor,
-              //         strokeColor: '#66ff00B3'
-              //     })
+              carClasses.push({
+                classId: -2,
+                className: s.driverName,
+                classColor: classColor,
+                strokeColor: "#66ff00B3",
+              });
 
               // if (pitstopTime > 0 && s.bestLaptime > 0) {
               //     let secondsPerPercent = (s.bestLaptime / 1000) / 100
@@ -202,10 +202,9 @@ export const TrackMap = () => {
           }}
         />
       )}
-
       <div>
         <span className="font-weight-bold flex p-3 uppercase">
-          {track?.name ?? "n/a"}
+          {track?.name}
         </span>
       </div>
 

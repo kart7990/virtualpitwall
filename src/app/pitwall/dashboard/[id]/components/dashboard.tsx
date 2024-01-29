@@ -7,14 +7,14 @@ import { Conditions } from "@/components/conditions/conditions";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
 import { TrackMap } from "@/components/trackmap/trackmap";
-import { selectCurrentSession, useSelector } from "@/lib/redux";
+import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
 import { useState } from "react";
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
 
 export default function Dashboard() {
-  const session = useSelector(selectCurrentSession);
+  const session = useSelector(selectCurrentTrackSession);
   const [sessionTitle, setSessionTitle] = useState("");
   const [carClassTitle, setCarClassTitle] = useState("");
 

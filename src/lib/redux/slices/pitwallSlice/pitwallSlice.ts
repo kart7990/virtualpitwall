@@ -1,0 +1,209 @@
+import {
+  BaseGameDataProvider,
+  PitwallState,
+  PitwallSessionResponse,
+  GameSession,
+  TrackSession,
+  BaseGameSession,
+  BaseTrackSession,
+  DynamicTrackSessionData,
+  LiveTimingDto,
+  BaseTelemetryProvider,
+  Telemetry,
+  CompletedTelemetryLaps,
+  CompletedLaps,
+} from "./models";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+const initialState: PitwallState = {
+  session: null,
+  gameSession: null,
+  liveTiming: [],
+  selectedCarNumber: null,
+  telemetry: null,
+};
+
+export const pitwallSlice = createSlice({
+  name: "pitwallState",
+  initialState,
+  reducers: {
+    init: (state, action: PayloadAction<PitwallSessionResponse>) => {
+      state.session = action.payload.pitwallSession;
+      if (action.payload.pitwallSession.gameDataProviders.length > 0) {
+        state.session.selectedDataProvider =
+          action.payload.pitwallSession.gameDataProviders[0];
+        var iRacingSessionsCount =
+          state.session.selectedDataProvider.gameAssignedSessionIds.length;
+        if (iRacingSessionsCount > 0) {
+          state.session.selectedIRacingSessionId =
+            state.session.selectedDataProvider.currentGameAssignedSessionId;
+        }
+      }
+      if (action.payload.pitwallSession.telemetryProviders.length > 0) {
+        state.session.selectedTelemetryProvider =
+          action.payload.pitwallSession.telemetryProviders[0];
+      }
+      state.session.webSocketEndpoints = action.payload.webSocketEndpoints;
+    },
+    setGameSession: (state, action: PayloadAction<GameSession>) => {
+      state.gameSession = action.payload;
+    },
+    changeTrackSession: (state, action: PayloadAction<BaseTrackSession>) => {
+      let sessions = state.gameSession!!.trackSessions.filter(
+        (ts) => ts.number !== action.payload.number,
+      );
+      sessions.push({
+        ...action.payload,
+        completedLaps: null,
+        currentConditions: null,
+        conditionHistory: [],
+      });
+      state.gameSession!!.trackSessions = sessions;
+      state.gameSession!!.currentTrackSession = action.payload.number;
+    },
+    changeDataProvider: (state, action: PayloadAction<string>) => {
+      state.session!!.selectedDataProvider =
+        state.session!!.gameDataProviders.find(
+          (gdp) => gdp.id === action.payload,
+        )!!;
+    },
+    changeTelemetryProvider: (state, action: PayloadAction<string>) => {
+      state.session!!.selectedTelemetryProvider =
+        state.session!!.telemetryProviders.find(
+          (tp) => tp.id === action.payload,
+        )!!;
+    },
+    newGameSession: (state, action: PayloadAction<BaseGameSession>) => {
+      state.session!!.selectedIRacingSessionId =
+        action.payload.gameAssignedSessionId;
+      state.session!!.selectedDataProvider.currentGameAssignedSessionId =
+        action.payload.gameAssignedSessionId;
+      state.session!!.selectedDataProvider.gameAssignedSessionIds.push(
+        action.payload.gameAssignedSessionId,
+      );
+    },
+    addGameDataProvider: (
+      state,
+      action: PayloadAction<BaseGameDataProvider>,
+    ) => {
+      if (state.session != null) {
+        state.session.gameDataProviders.push(action.payload);
+      } else {
+        throw Error(
+          "PitwallSession is null, unable to add game data provider.",
+        );
+      }
+    },
+    addTelemetryProvider: (
+      state,
+      action: PayloadAction<BaseTelemetryProvider>,
+    ) => {
+      if (state.session != null) {
+        state.session.telemetryProviders.push(action.payload);
+      } else {
+        throw Error(
+          "PitwallSession is null, unable to add telemetry provider.",
+        );
+      }
+    },
+    removeGameDataProvider: (
+      state,
+      action: PayloadAction<BaseGameDataProvider>,
+    ) => {
+      if (state.session != null) {
+        state.session.gameDataProviders.splice(
+          state.session.gameDataProviders.findIndex(
+            (gdp) => gdp.id !== action.payload.id,
+          ),
+          1,
+        );
+      } else {
+        throw Error(
+          "PitwallSession is null, unable to remove game data provider.",
+        );
+      }
+    },
+    setDynamicTrackSessionData: (
+      state,
+      action: PayloadAction<DynamicTrackSessionData>,
+    ) => {
+      const session = state.gameSession!!.trackSessions.find(
+        (ts) => ts.number === state.gameSession!!.currentTrackSession,
+      )!!;
+      session.state = action.payload.sessionState;
+      session.flags = action.payload.flags;
+      session.lapsRemaining = action.payload.lapsRemaining;
+      session.serverTime = action.payload.serverTime;
+      session.gameDateTime = action.payload.gameDateTime;
+      session.raceTimeRemaining = action.payload.raceTimeRemaining;
+      session.estimatedRaceLaps = action.payload.estimatedRaceLaps;
+      session.estimatedWholeRaceLaps = action.payload.estimatedWholeRaceLaps;
+      session.leaderLapsRemaining = action.payload.leaderLapsRemaining;
+      session.leaderWholeLapsRemaining =
+        action.payload.leaderWholeLapsRemaining;
+      session.currentConditions = action.payload.conditions;
+    },
+    setStandings: (state, action: PayloadAction<LiveTimingDto[]>) => {
+      state.liveTiming = action.payload.map((s) => {
+        return {
+          position: s.p,
+          classPosition: s.cp,
+          standingPosition: s.sp,
+          standingClassPosition: s.scp,
+          carNumber: s.cn,
+          className: s.cln,
+          classId: s.ci,
+          classColor: s.cc,
+          carName: s.crn,
+          isCurrentDriver: s.cd,
+          iRating: s.ir,
+          safetyRating: s.sr,
+          driverName: s.dn,
+          driverShortName: s.dns,
+          lapDistancePercent: s.d,
+          teamName: s.t,
+          leaderDelta: s.ld,
+          nextCarDelta: s.nd,
+          lastLaptime: s.lt,
+          bestLaptime: s.bt,
+          lap: s.ln,
+          pitStopCount: s.pc,
+          stintLapCount: s.sl,
+        };
+      });
+    },
+    addLaps: (state, action: PayloadAction<CompletedLaps>) => {
+      const session = state.gameSession!!.trackSessions.find(
+        (ts) => ts.number === state.gameSession!!.currentTrackSession,
+      )!!;
+      action.payload.laps.forEach((lap) => {
+        session.completedLaps?.laps.push(lap);
+      });
+      session.completedLaps!!.lastUpdate = action.payload.lastUpdate;
+    },
+    setSelectedCar: (state, action: PayloadAction<String | null>) => {
+      state.selectedCarNumber = action.payload;
+    },
+    setTelemetry: (state, action: PayloadAction<Telemetry>) => {
+      if (state.telemetry == null) {
+        state.telemetry = action.payload;
+        state.telemetry.laps = [];
+      } else {
+        state.telemetry.car = action.payload.car;
+        state.telemetry.timing = action.payload.timing;
+      }
+    },
+    addTelemetryLaps: (
+      state,
+      action: PayloadAction<CompletedTelemetryLaps>,
+    ) => {
+      action.payload.laps.forEach((lap) => {
+        state.telemetry?.laps.push(lap);
+      });
+    },
+    reset: (state) => {
+      //this might not work, had issues in other slices, need to test
+      state = initialState;
+    },
+  },
+});

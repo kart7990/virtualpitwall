@@ -6,14 +6,14 @@ import {
   formatTime,
 } from "../utils/formatter/UnitConversion";
 import {
-  selectCurrentSessionConditions,
-  selectCurrentSessionTiming,
+  selectCurrentTrackSession,
+  selectCurrentConditions,
   useSelector,
 } from "@/lib/redux";
 
 export const Conditions = () => {
-  const conditions = useSelector(selectCurrentSessionConditions);
-  const timing = useSelector(selectCurrentSessionTiming);
+  const conditions = useSelector(selectCurrentConditions);
+  const trackSession = useSelector(selectCurrentTrackSession);
   const useImperialUnits = false;
 
   return (
@@ -23,7 +23,7 @@ export const Conditions = () => {
         <div className="flex flex-wrap gap-4 p-3">
           <DataDisplay
             title="Sim Time"
-            content={formatTime(timing?.simTimeOfDay)}
+            content={formatTime(trackSession?.gameDateTime)}
           />
           <DataDisplay
             title="Track Temp"

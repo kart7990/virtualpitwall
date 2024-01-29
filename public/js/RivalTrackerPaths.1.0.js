@@ -2,6 +2,11 @@ RivalTracker.paths = {
     default_map: {
         paths: ["M286,25.355c107.873,0,194.172,86.298,194.172,194.172c0,107.875-86.299,194.174-194.172,194.174 c-107.874,0-194.173-86.299-194.173-194.174C91.827,111.652,178.126,25.355,286,25.355z"],
         trackId: -1,
+        viewBox: "0 0 600 600",
+        width: "100",
+        height: "60",
+        name: "Default Track",
+        transform: "translate(-25, -25) scale(1)"
     },
 
     atlanta_oval: {
@@ -1700,7 +1705,3 @@ RivalTracker.paths['249'] = RivalTracker.paths['
 RivalTracker.paths['250'] = RivalTracker.paths['
 
 */
-
-
-
-

@@ -31,7 +31,6 @@ export default function Login() {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       // fetching userinfo can be done on the client or the server
       const userInfo = await axios
         .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -84,7 +83,6 @@ export default function Login() {
         setServerError("Request failed, please try again.");
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
       setServerError("Request failed, please try again.");
     }

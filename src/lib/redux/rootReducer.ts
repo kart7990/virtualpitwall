@@ -1,15 +1,7 @@
-import {
-  authSlice,
-  preferencesSlice,
-  sessionSlice,
-  standingsSlice,
-  telemetrySlice,
-} from "./slices";
+import { authSlice, pitwallSlice, preferencesSlice } from "./slices";
 
 export const reducer = {
-  session: sessionSlice.reducer,
-  standings: standingsSlice.reducer,
-  telemetry: telemetrySlice.reducer,
+  pitwall: pitwallSlice.reducer,
   preferences: preferencesSlice.reducer,
   auth: authSlice.reducer,
 };
