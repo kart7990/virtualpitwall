@@ -16,6 +16,13 @@ Core Frameworks, and Libraries:
 
 - App Url: https://staging.virtualpitwall.com
 - API Url: https://staging.api.virtualpitwall.com
+- API Swagger Url (not particularly useful since most data comes from websockets): https://staging.api.virtualpitwall.com/swagger
+
+### Current Project Goals
+
+Recapture functionality from the initial version, which was a very rough proof of concept, and can be found here: https://github.com/kart7990/virtualpitwall/tree/legacy/main
+
+If you plan to work a feature/component, please use the discord for communicating to avoid conflicts and duplicate efforts. It's not the greatest project managemnt plan, but it'll work for now. https://discord.gg/k3A3cTaVNy
 
 ### CI/CD
 
