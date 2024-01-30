@@ -52,7 +52,20 @@ export function Settings() {
           <span className="uppercase text-slate-500">Unit System:</span>
           <Select
             onValueChange={(e) => {
-              dispatch(preferencesSlice.actions.updateMeasurementSystem(e));
+              var system = MeasurementSystem[parseInt(e)];
+              if (system === MeasurementSystem.Imperial.toString()) {
+                dispatch(
+                  preferencesSlice.actions.updateMeasurementSystem(
+                    MeasurementSystem.Imperial,
+                  ),
+                );
+              } else {
+                dispatch(
+                  preferencesSlice.actions.updateMeasurementSystem(
+                    MeasurementSystem.Metric,
+                  ),
+                );
+              }
             }}
             defaultValue={selectedMeasurementSystem.toString()}
           >

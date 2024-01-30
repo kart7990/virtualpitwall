@@ -1,6 +1,6 @@
 # Virtual Pitwall
 
-The Virtual Pitwall platform, displays all relevant iRacing event data on a web-based dashboard.
+The Virtual Pitwall platform displays all relevant iRacing event data on a web-based dashboard for race engineers.
 
 ### Project Frameworks
 
@@ -23,10 +23,19 @@ A passing build and at least one approval is required to merge. Changes merged t
 
 ### Data Model
 
-The best way to explore the data model is to use redux devtools and explore the chart and leaf object properties. Be sure to select the appropriate web app in the drop down - (At the time of writing it is "Create Next App"). The data model is sure to change, but as long as redux selectors are used, it shouldn't be too painful to update call sites in the app.
+The best way to explore the data model is to use redux devtools and view the chart and object properties. Be sure to select the appropriate web app in the drop down. The main redux states that will be used for retrieving iRacing event data are `pitwall.gameSession`, `pitwall.liveTiming`, and `pitwall.telemetry`. The `pitwall.session` state is used to track pitwall-specific data, no race event data should be retrieved from there.
 
-![ReduxChart](https://github.com/kart7990/virtualpitwall/assets/15096469/2efaa7f0-82bc-4b62-9e96-41612bba2d07)
-![ReduxChartTrackSessionProperties](https://github.com/kart7990/virtualpitwall/assets/15096469/717aab3b-d256-4c3b-9351-aa7df44b387a)
+Model Overview:
+![VirtualPitwallReduxModel](https://github.com/kart7990/virtualpitwall/assets/15096469/b0655a68-975e-4a34-ab87-d76384f1d835)
+
+Game Session Data:
+![VirtualPitwallReduxGameSession](https://github.com/kart7990/virtualpitwall/assets/15096469/7d24288b-6535-427d-9454-c0cd08083593)
+
+Live Timing Data:
+![VirtualPitwallReduxStandings](https://github.com/kart7990/virtualpitwall/assets/15096469/96dbd8a3-d5cd-4455-9921-018bb01e06c1)
+
+Telemetry Data:
+![VirtualPitwallReduxTelemetry](https://github.com/kart7990/virtualpitwall/assets/15096469/8f0d0709-1fa9-4c15-bf42-73c39ac0d118)
 
 ### Development Setup
 
