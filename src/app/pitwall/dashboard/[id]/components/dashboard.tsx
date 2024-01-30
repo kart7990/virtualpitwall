@@ -1,9 +1,12 @@
 "use client";
 
 import { DashboardCard } from "./dashboard-card";
+import { DashboardHeader } from "./dashboard-header";
 import { MultiClassDetails } from "@/components/car-class-details/multi-class";
 import { SingleClassDetails } from "@/components/car-class-details/single-class";
 import { Conditions } from "@/components/conditions/conditions";
+import { SourceSelection } from "@/components/connection/source-selection";
+import { Settings } from "@/components/core/settings";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
 import { TrackMap } from "@/components/trackmap/trackmap";
@@ -24,6 +27,10 @@ export default function Dashboard() {
 
   return (
     <main>
+      <DashboardHeader
+        left={<SourceSelection />}
+        right={<Session setSessionTitle={setSessionTitle} />}
+      ></DashboardHeader>
       <ResponsiveGridLayout
         className="layout"
         isDraggable={true}
@@ -32,15 +39,6 @@ export default function Dashboard() {
         onResizeStop={onResizeStopped}
         resizeHandles={["se"]}
       >
-        <div
-          key="session"
-          className="overflow-hidden"
-          data-grid={{ x: 0, y: 0, w: 12, h: 1 }}
-        >
-          <DashboardCard title={sessionTitle}>
-            <Session setSessionTitle={setSessionTitle} />
-          </DashboardCard>
-        </div>
         <div
           key="carClasses"
           className="overflow-hidden"

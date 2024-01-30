@@ -508,12 +508,7 @@ export default function PitwallConnection({
     if (isLoading) {
       return <div> loading... </div>;
     } else {
-      return (
-        <>
-          <SourceSelection />
-          {children}
-        </>
-      );
+      return <>{children}</>;
     }
   }
 
