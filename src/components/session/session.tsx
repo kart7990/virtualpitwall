@@ -11,21 +11,17 @@ export const Session = ({
 }) => {
   const session = useSelector(selectCurrentTrackSession);
 
-  useEffect(() => {
-    setSessionTitle(session ? session.type + " Session Details" : "n/a");
-  }, [session, setSessionTitle]);
-
   return (
     <>
       {!session && <p>waiting for data</p>}
       {session && (
-        <div className="flex flex-wrap gap-4 p-3">
+        <>
+          <DataDisplay title="Session Type" content={session.type} />
           <TimeRemaining />
           <DataDisplay title="Status" content={session.state} />
           <LapsRemaining />
-
           <DataDisplay title="Flags" content={session.flags} />
-        </div>
+        </>
       )}
     </>
   );

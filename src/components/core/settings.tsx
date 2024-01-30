@@ -1,6 +1,14 @@
 "use client";
 
 import { Icons } from "./icons";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Separator } from "./ui/separator";
 import { Button } from "@/components/core/ui/button";
 import { Input } from "@/components/core/ui/input";
 import { Label } from "@/components/core/ui/label";
@@ -14,8 +22,19 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/core/ui/sheet";
+import {
+  useDispatch,
+  preferencesSlice,
+  MeasurementSystem,
+  selectMeasurementSystem,
+  useSelector,
+} from "@/lib/redux";
 
 export function Settings() {
+  const dispatch = useDispatch();
+  const selectedMeasurementSystem = useSelector(selectMeasurementSystem);
+
+  console.log(selectedMeasurementSystem.toString());
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -26,30 +45,46 @@ export function Settings() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
+          <SheetTitle>Preferences</SheetTitle>
+          <SheetDescription>Set your dashboard preferences</SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
+        <div className="grid mt-6">
+          <span className="uppercase text-slate-500">Unit System:</span>
+          <Select
+            onValueChange={(e) => {
+              dispatch(
+                preferencesSlice.actions.updateMeasurementSystem(parseInt(e)),
+              );
+            }}
+            defaultValue={selectedMeasurementSystem.toString()}
+          >
+            <SelectTrigger id="telemetry-provider">
+              <SelectValue placeholder="---Select Driver---" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem
+                key={MeasurementSystem.Metric.toString()}
+                value={MeasurementSystem.Metric.toString()}
+              >
+                <div className="grid gap-2">
+                  <div className="flex items-center">
+                    Metric (km/h, kg, etc.)
+                  </div>
+                </div>
+              </SelectItem>
+              <SelectItem
+                key={MeasurementSystem.Imperial.toString()}
+                value={MeasurementSystem.Imperial.toString()}
+              >
+                <div className="grid gap-2">
+                  <div className="flex items-center">
+                    Imperial (mph, lb, etc.)
+                  </div>
+                </div>
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

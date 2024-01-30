@@ -1,4 +1,3 @@
-import { Settings } from "./settings";
 import { Button } from "./ui/button";
 import { UserNav } from "./user-nav";
 import { MainNav } from "@/components/core/main-nav";
@@ -31,7 +30,6 @@ export function SiteHeader({ isPublic }: { isPublic: boolean }) {
               </Link>
 
               <div className="ml-auto flex items-center space-x-4">
-                <Settings />
                 <UserNav />
               </div>
             </nav>

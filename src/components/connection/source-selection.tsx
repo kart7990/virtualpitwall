@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/core/ui/select";
-import { Separator } from "@/components/core/ui/separator";
 import {
   getCurrentTrackSessionNumber,
   getGameSession,
@@ -97,39 +96,35 @@ export function SourceSelection() {
   }
 
   return (
-    <div>
-      <div className="flex ml-6 my-2 space-x-6">
-        <div className="grid gap-2">
-          <Label htmlFor="data-provider">Data Source</Label>
-          <Select
-            onValueChange={(e) => {
-              dispatch(pitwallSlice.actions.changeDataProvider(e));
-            }}
-            defaultValue={selectedDataProvider?.id}
-          >
-            <SelectTrigger id="data-provider">
-              <SelectValue placeholder="---Select---" />
-            </SelectTrigger>
-            <SelectContent>{DataProviderItems()}</SelectContent>
-          </Select>
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="telemetry-provider">Telemetry Source</Label>
-          <Select
-            onValueChange={(e) => {
-              dispatch(pitwallSlice.actions.changeTelemetryProvider(e));
-            }}
-            defaultValue={selectedTelemetryProvider?.id}
-          >
-            <SelectTrigger id="telemetry-provider">
-              <SelectValue placeholder="---Select Driver---" />
-            </SelectTrigger>
-            <SelectContent>{TelemetryProviderItems()}</SelectContent>
-          </Select>
-        </div>
+    <>
+      <div className="grid">
+        <span className="uppercase text-slate-500">Data Source</span>
+        <Select
+          onValueChange={(e) => {
+            dispatch(pitwallSlice.actions.changeDataProvider(e));
+          }}
+          defaultValue={selectedDataProvider?.id}
+        >
+          <SelectTrigger id="data-provider">
+            <SelectValue placeholder="---Select---" />
+          </SelectTrigger>
+          <SelectContent>{DataProviderItems()}</SelectContent>
+        </Select>
       </div>
-
-      <Separator />
-    </div>
+      <div className="grid">
+        <span className="uppercase text-slate-500">Telemetry Source</span>
+        <Select
+          onValueChange={(e) => {
+            dispatch(pitwallSlice.actions.changeTelemetryProvider(e));
+          }}
+          defaultValue={selectedTelemetryProvider?.id}
+        >
+          <SelectTrigger id="telemetry-provider">
+            <SelectValue placeholder="---Select Driver---" />
+          </SelectTrigger>
+          <SelectContent>{TelemetryProviderItems()}</SelectContent>
+        </Select>
+      </div>
+    </>
   );
 }
