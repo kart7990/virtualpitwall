@@ -15,7 +15,7 @@ function getEnvConfig() {
   let envs = require(`./env/env-${environment}.json`);
   envs = {
     ...envs,
-    MOCKING: process.env.MOCKING,
+    MOCKING: process.env.MOCKING || "false",
   };
   return envs;
 }
