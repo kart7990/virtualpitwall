@@ -16,7 +16,7 @@ export const getCarClassName = (classId: number, className: string): string => {
     case 4018:
       return "LMP3 Class"; // Ligier JS P320
     case 4029:
-      return "GPT Class"; // GTP
+      return "GTP Class"; // GTP
     default:
       return className;
   }
