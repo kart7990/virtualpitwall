@@ -1,18 +1,18 @@
 "use client";
 
-import { DashboardCard } from "./dashboard-card";
-import { DashboardHeader } from "./dashboard-header";
 import { MultiClassDetails } from "@/components/car-class-details/multi-class";
 import { SingleClassDetails } from "@/components/car-class-details/single-class";
 import { Conditions } from "@/components/conditions/conditions";
 import { SourceSelection } from "@/components/connection/source-selection";
-import { Settings } from "@/components/core/settings";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
+import Timing from "@/components/timing/current-lap";
 import { TrackMap } from "@/components/trackmap/trackmap";
 import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
 import { useState } from "react";
 import GridLayout, { ItemCallback, WidthProvider } from "react-grid-layout";
+import { DashboardCard } from "./dashboard-card";
+import { DashboardHeader } from "./dashboard-header";
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
 
@@ -40,9 +40,18 @@ export default function Dashboard() {
         resizeHandles={["se"]}
       >
         <div
+          key="currentLap"
+          className="overflow-hidden"
+          data-grid={{ x: 8, y: 0, w: 5, h: 1 }}
+        >
+          <DashboardCard title="Current Lap">
+            <Timing />
+          </DashboardCard>
+        </div>
+        <div
           key="carClasses"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 2, w: 3, h: 2, minH: 2 }}
+          data-grid={{ x: 0, y: 2, w: 3, h: 2, minH: 1 }}
         >
           <DashboardCard title={carClassTitle}>
             {session?.isMulticlass ? (

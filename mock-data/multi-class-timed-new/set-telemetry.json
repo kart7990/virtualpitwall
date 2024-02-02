@@ -1,0 +1,27 @@
+{
+  "car": {
+    "throttle": 100,
+    "brake": 0,
+    "clutch": 0,
+    "steeringAngle": 0.173,
+    "rpm": 6418,
+    "speed": 62.195,
+    "fuelQuantity": 89.715,
+    "fuelPercent": 0.8463,
+    "currentLapTime": null,
+    "fuelConsumedLap": 2.5904,
+    "fuelPressure": 6.4,
+    "oilTemp": 63.801,
+    "oilPressure": 5.4,
+    "waterTemp": 71.507,
+    "voltage": 14.2
+  },
+  "timing": {
+    "driverCurrentLap": 4,
+    "incidents": 4,
+    "driverLapsComplete": 3,
+    "currentLapTime": 89.10166931152344,
+    "lapDeltaToSessionBestLap": -0.5568197965621948,
+    "lapDistancePercentage": 0.7685902714729309
+  }
+}

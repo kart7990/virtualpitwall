@@ -1,9 +1,11 @@
 export const DataDisplay = ({
   title,
   content,
+  contentClassNames,
 }: {
   title: string;
   content: string;
+  contentClassNames?: string;
 }) => {
   return (
     <div>
@@ -11,7 +13,9 @@ export const DataDisplay = ({
         <span className="uppercase text-slate-500">{title}</span>
       </div>
       <div>
-        <span className="font-medium uppercase">{content}</span>
+        <span className={`font-medium uppercase ${contentClassNames || ""}`}>
+          {content}
+        </span>
       </div>
     </div>
   );

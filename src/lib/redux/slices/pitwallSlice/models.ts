@@ -1,3 +1,9 @@
+import { N_A } from "@/components/utils/constants";
+import {
+  convertMsToDisplay,
+  convertToDelta,
+} from "@/components/utils/formatter/TimeConversion";
+
 export interface PitwallState {
   session: PitwallSession | null;
   gameSession: GameSession | null;
@@ -218,6 +224,34 @@ export interface LiveTiming {
   teamName: string;
 }
 
+export class LiveTimeClass {
+  bestLaptime!: number;
+  lastLaptime!: number;
+
+  constructor(liveTiming: LiveTiming | null | undefined) {
+    if (liveTiming) {
+      this.bestLaptime = liveTiming.bestLaptime;
+      this.lastLaptime = liveTiming.lastLaptime;
+    }
+  }
+
+  getBestLapTime = (): string => {
+    let res = N_A;
+    if (this.bestLaptime !== undefined) {
+      res = convertMsToDisplay(this.bestLaptime);
+    }
+    return res;
+  };
+
+  getLastLapTime = (): string => {
+    let res = N_A;
+    if (this.bestLaptime !== undefined) {
+      res = convertMsToDisplay(this.lastLaptime);
+    }
+    return res;
+  };
+}
+
 export interface Telemetry {
   car: CarTelemetry | null;
   timing: TimingTelemetry | null;
@@ -248,6 +282,55 @@ export interface TimingTelemetry {
   currentLapTime: number;
   lapDeltaToSessionBestLap: number;
   lapDistancePercentage: number;
+}
+
+export class TimingTelemetryClass {
+  currentLap!: number;
+  incidents!: number;
+  completeLaps!: number;
+  currentLapTime!: number;
+  deltaToSessionBest!: number;
+  lapDistancePercentage!: number;
+
+  constructor(timingTelemetry: TimingTelemetry | null | undefined) {
+    if (timingTelemetry) {
+      this.currentLap = timingTelemetry.currentLapTime;
+      this.incidents = timingTelemetry.incidents;
+      this.completeLaps = timingTelemetry.driverLapsComplete;
+      this.currentLapTime = timingTelemetry.currentLapTime;
+      this.deltaToSessionBest = timingTelemetry.lapDeltaToSessionBestLap;
+      this.lapDistancePercentage = timingTelemetry.lapDeltaToSessionBestLap;
+    }
+  }
+
+  getCurrentLap = (): string => {
+    let res = N_A;
+    if (this.currentLap !== undefined) {
+      res = convertToDelta(this.currentLap);
+    }
+
+    return res;
+  };
+
+  getCarDelta = (): string => {
+    return this.isDeltaNegative()
+      ? "- " + convertToDelta(Math.abs(this.deltaToSessionBest))
+      : this.isDeltaPositive()
+        ? "+ " + convertToDelta(this.deltaToSessionBest)
+        : "\u00B1 " + convertToDelta(this.deltaToSessionBest);
+  };
+
+  isDeltaNegative = (): boolean => {
+    return this.deltaToSessionBest < 0;
+  };
+
+  isDeltaPositive = (): boolean => {
+    return this.deltaToSessionBest > 0;
+  };
+
+  getIncidents = (): string => {
+    return "" + this.incidents;
+  };
 }
 
 export interface CompletedTelemetryLaps {

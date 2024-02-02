@@ -10,7 +10,7 @@ export function DashboardHeader({
 }) {
   return (
     <>
-      <div className="flow-root ">
+      <div className="flow-root">
         <div className="float-left ml-2 mt-2">
           <div className="flex space-x-6">{left}</div>
         </div>

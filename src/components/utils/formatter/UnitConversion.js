@@ -46,6 +46,9 @@ export const convertTemp = (celsius, useImperialUnits) => {
   return parseFloat(convertedValue);
 };
 
+/**
+ * @deprecated Use TimeConversion.convertMsToDisplay
+ */
 export const convertMsToDisplay = (ms) => {
   if (ms > 0) {
     var milliseconds = padMs(ms % 1000);
@@ -58,6 +61,9 @@ export const convertMsToDisplay = (ms) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 const padMs = (value) => {
   if (value < 10) {
     return "00" + value;
@@ -68,6 +74,9 @@ const padMs = (value) => {
   }
 };
 
+/**
+ * @deprecated
+ */
 const pad = (value) => {
   if (value < 10) {
     return "0" + value;
