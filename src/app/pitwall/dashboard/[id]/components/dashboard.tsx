@@ -40,15 +40,6 @@ export default function Dashboard() {
         resizeHandles={["se"]}
       >
         <div
-          key="currentLap"
-          className="overflow-hidden"
-          data-grid={{ x: 8, y: 0, w: 5, h: 1 }}
-        >
-          <DashboardCard title="Current Lap">
-            <Timing />
-          </DashboardCard>
-        </div>
-        <div
           key="carClasses"
           className="overflow-hidden"
           data-grid={{ x: 0, y: 2, w: 3, h: 2, minH: 1 }}
@@ -73,7 +64,7 @@ export default function Dashboard() {
         <div
           key="standings"
           className="overflow-hidden"
-          data-grid={{ x: 3, y: 2, w: 9, h: 7, minH: 2 }}
+          data-grid={{ x: 3, y: 2, w: 9, h: 8, minH: 2 }}
         >
           <DashboardCard title="Standings">
             <Standings />
@@ -82,6 +73,15 @@ export default function Dashboard() {
         <div key="b" data-grid={{ x: 0, y: 6, w: 3, h: 2, minW: 2, maxW: 4 }}>
           <DashboardCard title="Conditions">
             <Conditions />
+          </DashboardCard>
+        </div>
+        <div
+          key="currentLap"
+          className="overflow-hidden"
+          data-grid={{ x: 0, y: 8, w: 3, h: 2 }}
+        >
+          <DashboardCard title="Current Lap">
+            <Timing />
           </DashboardCard>
         </div>
       </ResponsiveGridLayout>
