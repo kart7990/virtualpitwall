@@ -1,0 +1,27 @@
+{
+  "sessionState": "Racing",
+  "flags": "StartHidden",
+  "lapsRemaining": 32767,
+  "serverTime": 1239.5166666683529,
+  "gameDateTime": 45339,
+  "raceTimeRemaining": 1800.7166666649807,
+  "estimatedRaceLaps": 26.060125466275768,
+  "estimatedWholeRaceLaps": 27,
+  "leaderLapsRemaining": 18.060125466275768,
+  "leaderWholeLapsRemaining": 18,
+  "conditions": {
+    "id": null,
+    "gameDateTime": 0,
+    "airDensity": 1.1778371334075928,
+    "airPressure": 101106.9296875,
+    "airTemp": 24.65232276916504,
+    "fogLevel": 0,
+    "skies": "Partly cloudy",
+    "weatherType": 1,
+    "trackTemp": 38.333343505859375,
+    "trackUsage": null,
+    "relativeHumidity": 0.3606611490249634,
+    "windDirection": "NE (27°)",
+    "windSpeed": 3.302294969558716
+  }
+}

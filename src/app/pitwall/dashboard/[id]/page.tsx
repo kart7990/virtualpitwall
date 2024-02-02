@@ -1,10 +1,10 @@
 "use client";
 
-import Dashboard from "./components/dashboard";
-import "./style.css";
 import PitwallConnection from "@/components/connection/pitwall-connection";
 import PitwallSessionMock from "@/components/connection/pitwall-session-mock";
 import { MOCKING } from "@/config/site";
+import Dashboard from "./components/dashboard";
+import "./style.css";
 
 export default function Page({ params }: { params: { id: string } }) {
   const pitboxSessionId = params.id;
@@ -12,7 +12,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const pitwallSession = () => {
     if (MOCKING) {
       return (
-        <PitwallSessionMock pitwallSessionId={pitboxSessionId}>
+        <PitwallSessionMock>
           <Dashboard />
         </PitwallSessionMock>
       );
