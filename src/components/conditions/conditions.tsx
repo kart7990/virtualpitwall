@@ -1,3 +1,8 @@
+import {
+  selectCurrentConditions,
+  selectCurrentTrackSession,
+  useSelector,
+} from "@/lib/redux";
 import { DataDisplay } from "../core/ui/data-display";
 import {
   convertWeatherType,
@@ -5,11 +10,6 @@ import {
   formatTemp,
   formatTime,
 } from "../utils/formatter/UnitConversion";
-import {
-  selectCurrentTrackSession,
-  selectCurrentConditions,
-  useSelector,
-} from "@/lib/redux";
 
 export const Conditions = () => {
   const conditions = useSelector(selectCurrentConditions);
@@ -37,6 +37,11 @@ export const Conditions = () => {
             content={formatTemp(conditions?.airTemp, useImperialUnits)}
           />
           <DataDisplay
+            title="Weather Type"
+            content={convertWeatherType(conditions.weatherType)}
+          />
+          <DataDisplay title="Skies" content={conditions.skies.toString()} />
+          <DataDisplay
             title="Wind"
             content={
               conditions?.windDirection +
@@ -44,11 +49,6 @@ export const Conditions = () => {
               formatSpeed(conditions?.windSpeed, useImperialUnits)
             }
           />
-          <DataDisplay
-            title="Weather Type"
-            content={convertWeatherType(conditions.weatherType)}
-          />
-          <DataDisplay title="Skies" content={conditions.skies.toString()} />
           <DataDisplay
             title="Relative Humidity"
             content={(conditions?.relativeHumidity * 100).toFixed(0) + "%"}
