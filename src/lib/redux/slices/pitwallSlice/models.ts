@@ -7,7 +7,7 @@ import {
 export interface PitwallState {
   session: PitwallSession | null;
   gameSession: GameSession | null;
-  liveTiming: LiveTiming[];
+  liveTiming: LiveTimingDto[];
   selectedCarNumber: String | null;
   telemetry: Telemetry | null;
 }
@@ -290,20 +290,22 @@ export interface CarTelemetry {
 }
 
 export class TimingTelemetry {
-  currentLap: number;
-  incidents: number;
-  completedLaps: number;
-  currentLapTime: number;
-  deltaToSessionBest: number;
-  lapDistancePercentage: number;
+  currentLap!: number;
+  incidents!: number;
+  completedLaps!: number;
+  currentLapTime!: number;
+  deltaToSessionBest!: number;
+  lapDistancePercentage!: number;
 
   constructor(timingTelemetry: any) {
-    this.currentLap = timingTelemetry.currentLapTime;
-    this.incidents = timingTelemetry.incidents;
-    this.completedLaps = timingTelemetry.driverLapsComplete;
-    this.currentLapTime = timingTelemetry.currentLapTime;
-    this.deltaToSessionBest = timingTelemetry.lapDeltaToSessionBestLap;
-    this.lapDistancePercentage = timingTelemetry.lapDeltaToSessionBestLap;
+    if (timingTelemetry != null) {
+      this.currentLap = timingTelemetry.currentLapTime;
+      this.incidents = timingTelemetry.incidents;
+      this.completedLaps = timingTelemetry.driverLapsComplete;
+      this.currentLapTime = timingTelemetry.currentLapTime;
+      this.deltaToSessionBest = timingTelemetry.lapDeltaToSessionBestLap;
+      this.lapDistancePercentage = timingTelemetry.lapDeltaToSessionBestLap;
+    }
   }
 
   getCurrentLap = (): string => {

@@ -1,5 +1,6 @@
 import type { ReduxState } from "@/lib/redux";
 import { createSelector } from "@reduxjs/toolkit";
+import { LiveTiming, TimingTelemetry } from "./models";
 
 export const getPitwallSession = (state: ReduxState) => state.pitwall.session;
 
@@ -34,11 +35,12 @@ export const getCurrentConditions = (state: ReduxState) =>
     (ts) => ts.number === getCurrentTrackSessionNumber(state),
   );
 
-export const getLiveTiming = (state: ReduxState) => state.pitwall.liveTiming;
+export const getLiveTiming = (state: ReduxState) =>
+  state.pitwall.liveTiming.map((lt) => new LiveTiming(lt));
 
 export const selectCurrentCar = (state: ReduxState) =>
   state.pitwall.liveTiming.find(
-    (lt) => lt.driverName === getSelectedTelemetryProvider(state)?.name,
+    (lt) => lt.dn === getSelectedTelemetryProvider(state)?.name,
   );
 
 export const getSelectedCarNumber = (state: ReduxState) =>
@@ -89,4 +91,10 @@ export const selectCurrentTrack = createSelector(
   },
 );
 
-export const selectTelemetry = (state: ReduxState) => state.pitwall.telemetry;
+export const selectTelemetry = (state: ReduxState) => {
+  return {
+    car: state.pitwall.telemetry?.car,
+    timing: new TimingTelemetry(state.pitwall.telemetry),
+    laps: state.pitwall.telemetry?.laps,
+  };
+};
