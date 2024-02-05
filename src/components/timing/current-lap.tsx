@@ -1,18 +1,15 @@
 import { selectCurrentCar, selectTelemetry, useSelector } from "@/lib/redux";
-import {
-  LiveTimeClass,
-  TimingTelemetryClass,
-} from "@/lib/redux/slices/pitwallSlice/models";
+import { TimingTelemetryClass } from "@/lib/redux/slices/pitwallSlice/models";
 import { DataDisplay } from "../core/ui/data-display";
 
 const Timing = () => {
   const telemetry = useSelector(selectTelemetry);
   const time = new TimingTelemetryClass(telemetry?.timing);
-  const currentCar = new LiveTimeClass(useSelector(selectCurrentCar));
+  const currentCar = useSelector(selectCurrentCar);
 
   return (
     <>
-      {telemetry?.car !== null ? (
+      {telemetry?.car !== null && currentCar ? (
         <>
           <div className="flex flex-wrap gap-4 p-3">
             <DataDisplay title="Current Lap" content={time.getCurrentLap()} />
