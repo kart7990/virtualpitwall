@@ -38,7 +38,7 @@ export const getLiveTiming = (state: ReduxState) => state.pitwall.liveTiming;
 
 export const selectCurrentCar = (state: ReduxState) =>
   state.pitwall.liveTiming.find(
-    (lt) => lt.carNumber === getSelectedTelemetryProvider(state)?.carNumber,
+    (lt) => lt.driverName === getSelectedTelemetryProvider(state)?.name,
   );
 
 export const getSelectedCarNumber = (state: ReduxState) =>
