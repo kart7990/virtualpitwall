@@ -30,7 +30,7 @@ A passing build and at least one approval is required to merge. Changes merged t
 
 ### System Overview
 
-![system_overview](https://github.com/kart7990/virtualpitwall/assets/15096469/6ef3455a-a1ca-47ba-90fc-6f46b4c07bbc)
+![system_overview](https://github.com/kart7990/virtualpitwall/assets/15096469/44597932-7047-43c0-ae86-e3f42433b32b)
 
 ### Data Model
 
