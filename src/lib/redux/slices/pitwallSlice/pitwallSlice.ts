@@ -180,8 +180,11 @@ export const pitwallSlice = createSlice({
     },
     setTelemetry: (state, action: PayloadAction<Telemetry>) => {
       if (state.telemetry == null) {
-        state.telemetry = action.payload;
-        state.telemetry.laps = [];
+        state.telemetry = {
+          car: action.payload.car,
+          timing: new TimingTelemetry(action.payload.timing),
+          laps: [],
+        };
       } else {
         state.telemetry.car = action.payload.car;
         state.telemetry.timing = new TimingTelemetry(action.payload.timing);
