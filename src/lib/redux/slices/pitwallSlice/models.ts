@@ -332,7 +332,7 @@ export class TimingTelemetry {
   };
 
   getIncidents = (): string => {
-    return "" + this.incidents;
+    return String(this.incidents);
   };
 }
 
