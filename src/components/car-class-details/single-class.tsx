@@ -1,15 +1,12 @@
 import {
-  getCarClassName,
-  parseIRating,
-} from "../utils/formatter/CarConversion";
-import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
-import {
+  getLiveTiming,
   selectCurrentTrackSession,
   useSelector,
-  getLiveTiming,
 } from "@/lib/redux";
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import { useEffect } from "react";
+import { parseIRating } from "../utils/formatter/CarConversion";
+import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
 
 interface CarDetails {
   name: string;
@@ -85,6 +82,20 @@ export const SingleClassDetails = ({
     return res;
   };
 
+  const getSoF = () => {
+    let res = <></>;
+
+    if (session?.type !== "Offline Testing") {
+      res = (
+        <div className="font-medium">
+          SoF: {parseIRating(totalIRating, standings.length)}
+        </div>
+      );
+    }
+
+    return res;
+  };
+
   return (
     <>
       {!session && <p>waiting for data</p>}
@@ -94,9 +105,7 @@ export const SingleClassDetails = ({
           <div className="overflow-auto h-full pb-10">
             <div className="flex flex-col gap-4 p-3">
               <div>
-                <div className="font-medium">
-                  SoF: {parseIRating(totalIRating, standings.length)}
-                </div>
+                {getSoF()}
                 <div className="font-medium">
                   {getFastestLapComponent(fastestCar)}
                 </div>
@@ -138,9 +147,7 @@ export const SingleClassDetails = ({
                 <div className="justify-center items-center ml-2 mr-1">🏎️</div>
                 {carClassValues[0].count}
               </span>
-              <div className="font-medium">
-                SoF: {parseIRating(totalIRating, standings.length)}
-              </div>
+              {getSoF()}
               <div className="font-medium">
                 {getFastestLapComponent(fastestCar)}
               </div>
