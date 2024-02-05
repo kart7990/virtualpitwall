@@ -12,7 +12,7 @@ const Timing = () => {
 
   return (
     <>
-      {telemetry ? (
+      {telemetry?.car !== null ? (
         <>
           <div className="flex flex-wrap gap-4 p-3">
             <DataDisplay title="Current Lap" content={time.getCurrentLap()} />
@@ -41,7 +41,7 @@ const Timing = () => {
           </div>
         </>
       ) : (
-        <div>Car is not on track</div>
+        <div className="p-3">Car is not on track</div>
       )}
     </>
   );
