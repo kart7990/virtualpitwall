@@ -8,12 +8,10 @@ import {
   CompletedTelemetryLaps,
   DynamicTrackSessionData,
   GameSession,
-  LiveTiming,
   LiveTimingDto,
   PitwallSessionResponse,
   PitwallState,
   Telemetry,
-  TimingTelemetry,
 } from "./models";
 
 const initialState: PitwallState = {
@@ -162,9 +160,7 @@ export const pitwallSlice = createSlice({
       session.currentConditions = action.payload.conditions;
     },
     setStandings: (state, action: PayloadAction<LiveTimingDto[]>) => {
-      state.liveTiming = action.payload.map((s) => {
-        return new LiveTiming(s);
-      });
+      state.liveTiming = action.payload;
     },
     addLaps: (state, action: PayloadAction<CompletedLaps>) => {
       const session = state.gameSession!!.trackSessions.find(
@@ -182,12 +178,12 @@ export const pitwallSlice = createSlice({
       if (state.telemetry == null) {
         state.telemetry = {
           car: action.payload.car,
-          timing: new TimingTelemetry(action.payload.timing),
+          timing: action.payload.timing,
           laps: [],
         };
       } else {
         state.telemetry.car = action.payload.car;
-        state.telemetry.timing = new TimingTelemetry(action.payload.timing);
+        state.telemetry.timing = action.payload.timing;
       }
     },
     addTelemetryLaps: (
