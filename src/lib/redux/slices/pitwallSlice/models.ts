@@ -198,7 +198,7 @@ export interface LiveTimingDto {
   sl: number;
 }
 
-export interface LiveTiming {
+export class LiveTiming {
   bestLaptime: number;
   carName: string;
   carNumber: string;
@@ -222,17 +222,31 @@ export interface LiveTiming {
   standingPosition: number;
   stintLapCount: number;
   teamName: string;
-}
 
-export class LiveTimeClass {
-  bestLaptime!: number;
-  lastLaptime!: number;
-
-  constructor(liveTiming: LiveTiming | null | undefined) {
-    if (liveTiming) {
-      this.bestLaptime = liveTiming.bestLaptime;
-      this.lastLaptime = liveTiming.lastLaptime;
-    }
+  constructor(s: LiveTimingDto) {
+    this.position = s.p;
+    this.classPosition = s.cp;
+    this.standingPosition = s.sp;
+    this.standingClassPosition = s.scp;
+    this.carNumber = s.cn;
+    this.className = s.cln;
+    this.classId = s.ci;
+    this.classColor = s.cc;
+    this.carName = s.crn;
+    this.isCurrentDriver = s.cd;
+    this.iRating = s.ir;
+    this.safetyRating = s.sr;
+    this.driverName = s.dn;
+    this.driverShortName = s.dns;
+    this.lapDistancePercent = s.d;
+    this.teamName = s.t;
+    this.leaderDelta = s.ld;
+    this.nextCarDelta = s.nd;
+    this.lastLaptime = s.lt;
+    this.bestLaptime = s.bt;
+    this.lap = s.ln;
+    this.pitStopCount = s.pc;
+    this.stintLapCount = s.sl;
   }
 
   getBestLapTime = (): string => {
@@ -245,7 +259,7 @@ export class LiveTimeClass {
 
   getLastLapTime = (): string => {
     let res = N_A;
-    if (this.bestLaptime !== undefined) {
+    if (this.lastLaptime !== undefined) {
       res = convertMsToDisplay(this.lastLaptime);
     }
     return res;

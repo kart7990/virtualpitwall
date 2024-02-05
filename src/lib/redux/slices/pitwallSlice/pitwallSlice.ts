@@ -1,20 +1,19 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import {
   BaseGameDataProvider,
-  PitwallState,
-  PitwallSessionResponse,
-  GameSession,
-  TrackSession,
   BaseGameSession,
-  BaseTrackSession,
-  DynamicTrackSessionData,
-  LiveTimingDto,
   BaseTelemetryProvider,
-  Telemetry,
-  CompletedTelemetryLaps,
+  BaseTrackSession,
   CompletedLaps,
+  CompletedTelemetryLaps,
+  DynamicTrackSessionData,
+  GameSession,
+  LiveTiming,
+  LiveTimingDto,
+  PitwallSessionResponse,
+  PitwallState,
+  Telemetry,
 } from "./models";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { stat } from "fs";
 
 const initialState: PitwallState = {
   session: null,
@@ -163,31 +162,7 @@ export const pitwallSlice = createSlice({
     },
     setStandings: (state, action: PayloadAction<LiveTimingDto[]>) => {
       state.liveTiming = action.payload.map((s) => {
-        return {
-          position: s.p,
-          classPosition: s.cp,
-          standingPosition: s.sp,
-          standingClassPosition: s.scp,
-          carNumber: s.cn,
-          className: s.cln,
-          classId: s.ci,
-          classColor: s.cc,
-          carName: s.crn,
-          isCurrentDriver: s.cd,
-          iRating: s.ir,
-          safetyRating: s.sr,
-          driverName: s.dn,
-          driverShortName: s.dns,
-          lapDistancePercent: s.d,
-          teamName: s.t,
-          leaderDelta: s.ld,
-          nextCarDelta: s.nd,
-          lastLaptime: s.lt,
-          bestLaptime: s.bt,
-          lap: s.ln,
-          pitStopCount: s.pc,
-          stintLapCount: s.sl,
-        };
+        return new LiveTiming(s);
       });
     },
     addLaps: (state, action: PayloadAction<CompletedLaps>) => {
