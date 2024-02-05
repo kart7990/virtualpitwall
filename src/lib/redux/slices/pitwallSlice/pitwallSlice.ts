@@ -13,6 +13,7 @@ import {
   PitwallSessionResponse,
   PitwallState,
   Telemetry,
+  TimingTelemetry,
 } from "./models";
 
 const initialState: PitwallState = {
@@ -183,7 +184,7 @@ export const pitwallSlice = createSlice({
         state.telemetry.laps = [];
       } else {
         state.telemetry.car = action.payload.car;
-        state.telemetry.timing = action.payload.timing;
+        state.telemetry.timing = new TimingTelemetry(action.payload.timing);
       }
     },
     addTelemetryLaps: (

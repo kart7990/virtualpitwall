@@ -1,4 +1,4 @@
-import { N_A } from "@/components/utils/constants";
+import { NO_TIME } from "@/components/utils/constants";
 import {
   convertMsToDisplay,
   convertToDelta,
@@ -250,7 +250,7 @@ export class LiveTiming {
   }
 
   getBestLapTime = (): string => {
-    let res = N_A;
+    let res = NO_TIME;
     if (this.bestLaptime !== undefined) {
       res = convertMsToDisplay(this.bestLaptime);
     }
@@ -258,7 +258,7 @@ export class LiveTiming {
   };
 
   getLastLapTime = (): string => {
-    let res = N_A;
+    let res = NO_TIME;
     if (this.lastLaptime !== undefined) {
       res = convertMsToDisplay(this.lastLaptime);
     }
@@ -289,36 +289,25 @@ export interface CarTelemetry {
   voltage: number;
 }
 
-export interface TimingTelemetry {
-  driverCurrentLap: number;
+export class TimingTelemetry {
+  currentLap: number;
   incidents: number;
-  driverLapsComplete: number;
+  completedLaps: number;
   currentLapTime: number;
-  lapDeltaToSessionBestLap: number;
+  deltaToSessionBest: number;
   lapDistancePercentage: number;
-}
 
-export class TimingTelemetryClass {
-  currentLap!: number;
-  incidents!: number;
-  completeLaps!: number;
-  currentLapTime!: number;
-  deltaToSessionBest!: number;
-  lapDistancePercentage!: number;
-
-  constructor(timingTelemetry: TimingTelemetry | null | undefined) {
-    if (timingTelemetry) {
-      this.currentLap = timingTelemetry.currentLapTime;
-      this.incidents = timingTelemetry.incidents;
-      this.completeLaps = timingTelemetry.driverLapsComplete;
-      this.currentLapTime = timingTelemetry.currentLapTime;
-      this.deltaToSessionBest = timingTelemetry.lapDeltaToSessionBestLap;
-      this.lapDistancePercentage = timingTelemetry.lapDeltaToSessionBestLap;
-    }
+  constructor(timingTelemetry: any) {
+    this.currentLap = timingTelemetry.currentLapTime;
+    this.incidents = timingTelemetry.incidents;
+    this.completedLaps = timingTelemetry.driverLapsComplete;
+    this.currentLapTime = timingTelemetry.currentLapTime;
+    this.deltaToSessionBest = timingTelemetry.lapDeltaToSessionBestLap;
+    this.lapDistancePercentage = timingTelemetry.lapDeltaToSessionBestLap;
   }
 
   getCurrentLap = (): string => {
-    let res = N_A;
+    let res = NO_TIME;
     if (this.currentLap !== undefined) {
       res = convertToDelta(this.currentLap);
     }
