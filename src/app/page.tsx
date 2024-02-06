@@ -62,8 +62,16 @@ export default function Home() {
                   excited to share it with the community, but do not expect a
                   bug-free or polished experience. There will be issues and some
                   features may not work. Please report any issues or feature
-                  requests in Discord so we can build something awesome
-                  together.
+                  requests in{" "}
+                  <a
+                    href={siteConfig.links.discord}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-medium underline underline-offset-4"
+                  >
+                    Discord
+                  </a>{" "}
+                  so we can build something awesome together.
                 </div>
               </div>
             </div>
