@@ -9,8 +9,14 @@ export const getPitwallSessionId = (state: ReduxState) =>
 export const getSelectedDataProvider = (state: ReduxState) =>
   state.pitwall.session?.selectedDataProvider;
 
+export const getDataProviders = (state: ReduxState) =>
+  state.pitwall.session?.gameDataProviders;
+
 export const getSelectedTelemetryProvider = (state: ReduxState) =>
   state.pitwall.session?.selectedTelemetryProvider;
+
+export const getTelemetryProviders = (state: ReduxState) =>
+  state.pitwall.session?.telemetryProviders;
 
 export const getSelectedIRacingSessionId = (state: ReduxState) =>
   state.pitwall.session?.selectedIRacingSessionId;
@@ -39,6 +45,26 @@ export const selectCurrentTrackSession = createSelector(
     if (trackSessions != null && trackSessions.length > 0) {
       return trackSessions.find(
         (ts) => ts.number === currentTrackSessionNumber,
+      );
+    }
+  },
+);
+
+export const selectDataProvider = createSelector(
+  [getSelectedDataProvider, getDataProviders],
+  (selectedDataProvider, dataProviders) => {
+    if (dataProviders != null && dataProviders.length > 0) {
+      return dataProviders.find((gdp) => gdp.id === selectedDataProvider);
+    }
+  },
+);
+
+export const selectTelemetryProvider = createSelector(
+  [getSelectedTelemetryProvider, getTelemetryProviders],
+  (selectedTelemetryProvider, telemetryProviders) => {
+    if (telemetryProviders != null && telemetryProviders.length > 0) {
+      return telemetryProviders.find(
+        (tp) => tp.id === selectedTelemetryProvider,
       );
     }
   },

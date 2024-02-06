@@ -9,7 +9,8 @@ import {
   getSelectedIRacingSessionId,
   getPitwallSession,
   getCurrentTrackSessionNumber,
-  getSelectedTelemetryProvider,
+  selectTelemetryProvider,
+  selectDataProvider,
   pitwallSlice,
   useDispatch,
   useSelector,
@@ -92,8 +93,8 @@ export default function PitwallConnection({
 
   const oAuthToken = useSelector(selectOAuthToken);
   const pitwallSession = useSelector(getPitwallSession);
-  const selectedDataProvider = useSelector(getSelectedDataProvider);
-  const selectedTelemetryProvider = useSelector(getSelectedTelemetryProvider);
+  const selectedDataProvider = useSelector(selectDataProvider);
+  const selectedTelemetryProvider = useSelector(selectTelemetryProvider);
   const selectedIRacingSessionId = useSelector(getSelectedIRacingSessionId);
   const currentTrackSessionNumber = useSelector(getCurrentTrackSessionNumber);
 
@@ -415,6 +416,17 @@ export default function PitwallConnection({
         dispatch(pitwallSlice.actions.setTelemetry(telemetry));
         telemetryDataLastResponse = Date.now();
       });
+
+      telemetryHubConnection.on(
+        "TelemetryProviderUpdate",
+        (telemetryProvider: BaseTelemetryProvider) => {
+          dispatch(
+            pitwallSlice.actions.updateTelemetryProvider(telemetryProvider),
+          );
+          telemetryDataLastResponse = Date.now();
+        },
+      );
+
       connectToTelemetry(
         pitwallSession,
         selectedTelemetryProvider,

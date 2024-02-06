@@ -28,6 +28,10 @@ If you plan to work a feature/component, please use the discord for communicatin
 
 A passing build and at least one approval is required to merge. Changes merged to main branch will be automatically deployed to https://staging.virtualpitwall.com. This typically takes less than 5 minutes. If the CI build fails, test the build locally and ensure there are no errors or warnings: `npm run build-dev` (or `build-staging`).
 
+### System Overview
+
+![system_overview_dark](https://github.com/kart7990/virtualpitwall/assets/15096469/61111350-1e0f-42c7-821c-b15208f0e0c4)
+
 ### Data Model
 
 The best way to explore the data model is to use redux devtools and view the chart and object properties. Be sure to select the appropriate web app in the drop down. The main redux states that will be used for retrieving iRacing event data are `pitwall.gameSession`, `pitwall.liveTiming`, and `pitwall.telemetry`. The `pitwall.session` state is used to track pitwall-specific data, no race event data should be retrieved from there.

@@ -14,6 +14,7 @@ import {
   CompletedLaps,
 } from "./models";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { stat } from "fs";
 
 const initialState: PitwallState = {
   session: null,
@@ -31,17 +32,17 @@ export const pitwallSlice = createSlice({
       state.session = action.payload.pitwallSession;
       if (action.payload.pitwallSession.gameDataProviders.length > 0) {
         state.session.selectedDataProvider =
-          action.payload.pitwallSession.gameDataProviders[0];
+          action.payload.pitwallSession.gameDataProviders[0].id;
         var iRacingSessionsCount =
-          state.session.selectedDataProvider.gameAssignedSessionIds.length;
+          state.session.gameDataProviders[0].gameAssignedSessionIds.length;
         if (iRacingSessionsCount > 0) {
           state.session.selectedIRacingSessionId =
-            state.session.selectedDataProvider.currentGameAssignedSessionId;
+            state.session.gameDataProviders[0].currentGameAssignedSessionId;
         }
       }
       if (action.payload.pitwallSession.telemetryProviders.length > 0) {
         state.session.selectedTelemetryProvider =
-          action.payload.pitwallSession.telemetryProviders[0];
+          action.payload.pitwallSession.telemetryProviders[0].id;
       }
       state.session.webSocketEndpoints = action.payload.webSocketEndpoints;
     },
@@ -62,23 +63,22 @@ export const pitwallSlice = createSlice({
       state.gameSession!!.currentTrackSession = action.payload.number;
     },
     changeDataProvider: (state, action: PayloadAction<string>) => {
-      state.session!!.selectedDataProvider =
-        state.session!!.gameDataProviders.find(
-          (gdp) => gdp.id === action.payload,
-        )!!;
+      state.session!!.selectedDataProvider = action.payload;
     },
     changeTelemetryProvider: (state, action: PayloadAction<string>) => {
-      state.session!!.selectedTelemetryProvider =
-        state.session!!.telemetryProviders.find(
-          (tp) => tp.id === action.payload,
-        )!!;
+      state.session!!.selectedTelemetryProvider = action.payload;
     },
     newGameSession: (state, action: PayloadAction<BaseGameSession>) => {
       state.session!!.selectedIRacingSessionId =
         action.payload.gameAssignedSessionId;
-      state.session!!.selectedDataProvider.currentGameAssignedSessionId =
+
+      var gameDataProvider = state.session!!.gameDataProviders.find(
+        (gdp) => gdp.id == state.session!!.selectedDataProvider,
+      )!!;
+
+      gameDataProvider.currentGameAssignedSessionId =
         action.payload.gameAssignedSessionId;
-      state.session!!.selectedDataProvider.gameAssignedSessionIds.push(
+      gameDataProvider.gameAssignedSessionIds.push(
         action.payload.gameAssignedSessionId,
       );
     },
@@ -100,6 +100,24 @@ export const pitwallSlice = createSlice({
     ) => {
       if (state.session != null) {
         state.session.telemetryProviders.push(action.payload);
+      } else {
+        throw Error(
+          "PitwallSession is null, unable to add telemetry provider.",
+        );
+      }
+    },
+    updateTelemetryProvider: (
+      state,
+      action: PayloadAction<BaseTelemetryProvider>,
+    ) => {
+      if (state.session != null) {
+        var telemetryProvider = state.session.telemetryProviders.find(
+          (tp) => tp.id == action.payload.id,
+        )!!;
+        telemetryProvider.carNumber = action.payload.carNumber;
+        telemetryProvider.gameUserId = action.payload.gameUserId;
+        telemetryProvider.gameUserName = action.payload.gameUserName;
+        telemetryProvider.isOnTrack = action.payload.isOnTrack;
       } else {
         throw Error(
           "PitwallSession is null, unable to add telemetry provider.",

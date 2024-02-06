@@ -17,8 +17,8 @@ export interface PitwallSession {
   accessCode: string;
   creatorUserId: string;
   selectedIRacingSessionId: string;
-  selectedDataProvider: BaseGameDataProvider;
-  selectedTelemetryProvider: BaseTelemetryProvider;
+  selectedDataProvider: string;
+  selectedTelemetryProvider: string;
   gameDataProviders: BaseGameDataProvider[];
   telemetryProviders: BaseTelemetryProvider[];
   webSocketEndpoints: WebSocketEndpoints;
@@ -51,6 +51,7 @@ export interface BaseTelemetryProvider {
   carNumber: string;
   gameUserId: string;
   gameUserName: string;
+  isOnTrack: boolean;
 }
 
 export enum HubEndpoint {
