@@ -1,15 +1,24 @@
-import { selectCurrentCar, selectTelemetry, useSelector } from "@/lib/redux";
+import {
+  selectCurrentCar,
+  selectTelemetry,
+  selectTelemetryProvider,
+  useSelector,
+} from "@/lib/redux";
 import { DataDisplay } from "../core/ui/data-display";
 import { N_A } from "../utils/constants";
 
 const Timing = () => {
+  const telemetryProvider = useSelector(selectTelemetryProvider);
   const telemetry = useSelector(selectTelemetry);
   const time = telemetry?.timing;
   const currentCar = useSelector(selectCurrentCar);
 
   return (
     <>
-      {telemetry?.car !== null && currentCar && time ? (
+      {telemetryProvider?.isOnTrack &&
+      telemetry?.car !== null &&
+      currentCar &&
+      time ? (
         <>
           <div className="flex flex-wrap gap-4 p-3">
             <DataDisplay title="Current Lap" content={time.getCurrentLap()} />
