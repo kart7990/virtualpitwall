@@ -38,11 +38,6 @@ export const getCurrentConditions = (state: ReduxState) =>
 export const getLiveTiming = (state: ReduxState) =>
   state.pitwall.liveTiming.map((lt) => new LiveTiming(lt));
 
-export const selectCurrentCar = (state: ReduxState) =>
-  state.pitwall.liveTiming.find(
-    (lt) => lt.dn === getSelectedTelemetryProvider(state)?.name,
-  );
-
 export const getSelectedCarNumber = (state: ReduxState) =>
   state.pitwall.selectedCarNumber;
 
@@ -94,7 +89,16 @@ export const selectCurrentTrack = createSelector(
 export const selectTelemetry = (state: ReduxState) => {
   return {
     car: state.pitwall.telemetry?.car,
-    timing: new TimingTelemetry(state.pitwall.telemetry),
+    timing: new TimingTelemetry(state.pitwall.telemetry?.timing),
     laps: state.pitwall.telemetry?.laps,
   };
 };
+
+export const selectCurrentCar = createSelector(
+  [getLiveTiming, selectTelemetryProvider],
+  (liveTiming, telemetryProvider) => {
+    return liveTiming.find(
+      (lt) => lt.carNumber === telemetryProvider?.carNumber,
+    );
+  },
+);
