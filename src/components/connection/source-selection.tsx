@@ -58,42 +58,38 @@ export function SourceSelection() {
     }
   }
 
-  function iRacingSessionIdItems() {
-    if (selectedDataProvider != null) {
-      return selectedDataProvider.gameAssignedSessionIds.map((id) => (
-        <SelectItem key={id} value={id}>
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              {id}
-              <span className="ml-1 h-2 w-2 rounded-full bg-green-600"></span>
-            </div>
-          </div>
-        </SelectItem>
-      ));
-    }
-  }
+  // function iRacingSessionIdItems() {
+  //   if (selectedDataProvider != null) {
+  //     return selectedDataProvider.gameAssignedSessionIds.map((id) => (
+  //       <SelectItem key={id} value={id}>
+  //         <div className="grid gap-2">
+  //           <div className="flex items-center">
+  //             {id}
+  //             <span className="ml-1 h-2 w-2 rounded-full bg-green-600"></span>
+  //           </div>
+  //         </div>
+  //       </SelectItem>
+  //     ));
+  //   }
+  // }
 
-  function trackSessionItems() {
-    if (gameSession != null) {
-      return gameSession.trackSessions.map((trackSession) => (
-        <SelectItem
-          key={trackSession.number}
-          value={trackSession.number.toString()}
-        >
-          <div className="grid gap-2">
-            <div className="flex items-center">
-              {trackSession.number} - {trackSession.type}
-              <span className="ml-1 h-2 w-2 rounded-full bg-green-600"></span>
-            </div>
-          </div>
-        </SelectItem>
-      ));
-    }
-  }
-
-  function telemetryProviders() {
-    return <></>;
-  }
+  // function trackSessionItems() {
+  //   if (gameSession != null) {
+  //     return gameSession.trackSessions.map((trackSession) => (
+  //       <SelectItem
+  //         key={trackSession.number}
+  //         value={trackSession.number.toString()}
+  //       >
+  //         <div className="grid gap-2">
+  //           <div className="flex items-center">
+  //             {trackSession.number} - {trackSession.type}
+  //             <span className="ml-1 h-2 w-2 rounded-full bg-green-600"></span>
+  //           </div>
+  //         </div>
+  //       </SelectItem>
+  //     ));
+  //   }
+  // }
 
   return (
     <>
@@ -103,7 +99,7 @@ export function SourceSelection() {
           onValueChange={(e) => {
             dispatch(pitwallSlice.actions.changeDataProvider(e));
           }}
-          defaultValue={selectedDataProvider?.id}
+          defaultValue={selectedDataProvider}
         >
           <SelectTrigger id="data-provider">
             <SelectValue placeholder="---Select---" />
@@ -117,7 +113,7 @@ export function SourceSelection() {
           onValueChange={(e) => {
             dispatch(pitwallSlice.actions.changeTelemetryProvider(e));
           }}
-          defaultValue={selectedTelemetryProvider?.id}
+          defaultValue={selectedTelemetryProvider}
         >
           <SelectTrigger id="telemetry-provider">
             <SelectValue placeholder="---Select Driver---" />
