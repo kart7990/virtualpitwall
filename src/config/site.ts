@@ -9,6 +9,7 @@ export const siteConfig = {
   links: {
     github: "https://github.com/kart7990/virtualpitwall",
     client: API_BASE_URL + "/app/setup.exe",
+    discord: "https://discord.gg/GvyT36A4kM",
   },
 };
 

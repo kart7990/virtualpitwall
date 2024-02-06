@@ -64,7 +64,7 @@ export default function Home() {
                   features may not work. Please report any issues or feature
                   requests in{" "}
                   <a
-                    href="https://discord.gg/GvyT36A4kM"
+                    href={siteConfig.links.discord}
                     target="_blank"
                     rel="noreferrer"
                     className="font-medium underline underline-offset-4"
