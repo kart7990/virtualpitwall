@@ -1,10 +1,10 @@
 "use client";
 
-import { parseTrackId } from "../utils/formatter/TrackConversion";
 import {
-  selectCurrentTrack,
   getLiveTiming,
   getSelectedCarNumber,
+  getSelectedCarObj,
+  selectCurrentTrack,
   useSelector,
 } from "@/lib/redux";
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from "react";
 import { clearIntervalAsync } from "set-interval-async";
 import { setIntervalAsync } from "set-interval-async/dynamic";
 import { useDebounce } from "use-debounce";
+import { parseTrackId } from "../utils/formatter/TrackConversion";
 
 export const TrackMap = () => {
   const [rivalTrackerJsLoaded, setRivalTrackerJsLoaded] = useState(false);
@@ -24,6 +25,7 @@ export const TrackMap = () => {
   const [carClasses, setCarClasses] = useState<any[]>([]);
   const isMulticlass = false;
   const selectedCar = useSelector(getSelectedCarNumber);
+  const selectedCarObj = useSelector(getSelectedCarObj);
 
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
@@ -173,7 +175,36 @@ export const TrackMap = () => {
               //     track.current.setNodeStrokeColor('PIT', '#f64747B3');
               // }
             } else {
-              trackMap.current.setNodeStrokeColor(s.carNumber, "#555555B3");
+              // not the currently selected car
+
+              // is the car a lap or more ahead of the currently selected car?
+              if (selectedCarObj && s.lap > selectedCarObj.lap) {
+                // we must check that there is enough distance between the cars, and not just a
+                // start/finish anomaly
+                if (
+                  s.lap - selectedCarObj.lap >= 2 ||
+                  (s.lapDistancePercent > 0.5 &&
+                    selectedCarObj.lapDistancePercent < 0.5)
+                ) {
+                  trackMap.current.setNodeStrokeColor(s.carNumber, "#ff0000B3");
+                }
+              }
+
+              // is the car a lap or more behind the currently selected car?
+              else if (selectedCarObj && s.lap < selectedCarObj.lap) {
+                if (
+                  selectedCarObj.lap - s.lap >= 2 ||
+                  (s.lapDistancePercent < 0.5 &&
+                    selectedCarObj.lapDistancePercent > 0.5)
+                ) {
+                  trackMap.current.setNodeStrokeColor(s.carNumber, "#0000ffB3");
+                }
+              }
+
+              // default for cars on the same lap
+              else {
+                trackMap.current.setNodeStrokeColor(s.carNumber, "#555555B3");
+              }
             }
           }
         } else {
@@ -182,7 +213,7 @@ export const TrackMap = () => {
       });
       setCarClasses(carClasses.sort((a, b) => a.classId - b.classId));
     }
-  }, [standings, isMulticlass, selectedCar]);
+  }, [standings, isMulticlass, selectedCar, selectedCarObj]);
 
   return (
     <>
