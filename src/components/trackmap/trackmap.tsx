@@ -2,8 +2,7 @@
 
 import {
   getLiveTiming,
-  getSelectedCarNumber,
-  getSelectedCarObj,
+  getSelectedCar,
   selectCurrentTrack,
   useSelector,
 } from "@/lib/redux";
@@ -24,8 +23,7 @@ export const TrackMap = () => {
   const track = useSelector(selectCurrentTrack);
   const [carClasses, setCarClasses] = useState<any[]>([]);
   const isMulticlass = false;
-  const selectedCar = useSelector(getSelectedCarNumber);
-  const selectedCarObj = useSelector(getSelectedCarObj);
+  const selectedCar = useSelector(getSelectedCar);
 
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
@@ -141,7 +139,7 @@ export const TrackMap = () => {
               s.carNumber,
               classColor,
             ); /*'#f64747B3'*/
-            if (s.carNumber === selectedCar) {
+            if (s.carNumber === selectedCar?.carNumber) {
               trackMap.current.setNodeStrokeColor(s.carNumber, "#FFFF00");
 
               carClasses.push({
@@ -178,24 +176,24 @@ export const TrackMap = () => {
               // not the currently selected car
 
               // is the car a lap or more ahead of the currently selected car?
-              if (selectedCarObj && s.lap > selectedCarObj.lap) {
+              if (selectedCar && s.lap > selectedCar.lap) {
                 // we must check that there is enough distance between the cars, and not just a
                 // start/finish anomaly
                 if (
-                  s.lap - selectedCarObj.lap >= 2 ||
+                  s.lap - selectedCar.lap >= 2 ||
                   (s.lapDistancePercent > 0.5 &&
-                    selectedCarObj.lapDistancePercent < 0.5)
+                    selectedCar.lapDistancePercent < 0.5)
                 ) {
                   trackMap.current.setNodeStrokeColor(s.carNumber, "#ff0000B3");
                 }
               }
 
               // is the car a lap or more behind the currently selected car?
-              else if (selectedCarObj && s.lap < selectedCarObj.lap) {
+              else if (selectedCar && s.lap < selectedCar.lap) {
                 if (
-                  selectedCarObj.lap - s.lap >= 2 ||
+                  selectedCar.lap - s.lap >= 2 ||
                   (s.lapDistancePercent < 0.5 &&
-                    selectedCarObj.lapDistancePercent > 0.5)
+                    selectedCar.lapDistancePercent > 0.5)
                 ) {
                   trackMap.current.setNodeStrokeColor(s.carNumber, "#0000ffB3");
                 }
@@ -213,7 +211,7 @@ export const TrackMap = () => {
       });
       setCarClasses(carClasses.sort((a, b) => a.classId - b.classId));
     }
-  }, [standings, isMulticlass, selectedCar, selectedCarObj]);
+  }, [standings, isMulticlass, selectedCar]);
 
   return (
     <>
