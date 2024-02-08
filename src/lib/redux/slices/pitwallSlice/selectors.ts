@@ -41,6 +41,13 @@ export const getLiveTiming = (state: ReduxState) =>
 export const getSelectedCarNumber = (state: ReduxState) =>
   state.pitwall.selectedCarNumber;
 
+export const getSelectedCarObj = createSelector(
+  [getLiveTiming, getSelectedCarNumber],
+  (liveTiming, selectedCarNumber) => {
+    return liveTiming.find((x) => x.carNumber == selectedCarNumber);
+  },
+);
+
 export const selectCurrentTrackSession = createSelector(
   [getCurrentTrackSessionNumber, getTrackSessions],
   (currentTrackSessionNumber, trackSessions) => {
