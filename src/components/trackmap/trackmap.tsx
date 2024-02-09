@@ -1,10 +1,9 @@
 "use client";
 
-import { parseTrackId } from "../utils/formatter/TrackConversion";
 import {
-  selectCurrentTrack,
   getLiveTiming,
-  getSelectedCarNumber,
+  getSelectedCar,
+  selectCurrentTrack,
   useSelector,
 } from "@/lib/redux";
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
@@ -13,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { clearIntervalAsync } from "set-interval-async";
 import { setIntervalAsync } from "set-interval-async/dynamic";
 import { useDebounce } from "use-debounce";
+import { parseTrackId } from "../utils/formatter/TrackConversion";
 
 export const TrackMap = () => {
   const [rivalTrackerJsLoaded, setRivalTrackerJsLoaded] = useState(false);
@@ -23,7 +23,7 @@ export const TrackMap = () => {
   const track = useSelector(selectCurrentTrack);
   const [carClasses, setCarClasses] = useState<any[]>([]);
   const isMulticlass = false;
-  const selectedCar = useSelector(getSelectedCarNumber);
+  const selectedCar = useSelector(getSelectedCar);
 
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
@@ -139,7 +139,7 @@ export const TrackMap = () => {
               s.carNumber,
               classColor,
             ); /*'#f64747B3'*/
-            if (s.carNumber === selectedCar) {
+            if (s.carNumber === selectedCar?.carNumber) {
               trackMap.current.setNodeStrokeColor(s.carNumber, "#FFFF00");
 
               carClasses.push({
@@ -173,7 +173,36 @@ export const TrackMap = () => {
               //     track.current.setNodeStrokeColor('PIT', '#f64747B3');
               // }
             } else {
-              trackMap.current.setNodeStrokeColor(s.carNumber, "#555555B3");
+              // not the currently selected car
+
+              // is the car a lap or more ahead of the currently selected car?
+              if (selectedCar && s.lap > selectedCar.lap) {
+                // we must check that there is enough distance between the cars, and not just a
+                // start/finish anomaly
+                if (
+                  s.lap - selectedCar.lap >= 2 ||
+                  (s.lapDistancePercent > 0.5 &&
+                    selectedCar.lapDistancePercent < 0.5)
+                ) {
+                  trackMap.current.setNodeStrokeColor(s.carNumber, "#ff0000B3");
+                }
+              }
+
+              // is the car a lap or more behind the currently selected car?
+              else if (selectedCar && s.lap < selectedCar.lap) {
+                if (
+                  selectedCar.lap - s.lap >= 2 ||
+                  (s.lapDistancePercent < 0.5 &&
+                    selectedCar.lapDistancePercent > 0.5)
+                ) {
+                  trackMap.current.setNodeStrokeColor(s.carNumber, "#0000ffB3");
+                }
+              }
+
+              // default for cars on the same lap
+              else {
+                trackMap.current.setNodeStrokeColor(s.carNumber, "#555555B3");
+              }
             }
           }
         } else {
