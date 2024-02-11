@@ -1,14 +1,11 @@
 "use client";
 
-import Register from "../components/register";
-import { OAuthProviderData } from "../models";
 import { Icons } from "@/components/core/icons";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
 } from "@/components/core/ui/alert";
-import { Button } from "@/components/core/ui/button";
 import { API_V2_URL } from "@/config/urls";
 import { authSlice, useDispatch } from "@/lib/redux";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
@@ -16,6 +13,9 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import GoogleButton from "react-google-button";
+import Register from "../components/register";
+import { OAuthProviderData } from "../models";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ export default function Login() {
           </h2>
         </div>
         <div className="row-span-1">
-          <Button onClick={() => googleLogin()}>Sign in with Google 🚀</Button>
+          <GoogleButton onClick={() => googleLogin()} />
         </div>
         {serverError && (
           <div>

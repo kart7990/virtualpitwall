@@ -1,5 +1,6 @@
 {
   "APP_ENV": "development",
   "BASE_URL": "https://localhost:3000",
-  "BASE_API_URL": "https://staging.api.virtualpitwall.com"
+  "BASE_API_URL": "https://staging.api.virtualpitwall.com",
+  "GOOGLE_OAUTH_CLIENT_ID": "931083495990-o00suecncvj0268ff3lnblcu0q984olu.apps.googleusercontent.com"
 }

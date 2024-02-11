@@ -1,5 +1,6 @@
 {
   "APP_ENV": "production",
   "API_URL": "",
-  "BASE_API_URL": ""
+  "BASE_API_URL": "",
+  "GOOGLE_OAUTH_CLIENT_ID": ""
 }

@@ -51,6 +51,7 @@
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-google-button": "^0.7.2",
     "react-grid-layout": "^1.4.4",
     "react-hook-form": "^7.49.2",
     "react-redux": "8.1.0",
