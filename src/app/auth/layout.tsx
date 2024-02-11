@@ -10,7 +10,7 @@ export default function AuthLayout({
   return (
     <div className="relative flex h-screen flex-col">
       <SiteHeader isPublic={true} />
-      <GoogleOAuthProvider clientId="477697685987-i8d05tutmr4q51s4bqbkbqq7a5h0vigv.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={process.env.GOOGLE_OAUTH_CLIENT_ID!!}>
         <div className="flex h-full border-b">{children}</div>
       </GoogleOAuthProvider>
       <SiteFooter />
