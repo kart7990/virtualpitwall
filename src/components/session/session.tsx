@@ -1,14 +1,9 @@
+import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
 import { DataDisplay } from "../core/ui/data-display";
 import { LapsRemaining } from "./components/laps-remaining";
 import { TimeRemaining } from "./components/time-remaining";
-import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
-import { useEffect } from "react";
 
-export const Session = ({
-  setSessionTitle,
-}: {
-  setSessionTitle: (title: string) => void;
-}) => {
+export const Session = () => {
   const session = useSelector(selectCurrentTrackSession);
 
   return (

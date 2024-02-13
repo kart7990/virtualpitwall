@@ -20,7 +20,7 @@ const Timing = () => {
       currentCar &&
       time ? (
         <>
-          <div className="flex flex-wrap gap-4 p-3">
+          <div className="flex flex-wrap gap-4 p-2">
             <DataDisplay title="Current Lap" content={time.getCurrentLap()} />
             <DataDisplay
               title="Delta Best Lap"
@@ -47,7 +47,7 @@ const Timing = () => {
           </div>
         </>
       ) : (
-        <div className="p-3">Car is not on track</div>
+        <div className="p-2">Car is not on track</div>
       )}
     </>
   );

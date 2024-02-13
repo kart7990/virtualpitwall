@@ -1,15 +1,15 @@
 import {
+  getLiveTiming,
+  selectCurrentTrackSession,
+  useSelector,
+} from "@/lib/redux";
+import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
+import { useEffect } from "react";
+import {
   getCarClassName,
   parseIRating,
 } from "../utils/formatter/CarConversion";
 import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
-import {
-  selectCurrentTrackSession,
-  useSelector,
-  getLiveTiming,
-} from "@/lib/redux";
-import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
-import { useEffect } from "react";
 
 interface CarClassDetails {
   id: number;
@@ -69,7 +69,7 @@ export const MultiClassDetails = ({
       {!session && <p>waiting for data</p>}
       {session && (
         <div className="overflow-auto h-full pb-10">
-          <div className="flex flex-wrap gap-4 p-3">
+          <div className="flex flex-wrap gap-4 p-2">
             {Object.entries(carClasses()).map(([classId, carClass]) => {
               return (
                 <div key={classId}>
