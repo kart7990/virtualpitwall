@@ -1,5 +1,21 @@
 "use client";
 
+import { Button } from "@/components/core/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/core/ui/sheet";
+import {
+  preferencesSlice,
+  selectMeasurementSystem,
+  useDispatch,
+  useSelector,
+} from "@/lib/redux";
+import { MeasurementSystem } from "@/lib/redux/slices/preferencesSlice/models";
 import { Icons } from "./icons";
 import {
   Select,
@@ -8,33 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { Separator } from "./ui/separator";
-import { Button } from "@/components/core/ui/button";
-import { Input } from "@/components/core/ui/input";
-import { Label } from "@/components/core/ui/label";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/core/ui/sheet";
-import {
-  useDispatch,
-  preferencesSlice,
-  MeasurementSystem,
-  selectMeasurementSystem,
-  useSelector,
-} from "@/lib/redux";
 
 export function Settings() {
   const dispatch = useDispatch();
   const selectedMeasurementSystem = useSelector(selectMeasurementSystem);
 
-  console.log(selectedMeasurementSystem.toString());
+  console.log(selectedMeasurementSystem.measurement.toString());
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -56,7 +51,7 @@ export function Settings() {
                 preferencesSlice.actions.updateMeasurementSystem(parseInt(e)),
               );
             }}
-            defaultValue={selectedMeasurementSystem.toString()}
+            defaultValue={selectedMeasurementSystem.measurement.toString()}
           >
             <SelectTrigger id="telemetry-provider">
               <SelectValue placeholder="---Select Driver---" />

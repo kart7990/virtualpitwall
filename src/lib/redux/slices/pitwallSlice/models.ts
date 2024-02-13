@@ -1,8 +1,12 @@
-import { NO_TIME } from "@/components/utils/constants";
+import { DASH } from "@/components/utils/constants";
+import { formatFuel } from "@/components/utils/formatter/Fuel";
+import { formatSpeed } from "@/components/utils/formatter/Speed";
+import { formatTemp } from "@/components/utils/formatter/Temps";
 import {
   convertMsToDisplay,
   convertToDelta,
-} from "@/components/utils/formatter/TimeConversion";
+} from "@/components/utils/formatter/Time";
+import { Measurement } from "../preferencesSlice/models";
 
 export interface PitwallState {
   session: PitwallSession | null;
@@ -250,7 +254,7 @@ export class LiveTiming {
   }
 
   getBestLapTime = (): string => {
-    let res = NO_TIME;
+    let res = DASH;
     if (this.bestLaptime !== undefined) {
       res = convertMsToDisplay(this.bestLaptime);
     }
@@ -258,7 +262,7 @@ export class LiveTiming {
   };
 
   getLastLapTime = (): string => {
-    let res = NO_TIME;
+    let res = DASH;
     if (this.lastLaptime !== undefined) {
       res = convertMsToDisplay(this.lastLaptime);
     }
@@ -272,21 +276,76 @@ export interface Telemetry {
   laps: CompletedLapDetails[];
 }
 
-export interface CarTelemetry {
-  throttle: number;
-  brake: number;
-  clutch: number;
-  steeringAngle: number;
-  rPM: number;
-  speed: number;
-  fuelQuantity: number;
-  fuelPercent: number;
-  fuelConsumedLap: number | null;
-  fuelPressure: number;
-  oilTemp: number;
-  oilPressure: number;
-  waterTemp: number;
-  voltage: number;
+export class CarTelemetry {
+  throttle!: number;
+  brake!: number;
+  clutch!: number;
+  steeringAngle!: number;
+  rpm!: number;
+  speed!: number;
+  fuelQuantity!: number;
+  fuelPercent!: number;
+  fuelConsumedLap!: number;
+  fuelPressure!: number;
+  oilTemp!: number;
+  oilPressure!: number;
+  waterTemp!: number;
+  voltage!: number;
+
+  constructor(car: any) {
+    if (car != null) {
+      this.throttle = car.throttle;
+      this.brake = car.brake;
+      this.clutch = car.clutch;
+      this.steeringAngle = car.steeringAngle;
+      this.rpm = car.rpm;
+      this.speed = car.speed;
+      this.fuelQuantity = car.fuelQuantity;
+      this.fuelPercent = car.fuelPercent;
+      this.fuelConsumedLap = car.fuelConsumedLap;
+      this.fuelPressure = car.fuelPressure;
+      this.oilTemp = car.oilTemp;
+      this.oilPressure = car.oilPressure;
+      this.waterTemp = car.waterTemp;
+      this.voltage = car.voltage;
+    }
+  }
+
+  getSpeed = (measurement: Measurement): string => {
+    return formatSpeed(this.speed, measurement);
+  };
+
+  getRpm = (): string => {
+    return String(this.rpm);
+  };
+
+  getFuelQuantity = (measurement: Measurement): string => {
+    return formatFuel(this.fuelQuantity, measurement);
+  };
+
+  getFuelPercent = (): string => {
+    return (this.fuelPercent * 100).toFixed(2) + " %";
+  };
+
+  getSteeringAngle = (): string => {
+    return (this.steeringAngle * (100 / Math.PI)).toFixed(1) + "\u00b0";
+  };
+
+  getFuelPressure = (): string => {
+    return "" + this.fuelPressure;
+  };
+
+  getOilTemp = (measurement: Measurement): string => {
+    return formatTemp(this.oilTemp, measurement);
+  };
+
+  getOilPressure = (): string => {
+    return "" + this.oilPressure;
+  };
+
+  getWaterTemp = (measurement: Measurement): string => {
+    return formatTemp(this.waterTemp, measurement);
+  };
 }
 
 export class TimingTelemetry {
@@ -309,7 +368,7 @@ export class TimingTelemetry {
   }
 
   getCurrentLap = (): string => {
-    let res = NO_TIME;
+    let res = DASH;
     if (this.currentLap !== undefined) {
       res = convertToDelta(this.currentLap);
     }

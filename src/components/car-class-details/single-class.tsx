@@ -6,7 +6,7 @@ import {
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import { useEffect } from "react";
 import { parseIRating } from "../utils/formatter/CarConversion";
-import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
+import { convertMsToDisplay } from "../utils/formatter/Time";
 
 interface CarDetails {
   name: string;

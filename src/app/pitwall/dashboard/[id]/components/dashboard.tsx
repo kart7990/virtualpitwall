@@ -6,6 +6,7 @@ import { Conditions } from "@/components/conditions/conditions";
 import { SourceSelection } from "@/components/connection/source-selection";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
+import Telemetry from "@/components/telemetry/car-telemetry";
 import Timing from "@/components/timing/current-lap";
 import { TrackMap } from "@/components/trackmap/trackmap";
 import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
@@ -81,6 +82,15 @@ export default function Dashboard() {
         >
           <DashboardCard title="Current Lap">
             <Timing />
+          </DashboardCard>
+        </div>
+        <div
+          key="telemetry"
+          className="overflow-hidden"
+          data-grid={{ x: 0, y: 10, w: 3, h: 2 }}
+        >
+          <DashboardCard title="Car Telemetry">
+            <Telemetry />
           </DashboardCard>
         </div>
       </ResponsiveGridLayout>

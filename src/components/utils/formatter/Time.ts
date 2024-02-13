@@ -1,8 +1,8 @@
-import { NO_TIME } from "../constants";
+import { DASH } from "../constants";
 
 export const convertMsToDisplay = (ms: number): string => {
   if (ms <= 0) {
-    return NO_TIME;
+    return DASH;
   }
 
   const milliseconds = (ms % 1000).toString().padStart(3, "0");
@@ -29,4 +29,17 @@ export const convertToDelta = (delta: number): string => {
   res += `${secStr}.${msStr}`;
 
   return res;
+};
+
+export const formatTime = (seconds: number) => {
+  //Format to M:S:MS
+  var pad = function (num: number, size: number) {
+      return ("000" + num).slice(size * -1);
+    },
+    hours = Math.floor(seconds / 60 / 60),
+    minutes = Math.floor(seconds / 60) % 60,
+    seconds = Math.floor(seconds - minutes * 60);
+
+  let formattedHours = hours > 0 ? pad(hours, 2) + ":" : "";
+  return formattedHours + pad(minutes, 2) + ":" + pad(seconds, 2);
 };

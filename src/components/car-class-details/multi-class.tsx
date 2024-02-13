@@ -9,7 +9,7 @@ import {
   getCarClassName,
   parseIRating,
 } from "../utils/formatter/CarConversion";
-import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
+import { convertMsToDisplay } from "../utils/formatter/Time";
 
 interface CarClassDetails {
   id: number;

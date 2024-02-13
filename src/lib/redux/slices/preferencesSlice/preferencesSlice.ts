@@ -1,15 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { MeasurementSystem, PreferencesSliceState } from "./models";
 
 const STORAGE_KEY: string = "pref_measurementSystem";
-
-export enum MeasurementSystem {
-  Imperial,
-  Metric,
-}
-
-export interface PreferencesSliceState {
-  measurementSystem: MeasurementSystem;
-}
 
 const initialState: PreferencesSliceState = {
   measurementSystem:

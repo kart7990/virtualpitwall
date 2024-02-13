@@ -1,5 +1,5 @@
 import { DataDisplay } from "@/components/core/ui/data-display";
-import { formatTime } from "@/components/utils/formatter/UnitConversion";
+import { formatTime } from "@/components/utils/formatter/Time";
 import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
 import { TrackSession } from "@/lib/redux/slices/pitwallSlice/models";
 
@@ -16,11 +16,11 @@ export const TimeRemaining = () => {
     let res = " - / -";
     if (session?.state === "Racing") {
       res =
-        formatTime(session?.raceTimeRemaining?.toFixed(3)) +
+        formatTime(session?.raceTimeRemaining) +
         " / " +
         formatTime(session?.raceTime);
     } else if (session?.state === "GetInCar" && session?.name !== "QUALIFY") {
-      res = formatTime(session?.raceTimeRemaining?.toFixed(3));
+      res = formatTime(session?.raceTimeRemaining);
     } else if (session?.state === "ParadeLaps") {
       res =
         formatTime(session?.raceTime) + " / " + formatTime(session?.raceTime);
