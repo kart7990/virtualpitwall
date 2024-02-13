@@ -1,9 +1,9 @@
-import { Button } from "./ui/button";
-import { UserNav } from "./user-nav";
 import { MainNav } from "@/components/core/main-nav";
 import { MobileNav } from "@/components/core/mobile-nav";
 import { siteConfig } from "@/config/site";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { UserNav } from "./user-nav";
 
 export function SiteHeader({ isPublic }: { isPublic: boolean }) {
   return (
@@ -18,7 +18,7 @@ export function SiteHeader({ isPublic }: { isPublic: boolean }) {
         </div>
         {!isPublic && (
           <div className="mr-4">
-            <nav className="flex gap-3">
+            <nav className="flex gap-2">
               <Link
                 href={siteConfig.links.client}
                 target="_blank"

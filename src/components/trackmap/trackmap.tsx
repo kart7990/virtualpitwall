@@ -232,7 +232,7 @@ export const TrackMap = () => {
         />
       )}
       <div>
-        <span className="font-weight-bold flex p-3 uppercase">
+        <span className="font-weight-bold flex p-2 uppercase">
           {track?.name}
         </span>
       </div>

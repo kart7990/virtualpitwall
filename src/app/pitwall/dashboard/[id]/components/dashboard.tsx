@@ -18,7 +18,6 @@ const ResponsiveGridLayout = WidthProvider(GridLayout);
 
 export default function Dashboard() {
   const session = useSelector(selectCurrentTrackSession);
-  const [sessionTitle, setSessionTitle] = useState("");
   const [carClassTitle, setCarClassTitle] = useState("");
 
   const onResizeStopped: ItemCallback = (layout, oldItem, newItem) => {
@@ -26,10 +25,10 @@ export default function Dashboard() {
   };
 
   return (
-    <main>
+    <main className="text-sm">
       <DashboardHeader
         left={<SourceSelection />}
-        right={<Session setSessionTitle={setSessionTitle} />}
+        right={<Session />}
       ></DashboardHeader>
       <ResponsiveGridLayout
         className="layout"

@@ -11,11 +11,11 @@ export function DashboardHeader({
   return (
     <>
       <div className="flow-root">
-        <div className="float-left ml-2 mt-2">
+        <div className="float-left ml-2 mt-1">
           <div className="flex space-x-6">{left}</div>
         </div>
         <div className="float-right ml-2 mt-2 space-x-6">
-          <div className="flex flex-wrap gap-4 p-3">
+          <div className="flex flex-wrap gap-4 p-2">
             {right}
             <Separator orientation="vertical" />
             <div className="mt-1">

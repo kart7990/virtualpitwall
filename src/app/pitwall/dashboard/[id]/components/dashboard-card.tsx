@@ -14,7 +14,7 @@ export function DashboardCard({
 }) {
   return (
     <Card className="h-full overflow-hidden">
-      <CardHeader className="drag-handle border-b p-3">
+      <CardHeader className="drag-handle border-b p-2">
         <CardTitle className="m-0">{title}</CardTitle>
       </CardHeader>
       <CardContent className="h-full w-full p-0">{children}</CardContent>

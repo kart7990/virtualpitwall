@@ -103,7 +103,7 @@ export const SingleClassDetails = ({
         /* Single Car Class with multiple cars */
         session && carClassValues.length > 1 && (
           <div className="overflow-auto h-full pb-10">
-            <div className="flex flex-col gap-4 p-3">
+            <div className="flex flex-col gap-4 p-2">
               <div>
                 {getSoF()}
                 <div className="font-medium">
@@ -141,7 +141,7 @@ export const SingleClassDetails = ({
         /* Single Car Class with just one car */
         session && carClassValues.length === 1 && (
           <div className="overflow-auto h-full pb-10">
-            <div className="flex flex-col p-3">
+            <div className="flex flex-col p-2">
               <span className="flex items-center uppercase text-slate-500">
                 {carClassValues[0].name}
                 <div className="justify-center items-center ml-2 mr-1">🏎️</div>

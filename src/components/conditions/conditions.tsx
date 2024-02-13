@@ -20,7 +20,7 @@ export const Conditions = () => {
     <>
       {!conditions && <p>waiting for data</p>}
       {conditions && (
-        <div className="flex flex-wrap gap-4 p-3">
+        <div className="flex flex-wrap gap-4 p-2">
           <DataDisplay
             title="Sim Time"
             content={formatTime(trackSession?.gameDateTime)}
