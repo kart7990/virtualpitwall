@@ -1,13 +1,11 @@
 "use client";
 
-import { parseCarClassColor } from "../utils/formatter/CarConversion";
-import { convertMsToDisplay } from "../utils/formatter/UnitConversion";
 import {
-  selectCurrentTrackSession,
   getLiveTiming,
+  pitwallSlice,
+  selectCurrentTrackSession,
   useDispatch,
   useSelector,
-  pitwallSlice,
 } from "@/lib/redux";
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -19,6 +17,8 @@ import {
   type MRT_ColumnDef,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
+import { parseCarClassColor } from "../utils/formatter/CarConversion";
+import { convertMsToDisplay } from "../utils/formatter/Time";
 
 export const Standings = () => {
   const dispatch = useDispatch();
@@ -85,13 +85,13 @@ export const Standings = () => {
         accessorKey: "lastLaptime",
         header: "Last Laptime",
         size: 150,
-        Cell: ({ cell }) => convertMsToDisplay(cell.getValue()),
+        Cell: ({ cell }) => convertMsToDisplay(cell.getValue() as number),
       },
       {
         accessorKey: "bestLaptime",
         header: "Best Laptime",
         size: 150,
-        Cell: ({ cell }) => convertMsToDisplay(cell.getValue()),
+        Cell: ({ cell }) => convertMsToDisplay(cell.getValue() as number),
       },
       {
         accessorKey: "teamName",
