@@ -78,7 +78,7 @@ export default function Dashboard() {
         <div
           key="currentLap"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 8, w: 3, h: 2 }}
+          data-grid={{ x: 0, y: 8, w: 3, h: 1 }}
         >
           <DashboardCard title="Current Lap">
             <Timing />
@@ -87,7 +87,7 @@ export default function Dashboard() {
         <div
           key="telemetry"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 10, w: 3, h: 2 }}
+          data-grid={{ x: 0, y: 9, w: 3, h: 2 }}
         >
           <DashboardCard title="Car Telemetry">
             <Telemetry />
