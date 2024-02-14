@@ -1,4 +1,5 @@
 import { Measurement } from "@/lib/redux/slices/preferencesSlice/models";
+import { DASH } from "../constants";
 
 export const convertTemp = (celsius: number, measurement: Measurement) => {
   celsius = Number(celsius);
@@ -11,7 +12,7 @@ export const convertTemp = (celsius: number, measurement: Measurement) => {
 export const formatTemp = (celsius: number, measurement: Measurement) => {
   return celsius
     ? convertTemp(celsius, measurement) + " " + getTempUnit(measurement)
-    : "-";
+    : DASH;
 };
 
 export const getTempUnit = (measurement: Measurement) => {
