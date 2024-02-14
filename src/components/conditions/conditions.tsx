@@ -1,40 +1,34 @@
 import {
   selectCurrentConditions,
   selectCurrentTrackSession,
+  selectMeasurementSystem,
   useSelector,
 } from "@/lib/redux";
 import { DataDisplay } from "../core/ui/data-display";
-import {
-  convertWeatherType,
-  formatSpeed,
-  formatTemp,
-  formatTime,
-} from "../utils/formatter/UnitConversion";
+import { formatSpeed } from "../utils/formatter/Speed";
+import { convertWeatherType, formatTemp } from "../utils/formatter/Temps";
+import { formatTime } from "../utils/formatter/Time";
 
 export const Conditions = () => {
   const conditions = useSelector(selectCurrentConditions);
   const trackSession = useSelector(selectCurrentTrackSession);
-  const useImperialUnits = false;
+  const measurement = useSelector(selectMeasurementSystem);
 
   return (
     <>
-      {!conditions && <p>waiting for data</p>}
-      {conditions && (
+      {conditions && trackSession ? (
         <div className="flex flex-wrap gap-4 p-2">
           <DataDisplay
             title="Sim Time"
-            content={formatTime(trackSession?.gameDateTime)}
+            content={formatTime(trackSession.gameDateTime)}
           />
           <DataDisplay
             title="Track Temp"
-            content={formatTemp(
-              conditions.trackTemp.toString(),
-              useImperialUnits,
-            )}
+            content={formatTemp(conditions.trackTemp, measurement)}
           />
           <DataDisplay
             title="Air Temp"
-            content={formatTemp(conditions?.airTemp, useImperialUnits)}
+            content={formatTemp(conditions.airTemp, measurement)}
           />
           <DataDisplay
             title="Weather Type"
@@ -46,14 +40,16 @@ export const Conditions = () => {
             content={
               conditions?.windDirection +
               " " +
-              formatSpeed(conditions?.windSpeed, useImperialUnits)
+              formatSpeed(conditions.windSpeed, measurement)
             }
           />
           <DataDisplay
             title="Relative Humidity"
-            content={(conditions?.relativeHumidity * 100).toFixed(0) + "%"}
+            content={(conditions.relativeHumidity * 100).toFixed(0) + "%"}
           />
         </div>
+      ) : (
+        <p>waiting for data</p>
       )}
     </>
   );

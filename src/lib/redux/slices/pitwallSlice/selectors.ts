@@ -1,6 +1,7 @@
 import type { ReduxState } from "@/lib/redux";
 import { createSelector } from "@reduxjs/toolkit";
-import { LiveTiming, TimingTelemetry } from "./models";
+import { Measurement } from "../preferencesSlice/models";
+import { CarTelemetry, LiveTiming, TimingTelemetry } from "./models";
 
 export const getPitwallSession = (state: ReduxState) => state.pitwall.session;
 
@@ -94,8 +95,9 @@ export const selectCurrentTrack = createSelector(
 );
 
 export const selectTelemetry = (state: ReduxState) => {
+  const measurement = new Measurement(state.preferences.measurementSystem);
   return {
-    car: state.pitwall.telemetry?.car,
+    car: new CarTelemetry(state.pitwall.telemetry?.car, measurement),
     timing: new TimingTelemetry(state.pitwall.telemetry?.timing),
     laps: state.pitwall.telemetry?.laps,
   };
