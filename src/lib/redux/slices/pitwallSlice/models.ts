@@ -277,6 +277,7 @@ export interface Telemetry {
 }
 
 export class CarTelemetry {
+  measurement!: Measurement;
   throttle!: number;
   brake!: number;
   clutch!: number;
@@ -292,8 +293,9 @@ export class CarTelemetry {
   waterTemp!: number;
   voltage!: number;
 
-  constructor(car: any) {
+  constructor(car: any, measurement: Measurement) {
     if (car != null) {
+      this.measurement = measurement;
       this.throttle = car.throttle;
       this.brake = car.brake;
       this.clutch = car.clutch;
@@ -311,16 +313,16 @@ export class CarTelemetry {
     }
   }
 
-  getSpeed = (measurement: Measurement): string => {
-    return formatSpeed(this.speed, measurement);
+  getSpeed = (): string => {
+    return formatSpeed(this.speed, this.measurement);
   };
 
   getRpm = (): string => {
     return String(this.rpm);
   };
 
-  getFuelQuantity = (measurement: Measurement): string => {
-    return formatFuel(this.fuelQuantity, measurement);
+  getFuelQuantity = (): string => {
+    return formatFuel(this.fuelQuantity, this.measurement);
   };
 
   getFuelPercent = (): string => {
@@ -335,16 +337,16 @@ export class CarTelemetry {
     return "" + this.fuelPressure;
   };
 
-  getOilTemp = (measurement: Measurement): string => {
-    return formatTemp(this.oilTemp, measurement);
+  getOilTemp = (): string => {
+    return formatTemp(this.oilTemp, this.measurement);
   };
 
   getOilPressure = (): string => {
     return "" + this.oilPressure;
   };
 
-  getWaterTemp = (measurement: Measurement): string => {
-    return formatTemp(this.waterTemp, measurement);
+  getWaterTemp = (): string => {
+    return formatTemp(this.waterTemp, this.measurement);
   };
 }
 
