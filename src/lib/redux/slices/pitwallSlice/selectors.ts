@@ -36,8 +36,10 @@ export const getCurrentConditions = (state: ReduxState) =>
     (ts) => ts.number === getCurrentTrackSessionNumber(state),
   );
 
-export const getLiveTiming = (state: ReduxState) =>
-  state.pitwall.liveTiming.map((lt) => new LiveTiming(lt));
+export const getLiveTiming = (state: ReduxState) => {
+  const session = selectCurrentTrackSession(state);
+  return state.pitwall.liveTiming.map((lt) => new LiveTiming(lt, session));
+};
 
 export const getSelectedCarNumber = (state: ReduxState) =>
   state.pitwall.selectedCarNumber;

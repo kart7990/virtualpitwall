@@ -55,8 +55,10 @@ export const Standings = () => {
       },
       {
         accessorKey: "classPosition",
-        header: "classPosition",
-        size: 1,
+        header: "Class Pos.",
+        size: 90,
+        enableColumnOrdering: false,
+        enableSorting: false,
       },
       {
         accessorKey: "carNumber",
@@ -120,16 +122,6 @@ export const Standings = () => {
         enableSorting: false,
       },
       {
-        accessorKey: "standingPosition", //normal accessorKey
-        header: "standingPosition",
-        size: 200,
-      },
-      {
-        accessorKey: "standingClassPosition",
-        header: "standingClassPosition",
-        size: 150,
-      },
-      {
         accessorKey: "className",
         header: "className",
         size: 150,
@@ -181,9 +173,8 @@ export const Standings = () => {
       density: "compact",
       columnVisibility: {
         "mrt-row-select": false, //hide select column
-        classPosition: false,
-        standingPosition: false,
-        standingClassPosition: false,
+        position: true,
+        classPosition: session ? session.isMulticlass : false,
         className: false,
         iRating: false,
         safetyRating: false,
@@ -195,7 +186,7 @@ export const Standings = () => {
       },
       sorting: [
         {
-          id: "position", //sort by age by default on page load
+          id: "position",
           desc: false,
         },
       ],

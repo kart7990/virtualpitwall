@@ -222,16 +222,12 @@ export class LiveTiming {
   pitStopCount: number;
   position: number;
   safetyRating: string;
-  standingClassPosition: number;
-  standingPosition: number;
   stintLapCount: number;
   teamName: string;
 
-  constructor(s: LiveTimingDto) {
-    this.position = s.p;
-    this.classPosition = s.cp;
-    this.standingPosition = s.sp;
-    this.standingClassPosition = s.scp;
+  constructor(s: LiveTimingDto, session: TrackSession | undefined) {
+    this.position = session && session.name === "RACE" ? s.p : s.sp;
+    this.classPosition = session && session.name === "RACE" ? s.cp : s.scp;
     this.carNumber = s.cn;
     this.className = s.cln;
     this.classId = s.ci;
