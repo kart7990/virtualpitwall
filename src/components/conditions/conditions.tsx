@@ -17,7 +17,7 @@ export const Conditions = () => {
   return (
     <>
       {conditions && trackSession ? (
-        <div className="flex flex-wrap gap-4 p-2">
+        <div className="grid grid-cols-3 gap-2 p-2">
           <DataDisplay
             title="Sim Time"
             content={formatTime(trackSession.gameDateTime)}
