@@ -64,14 +64,17 @@ export const SingleClassDetails = ({
   };
 
   const carClassValues: CarDetails[] = Object.values(carClass());
-  const fastestCar =
-    carClassValues.length === 0
-      ? null
-      : carClassValues
-          .filter((car) => car.fastestLap > 0)
-          .reduce((fastest, current) => {
-            return current.fastestLap < fastest.fastestLap ? current : fastest;
-          });
+  const fastestCar = () => {
+    const cars = carClassValues
+      ? carClassValues.filter((c) => c.fastestLap > 0)
+      : [];
+
+    return cars.length > 0
+      ? cars.reduce((fastest, current) => {
+          return current.fastestLap < fastest.fastestLap ? current : fastest;
+        })
+      : null;
+  };
 
   const getFastestLapComponent = (car: CarDetails | null) => {
     let res = "Fastest Lap: ";
@@ -110,7 +113,7 @@ export const SingleClassDetails = ({
               <div>
                 {getSoF()}
                 <div className="font-medium">
-                  {getFastestLapComponent(fastestCar)}
+                  {getFastestLapComponent(fastestCar())}
                 </div>
               </div>
               {Object.entries(carClass()).map(([carName, car]) => {
@@ -152,7 +155,7 @@ export const SingleClassDetails = ({
               </span>
               {getSoF()}
               <div className="font-medium">
-                {getFastestLapComponent(fastestCar)}
+                {getFastestLapComponent(fastestCar())}
               </div>
             </div>
           </div>
