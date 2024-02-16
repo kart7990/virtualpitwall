@@ -74,25 +74,25 @@ export const Standings = () => {
       {
         accessorKey: "leaderDelta",
         header: "Gap",
-        size: 100,
+        size: 70,
         enableSorting: false,
       },
       {
         accessorKey: "nextCarDelta",
         header: "Int",
-        size: 100,
+        size: 70,
         enableSorting: false,
       },
       {
         accessorKey: "lastLaptime",
         header: "Last Laptime",
-        size: 150,
+        size: 140,
         Cell: ({ cell }) => convertMsToDisplay(cell.getValue() as number),
       },
       {
         accessorKey: "bestLaptime",
         header: "Best Laptime",
-        size: 150,
+        size: 140,
         Cell: ({ cell }) => convertMsToDisplay(cell.getValue() as number),
       },
       {
@@ -117,7 +117,7 @@ export const Standings = () => {
       {
         accessorKey: "stintLapCount",
         header: "Stint Laps",
-        size: 99,
+        size: 90,
         enableColumnOrdering: false,
         enableSorting: false,
       },

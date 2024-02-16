@@ -42,7 +42,7 @@ export default function Dashboard() {
         <div
           key="carClasses"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 2, w: 3, h: 2, minH: 1 }}
+          data-grid={{ x: 0, y: 2, w: 4, h: 2, minH: 1 }}
         >
           <DashboardCard title={carClassTitle}>
             {session?.isMulticlass ? (
@@ -55,7 +55,7 @@ export default function Dashboard() {
         <div
           key="trackMap"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 4, w: 3, h: 2, minH: 2 }}
+          data-grid={{ x: 0, y: 4, w: 4, h: 2, minH: 2 }}
         >
           <DashboardCard title="Track Map">
             <TrackMap />
@@ -64,13 +64,13 @@ export default function Dashboard() {
         <div
           key="standings"
           className="overflow-hidden"
-          data-grid={{ x: 3, y: 2, w: 9, h: 8, minH: 2 }}
+          data-grid={{ x: 4, y: 2, w: 8, h: 8, minH: 2 }}
         >
           <DashboardCard title="Standings">
             <Standings />
           </DashboardCard>
         </div>
-        <div key="b" data-grid={{ x: 0, y: 6, w: 3, h: 2, minW: 2, maxW: 4 }}>
+        <div key="b" data-grid={{ x: 0, y: 6, w: 4, h: 2, minW: 2, maxW: 4 }}>
           <DashboardCard title="Conditions">
             <Conditions />
           </DashboardCard>
@@ -78,16 +78,16 @@ export default function Dashboard() {
         <div
           key="currentLap"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 8, w: 3, h: 1 }}
+          data-grid={{ x: 0, y: 8, w: 4, h: 1 }}
         >
           <DashboardCard title="Current Lap">
             <Timing />
           </DashboardCard>
         </div>
         <div
-          key="telemetry"
+          key="cartTelemetry"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 9, w: 3, h: 2 }}
+          data-grid={{ x: 0, y: 9, w: 4, h: 2 }}
         >
           <DashboardCard title="Car Telemetry">
             <Telemetry />
