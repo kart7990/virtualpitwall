@@ -5,6 +5,7 @@ import {
 } from "@/lib/redux";
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
 import { useEffect } from "react";
+import { N_A } from "../utils/constants";
 import { parseIRating } from "../utils/formatter/CarConversion";
 import { convertMsToDisplay } from "../utils/formatter/Time";
 
@@ -66,14 +67,16 @@ export const SingleClassDetails = ({
   const fastestCar =
     carClassValues.length === 0
       ? null
-      : carClassValues.reduce((fastest, current) => {
-          return current.fastestLap < fastest.fastestLap ? current : fastest;
-        });
+      : carClassValues
+          .filter((car) => car.fastestLap > 0)
+          .reduce((fastest, current) => {
+            return current.fastestLap < fastest.fastestLap ? current : fastest;
+          });
 
   const getFastestLapComponent = (car: CarDetails | null) => {
     let res = "Fastest Lap: ";
     if (car === null || car.fastestLap <= 0) {
-      res += "n/a";
+      res += N_A;
     } else {
       res +=
         convertMsToDisplay(car.fastestLap) + " (" + car.fastestLapDriver + ")";
