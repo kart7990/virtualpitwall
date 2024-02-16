@@ -1,9 +1,9 @@
 import { Measurement } from "@/lib/redux/slices/preferencesSlice/models";
-import { DASH } from "../constants";
+import { N_A } from "../constants";
 
 export const formatFuel = (num: number, measurement: Measurement) => {
   return num === -1 || isNaN(num) || num == Infinity || num == -Infinity
-    ? DASH
+    ? N_A
     : formatVolume(num, measurement);
 };
 

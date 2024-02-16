@@ -4,9 +4,10 @@ export const convertSpeed = (
   metersPerSecond: number,
   measurement: Measurement,
 ) => {
-  let res = measurement.isImperial()
-    ? (metersPerSecond * 2.237).toFixed(1)
-    : (metersPerSecond * 3.6).toFixed(1);
+  let res =
+    measurement && measurement.isImperial()
+      ? (metersPerSecond * 2.237).toFixed(1)
+      : (metersPerSecond * 3.6).toFixed(1);
   return parseFloat(res);
 };
 
@@ -22,5 +23,5 @@ export const formatSpeed = (
 };
 
 export const getSpeedUnit = (measurement: Measurement) => {
-  return measurement.isImperial() ? "mph" : "km/h";
+  return measurement && measurement.isImperial() ? "mph" : "km/h";
 };
