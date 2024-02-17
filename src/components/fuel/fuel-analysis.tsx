@@ -75,26 +75,27 @@ const FuelAnalysis = () => {
   return (
     <>
       {telemetryProvider?.isOnTrack && car ? (
-        <div className="flex flex-row">
-          <div className="grid grid-rows-4 grid-flow-col gap-4 p-2">
+        <>
+          <div className="grid grid-cols-4 gap-4 p-2">
             <DataDisplay title="Fuel Level" content={car.getFuelQuantity()} />
             <DataDisplay title="Fuel %" content={car.getFuelPercent()} />
             <DataDisplay
-              title="Current Lap"
+              title="Current Lap Usage"
               content={car.getFuelConsumedLap()}
             />
             <DataDisplay title="Last Lap Usage" content={lastLapConsumed} />
-            <DataDisplay title="Average Usage" content={averageConsumed} />
+            <DataDisplay title="Avg. Usage" content={averageConsumed} />
             <DataDisplay title="Max Usage" content={maxConsumption} />
             <DataDisplay title="Min Usage" content={minConsumption} />
           </div>
-          <div>
+          <div className="gap-4 p-2">
             <table className="border-collapse border-slate-500">
               <thead>
                 <tr className="border-b-2">
                   <th className="p-1">Lap Number</th>
                   <th className="p-1">Lap Time</th>
                   <th className="p-1">Fuel Consumed</th>
+                  <th className="p-1">Laps Remaining</th>
                 </tr>
               </thead>
               <tbody>
@@ -105,15 +106,14 @@ const FuelAnalysis = () => {
                     <tr className="border-b-2" key={index}>
                       <td className="p-1">{lap.lapNumber}</td>
                       <td className="p-1">{getLapTime(lap.lapNumber)}</td>
-                      <td className="p-1 text-right">
-                        {lap.getFuelConsumed()}
-                      </td>
+                      <td className="p-1">{lap.getFuelConsumed()}</td>
+                      <td className="p-1">{lap.getRemainingLaps()}</td>
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
-        </div>
+        </>
       ) : (
         <div className="p-3">Car is not on track</div>
       )}

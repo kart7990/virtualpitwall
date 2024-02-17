@@ -92,7 +92,7 @@ export default function Dashboard() {
         <div
           key="inputTelemetry"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 9, w: 3, h: 1 }}
+          data-grid={{ x: 0, y: 9, w: 4, h: 1 }}
         >
           <DashboardCard title="Input Telemetry">
             <InputTelemetry />
@@ -101,7 +101,7 @@ export default function Dashboard() {
         <div
           key="fuelAnalysis"
           className="overflow-hidden"
-          data-grid={{ x: 0, y: 11, w: 4, h: 2 }}
+          data-grid={{ x: 0, y: 11, w: 4, h: 3 }}
         >
           <DashboardCard title="Fuel Analysis">
             <FuelAnalysis />
