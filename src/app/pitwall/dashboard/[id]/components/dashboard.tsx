@@ -3,10 +3,10 @@
 import { MultiClassDetails } from "@/components/car-class-details/multi-class";
 import { SingleClassDetails } from "@/components/car-class-details/single-class";
 import { SourceSelection } from "@/components/connection/source-selection";
+import FuelAnalysis from "@/components/fuel/fuel-analysis";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
 import Telemetry from "@/components/telemetry/car-telemetry";
-import FuelAnalysis from "@/components/telemetry/fuel-analysis";
 import InputTelemetry from "@/components/telemetry/input-telemetry";
 import Timing from "@/components/timing/current-lap";
 import { TrackMap } from "@/components/trackmap/trackmap";
