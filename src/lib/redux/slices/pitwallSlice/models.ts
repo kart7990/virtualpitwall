@@ -444,6 +444,10 @@ export class LapTelemetry {
   getFuelConsumed = (): string => {
     return formatFuel(this.fuelConsumed, this.measurement);
   };
+
+  getRemainingLaps = (): string => {
+    return (this.fuelLapEnd / this.fuelConsumed).toFixed(2);
+  };
 }
 
 export interface LapTime {
