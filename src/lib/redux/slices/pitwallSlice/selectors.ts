@@ -44,6 +44,9 @@ export const getLiveTiming = (state: ReduxState) => {
 export const getSelectedCarNumber = (state: ReduxState) =>
   state.pitwall.selectedCarNumber;
 
+export const getCarTelemetry = (state: ReduxState) =>
+  state.pitwall.telemetry?.car;
+
 export const getSelectedCar = createSelector(
   [getLiveTiming, getSelectedCarNumber],
   (liveTiming, selectedCarNumber) => {

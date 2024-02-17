@@ -13,16 +13,9 @@ const Telemetry = () => {
   return (
     <>
       {telemetryProvider?.isOnTrack && car ? (
-        <div className="grid grid-rows-4 grid-flow-col gap-4 p-2">
+        <div className="grid grid-cols-3 gap-4 p-2">
           <DataDisplay title="Speed" content={car.getSpeed()} />
-          <DataDisplay title="Throttle" content={car.throttle + "%"} />
-          <DataDisplay title="Brake" content={car.brake + "%"} />
-          <DataDisplay title="Clutch" content={car.clutch + "%"} />
           <DataDisplay title="RPMs" content={car.getRpm()} />
-          <DataDisplay
-            title="Steering Angle"
-            content={car.getSteeringAngle()}
-          />
           <DataDisplay title="Oil Temp" content={car.getOilTemp()} />
           <DataDisplay title="Oil Pressure" content={car.getOilPressure()} />
           <DataDisplay title="Water Temp" content={car.getWaterTemp()} />
