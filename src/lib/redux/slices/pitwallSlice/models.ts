@@ -269,7 +269,7 @@ export class LiveTiming {
 export interface Telemetry {
   car: CarTelemetry | null;
   timing: TimingTelemetry | null;
-  laps: CompletedLapDetails[];
+  laps: LapTelemetry[];
 }
 
 export class CarTelemetry {
@@ -315,6 +315,10 @@ export class CarTelemetry {
 
   getRpm = (): string => {
     return String(this.rpm);
+  };
+
+  getFuelConsumedLap = (): string => {
+    return formatFuel(this.fuelConsumedLap, this.measurement);
   };
 
   getFuelQuantity = (): string => {
@@ -395,29 +399,51 @@ export class TimingTelemetry {
   };
 }
 
-export interface CompletedTelemetryLaps {
-  laps: CompletedLapDetails[];
-  lastUpdate: number;
-}
+export class LapTelemetry {
+  measurement!: Measurement;
+  lapNumber!: number;
+  stintLapNumber!: number;
+  sessionNumber!: number;
+  lapTime!: LapTime;
+  raceTimeRemaining!: number;
+  fuelLapStart!: number;
+  fuelLapEnd!: number;
+  fuelConsumed!: number;
+  maxSpeed!: number;
+  minSpeed!: number;
+  maxRpm!: number;
+  minRpm!: number;
+  incidentCountLapStart!: number;
+  incidentCountLapEnd!: number;
+  inPitLane!: boolean;
+  greenFlagFullLap!: boolean;
+  incidentCount!: number;
 
-export interface CompletedLapDetails {
-  lapNumber: number;
-  stintLapNumber: number;
-  sessionNumber: number;
-  lapTime: LapTime;
-  raceTimeRemaining: number;
-  fuelLapStart: number;
-  fuelLapEnd: number;
-  fuelConsumed: number;
-  maxSpeed: number;
-  minSpeed: number;
-  maxRpm: number;
-  minRpm: number;
-  incidentCountLapStart: number;
-  incidentCountLapEnd: number;
-  inPitLane: boolean;
-  greenFlagFullLap: boolean;
-  incidentCount: number;
+  constructor(lap: any, measurement: Measurement) {
+    if (lap != null) {
+      this.measurement = measurement;
+      this.lapNumber = lap.lapNumber;
+      this.stintLapNumber = lap.stintLapNumber;
+      this.sessionNumber = lap.sessionNumber;
+      this.raceTimeRemaining = lap.raceTimeRemaining;
+      this.fuelLapStart = lap.fuelLapStart;
+      this.fuelLapEnd = lap.fuelLapEnd;
+      this.fuelConsumed = lap.fuelConsumed;
+      this.maxSpeed = lap.maxSpeed;
+      this.minSpeed = lap.minSpeed;
+      this.maxRpm = lap.maxRpm;
+      this.minRpm = lap.minRpm;
+      this.incidentCountLapStart = lap.incidentCountLapStart;
+      this.incidentCountLapEnd = lap.incidentCountLapEnd;
+      this.inPitLane = lap.inPitLane;
+      this.greenFlagFullLap = lap.greenFlagFullLap;
+      this.incidentCount = lap.incidentCount;
+    }
+  }
+
+  getFuelConsumed = (): string => {
+    return formatFuel(this.fuelConsumed, this.measurement);
+  };
 }
 
 export interface LapTime {

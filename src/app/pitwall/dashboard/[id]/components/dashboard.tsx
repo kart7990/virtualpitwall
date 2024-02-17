@@ -6,6 +6,7 @@ import { SourceSelection } from "@/components/connection/source-selection";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
 import Telemetry from "@/components/telemetry/car-telemetry";
+import FuelAnalysis from "@/components/telemetry/fuel-analysis";
 import InputTelemetry from "@/components/telemetry/input-telemetry";
 import Timing from "@/components/timing/current-lap";
 import { TrackMap } from "@/components/trackmap/trackmap";
@@ -95,6 +96,15 @@ export default function Dashboard() {
         >
           <DashboardCard title="Input Telemetry">
             <InputTelemetry />
+          </DashboardCard>
+        </div>
+        <div
+          key="fuelAnalysis"
+          className="overflow-hidden"
+          data-grid={{ x: 0, y: 11, w: 4, h: 2 }}
+        >
+          <DashboardCard title="Fuel Analysis">
+            <FuelAnalysis />
           </DashboardCard>
         </div>
       </ResponsiveGridLayout>
