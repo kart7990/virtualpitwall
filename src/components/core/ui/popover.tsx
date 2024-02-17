@@ -1,30 +1,34 @@
-import { cn } from "@/lib/utils";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
-import * as React from "react";
+import * as RadixPopover from "@radix-ui/react-popover";
+import { ReactElement } from "react";
+import { Button } from "./button";
 
-const Popover = PopoverPrimitive.Root;
+const Popover = ({
+  title,
+  content,
+}: {
+  title: string;
+  content: ReactElement;
+}) => (
+  <RadixPopover.Root>
+    <RadixPopover.Trigger asChild>
+      <Button variant="outline">{title}</Button>
+    </RadixPopover.Trigger>
+    <RadixPopover.Portal>
+      <RadixPopover.Content
+        className="text-sm rounded-lg p-5 w-[400px] bg-card shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+        sideOffset={5}
+      >
+        {content}
+        {/* <RadixPopover.Close
+          className="rounded-full h-[15px] w-[15px] inline-flex items-center justify-center text-violet11 absolute top-[5px] right-[5px] hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 outline-none cursor-default"
+          aria-label="Close"
+        >
+          <Cross2Icon />
+        </RadixPopover.Close> */}
+        <RadixPopover.Arrow className="bg-card" />
+      </RadixPopover.Content>
+    </RadixPopover.Portal>
+  </RadixPopover.Root>
+);
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
-
-const PopoverAnchor = PopoverPrimitive.Anchor;
-
-const PopoverContent = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
-    <PopoverPrimitive.Content
-      ref={ref}
-      align={align}
-      sideOffset={sideOffset}
-      className={cn(
-        "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        className,
-      )}
-      {...props}
-    />
-  </PopoverPrimitive.Portal>
-));
-PopoverContent.displayName = PopoverPrimitive.Content.displayName;
-
-export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger };
+export default Popover;
