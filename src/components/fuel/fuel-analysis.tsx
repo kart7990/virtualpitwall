@@ -33,6 +33,7 @@ const FuelAnalysis = () => {
         (lap) => lap.greenFlagFullLap && lap.lapNumber > 1 && !lap.inPitLane,
       )
     : [];
+
   const validLapsTotalConsumed =
     validLaps.length > 0
       ? validLaps.reduce(
@@ -40,10 +41,12 @@ const FuelAnalysis = () => {
           0,
         )
       : N_A;
+
   const averageConsumed =
     validLaps && validLapsTotalConsumed !== N_A
       ? formatFuel(validLapsTotalConsumed / validLaps.length, measurement)
       : N_A;
+
   const maxConsumption = validLaps
     ? formatFuel(
         Math.max.apply(
@@ -53,6 +56,7 @@ const FuelAnalysis = () => {
         measurement,
       )
     : N_A;
+
   const minConsumption = validLaps
     ? formatFuel(
         Math.min.apply(
