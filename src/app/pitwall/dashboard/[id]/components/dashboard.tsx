@@ -2,7 +2,6 @@
 
 import { MultiClassDetails } from "@/components/car-class-details/multi-class";
 import { SingleClassDetails } from "@/components/car-class-details/single-class";
-import { Conditions } from "@/components/conditions/conditions";
 import { SourceSelection } from "@/components/connection/source-selection";
 import { Session } from "@/components/session/session";
 import { Standings } from "@/components/standings/standings";
@@ -68,11 +67,6 @@ export default function Dashboard() {
         >
           <DashboardCard title="Standings">
             <Standings />
-          </DashboardCard>
-        </div>
-        <div key="b" data-grid={{ x: 0, y: 6, w: 4, h: 2, minW: 2, maxW: 4 }}>
-          <DashboardCard title="Conditions">
-            <Conditions />
           </DashboardCard>
         </div>
         <div
