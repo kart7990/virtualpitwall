@@ -399,6 +399,11 @@ export class TimingTelemetry {
   };
 }
 
+export interface CompletedTelemetryLaps {
+  laps: LapTelemetry[];
+  lastUpdate: number;
+}
+
 export class LapTelemetry {
   measurement!: Measurement;
   lapNumber!: number;
