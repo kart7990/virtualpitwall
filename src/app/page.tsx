@@ -17,7 +17,7 @@ export default function Home() {
               <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                 {siteConfig.descriptionShort}
               </h2>
-              <p>
+              <p className="mt-4">
                 The Virtual Pitwall platform displays all relevant race event
                 data directly to a web-based dashboard. Designed for
                 collaborative racing events where a race engineer can give your
