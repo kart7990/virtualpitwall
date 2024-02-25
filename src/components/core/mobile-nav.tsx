@@ -37,7 +37,7 @@ export function MobileNav({ isPublic }: { isPublic: boolean }) {
         {!isPublic && (
           <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
             <div className="flex flex-col space-y-3">
-              <MobileLink href="/Dashboard" onOpenChange={setOpen}>
+              {/* <MobileLink href="/Dashboard" onOpenChange={setOpen}>
                 Dashboards
               </MobileLink>
               <MobileLink href="/Dashboard" onOpenChange={setOpen}>
@@ -45,7 +45,7 @@ export function MobileNav({ isPublic }: { isPublic: boolean }) {
               </MobileLink>
               <MobileLink href="/Dashboard" onOpenChange={setOpen}>
                 Settings
-              </MobileLink>
+              </MobileLink> */}
             </div>
           </ScrollArea>
         )}

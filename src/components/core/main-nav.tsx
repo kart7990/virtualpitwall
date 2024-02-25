@@ -4,7 +4,6 @@ import { Icons } from "@/components/core/icons";
 import { siteConfig } from "@/config/site";
 import { selectUser, useSelector } from "@/lib/redux";
 import { User } from "@/lib/redux/slices/authSlice/models";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -24,7 +23,7 @@ export function MainNav({ isPublic }: { isPublic: boolean }) {
       </Link>
       {!isPublic && (
         <nav className="flex items-center space-x-6 text-sm font-medium">
-          <Link
+          {/* <Link
             href={dashboardHref}
             className={cn(
               "transition-colors hover:text-foreground/80",
@@ -56,7 +55,7 @@ export function MainNav({ isPublic }: { isPublic: boolean }) {
             )}
           >
             Settings
-          </Link>
+          </Link> */}
         </nav>
       )}
     </div>

@@ -25,7 +25,7 @@ export function SiteHeader({ isPublic }: { isPublic: boolean }) {
                 rel="noreferrer"
               >
                 <Button>
-                  <span>Download Client</span>
+                  <span>Download App</span>
                 </Button>
               </Link>
 
