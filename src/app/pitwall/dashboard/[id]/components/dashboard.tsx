@@ -45,7 +45,6 @@ export default function Dashboard({
 
   return (
     <>
-      {console.log("render", layout)}
       <main className="text-sm">
         <ResponsiveGridLayout
           className="layout"
