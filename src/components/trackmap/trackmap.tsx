@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  getLiveTiming,
   getSelectedCar,
   selectCurrentTrack,
+  selectLiveTiming,
   useSelector,
 } from "@/lib/redux";
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
@@ -19,7 +19,7 @@ export const TrackMap = () => {
   const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] =
     useState(false);
   const [allJsLoaded, setAllJsLoaded] = useState(false);
-  const standings: LiveTiming[] = useSelector(getLiveTiming);
+  const standings: LiveTiming[] = useSelector(selectLiveTiming);
   const track = useSelector(selectCurrentTrack);
   const [carClasses, setCarClasses] = useState<any[]>([]);
   const isMulticlass = false;

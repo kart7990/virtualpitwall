@@ -4,7 +4,7 @@ The Virtual Pitwall platform displays all relevant iRacing event data on a web-b
 
 ### Project Frameworks
 
-Core Frameworks, and Libraries:
+Core Frameworks and Libraries:
 
 - [React](https://react.dev/)
 - [Next.js](https://nextjs.org/)
