@@ -18,7 +18,7 @@ import { DashboardHeader } from "./dashboard-header";
 
 const ResponsiveGridLayout = WidthProvider(GridLayout);
 
-const STORAGE_KEY: string = "dashboard_defaultLayout";
+const STORAGE_KEY: string = "dashboard_layout";
 
 class DashboardComponent {
   public id: string;
@@ -135,7 +135,6 @@ export default function Dashboard() {
     let savedLayoutJson = localStorage.getItem(STORAGE_KEY);
     if (savedLayoutJson != null) {
       let savedLayout: Layout[] = JSON.parse(savedLayoutJson);
-      console.log("savedLayout", savedLayout);
       setLayout(savedLayout);
     } else {
       setLayout(defaultLayout);

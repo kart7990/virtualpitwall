@@ -1,6 +1,6 @@
 import {
-  getLiveTiming,
   selectCurrentTrackSession,
+  selectLiveTiming,
   useSelector,
 } from "@/lib/redux";
 import { LiveTiming } from "@/lib/redux/slices/pitwallSlice/models";
@@ -27,7 +27,7 @@ export const MultiClassDetails = ({
   setCarClassTitle: (title: string) => void;
 }) => {
   const session = useSelector(selectCurrentTrackSession);
-  const standings = useSelector<LiveTiming[]>(getLiveTiming);
+  const standings = useSelector<LiveTiming[]>(selectLiveTiming);
 
   useEffect(() => {
     setCarClassTitle("Multi-Class Details");

@@ -1,5 +1,13 @@
 import type { ReduxState } from "@/lib/redux";
-import { Measurement } from "./models";
+import { createSelector } from "@reduxjs/toolkit";
+import { Measurement, MeasurementSystem } from "./models";
 
-export const selectMeasurementSystem = (state: ReduxState) =>
-  new Measurement(state.preferences.measurementSystem);
+export const getMeasurementSystem = (state: ReduxState) =>
+  state.preferences.measurementSystem;
+
+export const selectMeasurementSystem = createSelector(
+  [getMeasurementSystem],
+  (measurementSystem: MeasurementSystem) => {
+    return new Measurement(measurementSystem);
+  },
+);

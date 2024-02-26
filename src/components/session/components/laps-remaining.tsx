@@ -1,13 +1,13 @@
 import { DataDisplay } from "@/components/core/ui/data-display";
 import {
   selectCurrentTrackSession,
-  getLiveTiming,
+  selectLiveTiming,
   useSelector,
 } from "@/lib/redux";
 import { TrackSession } from "@/lib/redux/slices/pitwallSlice/models";
 
 export const LapsRemaining = () => {
-  const timing = useSelector(getLiveTiming);
+  const timing = useSelector(selectLiveTiming);
   const session: TrackSession | undefined = useSelector(
     selectCurrentTrackSession,
   );

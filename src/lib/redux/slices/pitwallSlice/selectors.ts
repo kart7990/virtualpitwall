@@ -1,6 +1,6 @@
-import type { ReduxState } from "@/lib/redux";
+import { ReduxState } from "@/lib/redux";
 import { createSelector } from "@reduxjs/toolkit";
-import { Measurement } from "../preferencesSlice/models";
+import { Measurement, MeasurementSystem } from "../preferencesSlice/models";
 import {
   CarTelemetry,
   LapTelemetry,
@@ -42,22 +42,11 @@ export const getCurrentConditions = (state: ReduxState) =>
   );
 
 export const getLiveTiming = (state: ReduxState) => {
-  const session = selectCurrentTrackSession(state);
-  return state.pitwall.liveTiming.map((lt) => new LiveTiming(lt, session));
+  return state.pitwall.liveTiming;
 };
 
 export const getSelectedCarNumber = (state: ReduxState) =>
   state.pitwall.selectedCarNumber;
-
-export const getCarTelemetry = (state: ReduxState) =>
-  state.pitwall.telemetry?.car;
-
-export const getSelectedCar = createSelector(
-  [getLiveTiming, getSelectedCarNumber],
-  (liveTiming, selectedCarNumber) => {
-    return liveTiming.find((x) => x.carNumber == selectedCarNumber);
-  },
-);
 
 export const selectCurrentTrackSession = createSelector(
   [getCurrentTrackSessionNumber, getTrackSessions],
@@ -67,6 +56,21 @@ export const selectCurrentTrackSession = createSelector(
         (ts) => ts.number === currentTrackSessionNumber,
       );
     }
+  },
+);
+
+export const selectLiveTiming = createSelector(
+  [getLiveTiming, selectCurrentTrackSession],
+  (liveTiming, currentTrackSession) => {
+    const session = currentTrackSession;
+    return liveTiming.map((lt) => new LiveTiming(lt, session));
+  },
+);
+
+export const getSelectedCar = createSelector(
+  [getSelectedCarNumber, selectLiveTiming],
+  (selectedCarNumber, liveTiming) => {
+    return liveTiming.find((x) => x.carNumber == selectedCarNumber);
   },
 );
 
@@ -104,22 +108,49 @@ export const selectCurrentTrack = createSelector(
   },
 );
 
-export const selectTelemetry = (state: ReduxState) => {
-  const measurement = new Measurement(state.preferences.measurementSystem);
-  return {
-    car: new CarTelemetry(state.pitwall.telemetry?.car, measurement),
-    timing: new TimingTelemetry(state.pitwall.telemetry?.timing),
-    laps:
-      state.pitwall.telemetry && state.pitwall.telemetry.laps
-        ? state.pitwall.telemetry.laps.map(
-            (lap) => new LapTelemetry(lap, measurement),
-          )
-        : [],
-  };
+export const getCarTelemetry = (state: ReduxState) => {
+  return state.pitwall.telemetry?.car;
 };
 
+export const getTimingTelemetry = (state: ReduxState) => {
+  return state.pitwall.telemetry?.timing;
+};
+
+export const getTelemetryLaps = (state: ReduxState) => {
+  return state.pitwall.telemetry?.laps;
+};
+
+// Hack - Unable to import the selector from the preferences selector because importing selectors has issues: https://github.com/reduxjs/reselect/issues/169
+const getMeasurementSystem = (state: ReduxState) =>
+  state.preferences.measurementSystem;
+
+const selectMeasurementSystem = createSelector(
+  [getMeasurementSystem],
+  (measurementSystem: MeasurementSystem) => {
+    return new Measurement(measurementSystem);
+  },
+);
+
+export const selectTelemetry = createSelector(
+  [
+    getCarTelemetry,
+    getTimingTelemetry,
+    getTelemetryLaps,
+    selectMeasurementSystem,
+  ],
+  (carTelemetry, timingTelemetry, telemetryLaps, measurementSystem) => {
+    return {
+      car: new CarTelemetry(carTelemetry, measurementSystem),
+      timing: new TimingTelemetry(timingTelemetry),
+      laps: telemetryLaps
+        ? telemetryLaps.map((lap) => new LapTelemetry(lap, measurementSystem))
+        : [],
+    };
+  },
+);
+
 export const selectCurrentCar = createSelector(
-  [getLiveTiming, selectTelemetryProvider],
+  [selectLiveTiming, selectTelemetryProvider],
   (liveTiming, telemetryProvider) => {
     return liveTiming.find(
       (lt) => lt.carNumber === telemetryProvider?.carNumber,

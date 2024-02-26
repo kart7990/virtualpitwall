@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  getLiveTiming,
   pitwallSlice,
   selectCurrentTrackSession,
+  selectLiveTiming,
   useDispatch,
   useSelector,
 } from "@/lib/redux";
@@ -24,7 +24,7 @@ export const Standings = () => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState<LiveTiming[]>([]);
-  const standingsData = useSelector<LiveTiming[]>(getLiveTiming);
+  const standingsData = useSelector<LiveTiming[]>(selectLiveTiming);
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
   const session = useSelector(selectCurrentTrackSession);
 
