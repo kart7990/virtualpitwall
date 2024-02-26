@@ -24,7 +24,8 @@
         "name": "Jochen Zehnder",
         "carNumber": "20",
         "gameUserId": null,
-        "gameUserName": null
+        "gameUserName": null,
+        "isOnTrack": true
       }
     ]
   },

@@ -1,10 +1,9 @@
 "use client";
 
-import FuelAnalysis from "@/components/core/ui/tabs";
+import FuelAnalysis from "@/components/fuel/fuel-analysis";
 import Telemetry from "@/components/telemetry/car-telemetry";
 import InputTelemetry from "@/components/telemetry/input-telemetry";
 import Timing from "@/components/timing/current-lap";
-import { useState } from "react";
 import ReactGridLayout, { Layout, WidthProvider } from "react-grid-layout";
 import Dashboard from "../components/dashboard";
 import { DashboardCard } from "../components/dashboard-card";
@@ -15,7 +14,12 @@ const ResponsiveGridLayout = WidthProvider(ReactGridLayout);
 const STORAGE_KEY: string = "dashboard_telemetry_layout";
 
 export default function DashboardTiming() {
-  const [layout, setLayout] = useState<Layout[]>();
+  const defaultLayout: Layout[] = [
+    { i: "currentLap", x: 0, y: 0, w: 4, h: 1 },
+    { i: "carTelemetry", x: 0, y: 1, w: 4, h: 1 },
+    { i: "inputTelemetry", x: 0, y: 2, w: 4, h: 1 },
+    { i: "fuelAnalysis", x: 4, y: 0, w: 4, h: 3 },
+  ];
 
   let components: DashboardComponent[] = [
     new DashboardComponent(
@@ -54,17 +58,10 @@ export default function DashboardTiming() {
       "Displays fuel analysis.",
       (
         <DashboardCard title="Fuel Analysis">
-          <FuelAnalysis defaultTab={""} tabs={[]} />
+          <FuelAnalysis />
         </DashboardCard>
       ),
     ),
-  ];
-
-  const defaultLayout: Layout[] = [
-    { i: "currentLap", x: 0, y: 8, w: 4, h: 1 },
-    { i: "carTelemetry", x: 0, y: 9, w: 4, h: 1 },
-    { i: "inputTelemetry", x: 0, y: 9, w: 4, h: 1 },
-    { i: "fuelAnalysis", x: 0, y: 11, w: 4, h: 3 },
   ];
 
   return (

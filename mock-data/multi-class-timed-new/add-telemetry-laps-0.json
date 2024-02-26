@@ -1,0 +1,23 @@
+{
+  "laps": [
+    {
+      "lapNumber": 14,
+      "stintLapNumber": 0,
+      "sessionNumber": 0,
+      "lapTime": null,
+      "raceTimeRemaining": 7517.550024399496,
+      "fuelLapStart": 83.64321899414062,
+      "fuelLapEnd": 79.91230773925781,
+      "fuelConsumed": 3.7309112548828125,
+      "maxSpeed": 75.32791900634766,
+      "minSpeed": 21.907812118530273,
+      "maxRpm": 7742.67041015625,
+      "minRpm": 3995.065673828125,
+      "incidentCountLapStart": 10,
+      "incidentCountLapEnd": 11,
+      "inPitLane": false,
+      "greenFlagFullLap": true,
+      "incidentCount": 1
+    }
+  ]
+}
