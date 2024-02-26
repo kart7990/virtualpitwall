@@ -29,7 +29,6 @@ export function Settings() {
   const dispatch = useDispatch();
   const selectedMeasurementSystem = useSelector(selectMeasurementSystem);
 
-  console.log(selectedMeasurementSystem.measurement.toString());
   return (
     <Sheet>
       <SheetTrigger asChild>
