@@ -1,59 +1,63 @@
 "use client";
 
-import { SourceSelection } from "@/components/connection/source-selection";
-import Tabs, { TabProps } from "@/components/core/ui/tabs";
-import { Session } from "@/components/session/session";
-import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
-import { useState } from "react";
-import { Layout } from "react-grid-layout";
-import { DashboardHeader } from "./dashboard-header";
-import DashboardStandings from "./dashboard-standings";
-import DashboardTelemetry from "./dashboard-telemetry";
+import { useEffect, useState } from "react";
+import ReactGridLayout, { Layout, WidthProvider } from "react-grid-layout";
+import { DashboardComponent } from "../components/dashboard-component";
 
-const STORAGE_KEY: string = "dashboard_layout";
+const ResponsiveGridLayout = WidthProvider(ReactGridLayout);
 
-class DashboardComponent {
-  public id: string;
-  public content: React.ReactNode;
-  public title: string;
-  public description: string;
-
-  constructor(
-    id: string,
-    title: string,
-    description: string,
-    content: React.ReactNode,
-  ) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.content = content;
-  }
-}
-
-export default function Dashboard() {
-  const session = useSelector(selectCurrentTrackSession);
-  const [carClassTitle, setCarClassTitle] = useState("");
+export default function Dashboard({
+  defaultLayout,
+  components,
+  storageKey,
+}: {
+  defaultLayout: Layout[];
+  components: DashboardComponent[];
+  storageKey: string;
+}) {
   const [layout, setLayout] = useState<Layout[]>();
 
-  const tabs: TabProps[] = [
-    {
-      value: "Dashboard",
-      content: <DashboardStandings />,
-    },
-    {
-      value: "Telemetry",
-      content: <DashboardTelemetry />,
-    },
-  ];
+  useEffect(() => {
+    let savedLayoutJson = localStorage.getItem(storageKey);
+    if (savedLayoutJson != null) {
+      let savedLayout: Layout[] = JSON.parse(savedLayoutJson);
+      setLayout(savedLayout);
+    } else {
+      setLayout(defaultLayout);
+    }
+  }, [defaultLayout, storageKey]);
+
+  function renderComponents() {
+    return layout?.map((layoutItem) => (
+      <div
+        key={layoutItem.i}
+        data-grid={layoutItem}
+        className="overflow-hidden"
+      >
+        {components.find((c) => c.id === layoutItem.i)?.content}
+      </div>
+    ));
+  }
+
+  const onLayoutChange = (layout: Layout[]) => {
+    localStorage.setItem(storageKey, JSON.stringify(layout));
+  };
 
   return (
-    <main className="text-sm">
-      <DashboardHeader
-        left={<SourceSelection />}
-        right={<Session />}
-      ></DashboardHeader>
-      <Tabs defaultTab="Dashboard" tabs={tabs} />
-    </main>
+    <>
+      {console.log("render", layout)}
+      <main className="text-sm">
+        <ResponsiveGridLayout
+          className="layout"
+          isDraggable={true}
+          isResizable={true}
+          draggableHandle=".drag-handle"
+          onLayoutChange={onLayoutChange}
+          resizeHandles={["se"]}
+        >
+          {renderComponents()}
+        </ResponsiveGridLayout>
+      </main>
+    </>
   );
 }
