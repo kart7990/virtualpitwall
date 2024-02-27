@@ -14,6 +14,13 @@ import { setIntervalAsync } from "set-interval-async/dynamic";
 import { useDebounce } from "use-debounce";
 import { parseTrackId } from "../utils/formatter/TrackConversion";
 
+declare global {
+  interface Window {
+    rivalTrackerJsLoaded: boolean;
+    rivalTrackerPathsJsLoaded: boolean;
+  }
+}
+
 export const TrackMap = () => {
   const [rivalTrackerJsLoaded, setRivalTrackerJsLoaded] = useState(false);
   const [rivalTrackerPathsJsLoaded, setRivalTrackerPathsJsLoaded] =
@@ -56,7 +63,12 @@ export const TrackMap = () => {
   }, []);
 
   useEffect(() => {
-    if (rivalTrackerJsLoaded && rivalTrackerPathsJsLoaded) {
+    const rivalTrackerLoaded =
+      window.rivalTrackerJsLoaded || rivalTrackerJsLoaded;
+    const rivalTrackerPathsLoaded =
+      window.rivalTrackerPathsJsLoaded || rivalTrackerPathsJsLoaded;
+
+    if (rivalTrackerLoaded && rivalTrackerPathsLoaded) {
       setAllJsLoaded(true);
     }
   }, [rivalTrackerJsLoaded, rivalTrackerPathsJsLoaded]);
@@ -219,6 +231,7 @@ export const TrackMap = () => {
         src="/js/RivalTracker.1.0.js"
         strategy="lazyOnload"
         onLoad={() => {
+          window.rivalTrackerJsLoaded = true;
           setRivalTrackerJsLoaded(true);
         }}
       />
@@ -227,6 +240,7 @@ export const TrackMap = () => {
           src="/js/RivalTrackerPaths.1.0.js"
           strategy="lazyOnload"
           onLoad={() => {
+            window.rivalTrackerPathsJsLoaded = true;
             setRivalTrackerPathsJsLoaded(true);
           }}
         />

@@ -2,6 +2,7 @@
 
 import { pitwallSlice, useDispatch } from "@/lib/redux";
 import { useEffect, useState } from "react";
+import addTelemetryLaps from "./../../../mock-data/multi-class-timed-new/add-telemetry-laps-1.json";
 import pitboxSessionInit from "./../../../mock-data/multi-class-timed-new/pitwall-session-init.json";
 import setDynamicTrackSessionData from "./../../../mock-data/multi-class-timed-new/set-dynamic-track-session-data.json";
 import gameSessionData from "./../../../mock-data/multi-class-timed-new/set-game-session.json";
@@ -44,7 +45,9 @@ export default function PitwallConnection({
 
     const telemetry = JSON.parse(JSON.stringify(setTelemetry));
     dispatch(pitwallSlice.actions.setTelemetry(telemetry));
-    // dispatch(pitwallSlice.actions.addTelemetryLaps(telemetryLaps));
+
+    const telemetryLaps = JSON.parse(JSON.stringify(addTelemetryLaps));
+    dispatch(pitwallSlice.actions.addTelemetryLaps(telemetryLaps));
 
     setLoading(false);
   }, [dispatch]);
