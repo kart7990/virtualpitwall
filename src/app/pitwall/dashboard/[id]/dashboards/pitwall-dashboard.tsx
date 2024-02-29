@@ -3,6 +3,7 @@
 import { SourceSelection } from "@/components/connection/source-selection";
 import Tabs, { TabProps } from "@/components/core/ui/tabs";
 import { Session } from "@/components/session/session";
+import LapComparison from "@/components/timing/lap-comparison";
 import { selectCurrentTrackSession, useSelector } from "@/lib/redux";
 import { useState } from "react";
 import { Layout } from "react-grid-layout";
@@ -23,6 +24,10 @@ export default function PitwallDashboard() {
     {
       value: "Telemetry",
       content: <DashboardTelemetry />,
+    },
+    {
+      value: "Lap Comparison",
+      content: <LapComparison />,
     },
   ];
 

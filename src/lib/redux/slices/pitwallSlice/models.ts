@@ -135,24 +135,54 @@ export interface CompletedLaps {
   lastUpdate: number;
 }
 
-export interface CompletedLap {
-  lapNumber: number;
-  lapTime: number;
-  stint: number;
-  position: number;
-  classPosition: number;
-  driverName: string;
-  carNumber: string;
-  driverCustId: number;
-  trackSessionNumber: number;
-  raceTimeRemaining: number;
-  inPitLane: boolean;
-  pitStopCount: number;
-  gameDateTimeLapStart: number;
-  sessionTimeLapStart: number;
-  sessionTimeLapEnd: number;
-  conditionsIdLapStart: string;
-  conditionsIdLapEnd: string;
+export class CompletedLap {
+  measurement!: Measurement;
+  lapNumber!: number;
+  lapTime!: number;
+  stint!: number;
+  position!: number;
+  classPosition!: number;
+  driverName!: string;
+  carNumber!: string;
+  driverCustId!: number;
+  trackSessionNumber!: number;
+  raceTimeRemaining!: number;
+  inPitLane!: boolean;
+  pitStopCount!: number;
+  gameDateTimeLapStart!: number;
+  sessionTimeLapStart!: number;
+  sessionTimeLapEnd!: number;
+  conditionsIdLapStart!: string;
+  conditionsIdLapEnd!: string;
+
+  constructor(lap: any, measurement: Measurement) {
+    this.measurement = measurement;
+    Object.assign(this, lap);
+  }
+
+  getLapTime = (): string => {
+    let res = DASH;
+    if (this.lapTime !== undefined) {
+      res = convertMsToDisplay(this.lapTime);
+    }
+    return res;
+  };
+
+  getCarNumber = (): string => {
+    return this.carNumber;
+  };
+
+  getDriverName = (): string => {
+    return this.driverName;
+  };
+
+  getStint = (): number => {
+    return this.stint;
+  };
+
+  getLapNumber = (): number => {
+    return this.lapNumber;
+  };
 }
 
 export interface Track {
