@@ -6,6 +6,7 @@ import {
   useSelector,
 } from "@/lib/redux";
 import { DataDisplay } from "../core/ui/data-display";
+import SimpleTable from "../core/ui/table";
 import { N_A } from "../utils/constants";
 import { formatFuel } from "../utils/formatter/Fuel";
 import { convertMsToDisplay } from "../utils/formatter/Time";
@@ -72,6 +73,25 @@ const FuelAnalysis = () => {
     return lap ? convertMsToDisplay(lap?.lapTime) : N_A;
   };
 
+  const getFuelTable = () => {
+    const header = [
+      "Lap Number",
+      "Lap Time",
+      "Fuel Consumed",
+      "Laps Remaining",
+    ];
+    const data = laps
+      .slice(-5)
+      .sort((a, b) => b.lapNumber - a.lapNumber)
+      .map((lap, index) => [
+        lap.lapNumber,
+        getLapTime(lap.lapNumber),
+        lap.getFuelConsumed(),
+        lap.getRemainingLaps(),
+      ]);
+    return <SimpleTable headers={header} data={data} />;
+  };
+
   return (
     <>
       {telemetryProvider?.isOnTrack && car ? (
@@ -88,31 +108,7 @@ const FuelAnalysis = () => {
             <DataDisplay title="Max Usage" content={maxConsumption} />
             <DataDisplay title="Min Usage" content={minConsumption} />
           </div>
-          <div className="gap-4 p-2">
-            <table className="border-collapse border-slate-500">
-              <thead>
-                <tr className="border-b-2">
-                  <th className="p-1">Lap Number</th>
-                  <th className="p-1">Lap Time</th>
-                  <th className="p-1">Fuel Consumed</th>
-                  <th className="p-1">Laps Remaining</th>
-                </tr>
-              </thead>
-              <tbody>
-                {laps
-                  .slice(-5)
-                  .sort((a, b) => b.lapNumber - a.lapNumber)
-                  .map((lap, index) => (
-                    <tr className="border-b-2" key={index}>
-                      <td className="p-1">{lap.lapNumber}</td>
-                      <td className="p-1">{getLapTime(lap.lapNumber)}</td>
-                      <td className="p-1">{lap.getFuelConsumed()}</td>
-                      <td className="p-1">{lap.getRemainingLaps()}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
+          <div className="gap-4 p-2">{getFuelTable()}</div>
         </>
       ) : (
         <div className="p-3">Car is not on track</div>
