@@ -159,14 +159,19 @@ export const selectCurrentCar = createSelector(
   },
 );
 
-export const selectCompletedLaps = createSelector(
-  [selectCurrentTrackSession, selectMeasurementSystem],
-  (currentSession, measurement) => {
-    return {
-      laps: currentSession?.completedLaps?.laps.map(
-        (lap) => new CompletedLap(lap, measurement),
-      ),
-      lastUpdate: currentSession?.completedLaps?.lastUpdate,
-    };
-  },
-);
+export const selectCompletedLapsBySessionNumber = (number: number) => {
+  return createSelector(
+    [getTrackSessions, selectMeasurementSystem],
+    (trackSessions, measurement) => {
+      if (trackSessions) {
+        const s = trackSessions.find((ts) => ts.number === number);
+        return {
+          laps: s?.completedLaps?.laps.map(
+            (lap) => new CompletedLap(lap, measurement),
+          ),
+          lastUpdate: s?.completedLaps?.lastUpdate,
+        };
+      }
+    },
+  );
+};

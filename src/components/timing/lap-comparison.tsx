@@ -1,76 +1,60 @@
-import { SelectItem } from "@/components/core/ui/select";
-import { selectCompletedLaps, useDispatch, useSelector } from "@/lib/redux";
-import { ReactElement, useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/core/ui/select";
+import {
+  getCurrentTrackSessionNumber,
+  getTrackSessions,
+  useSelector,
+} from "@/lib/redux";
+import { useState } from "react";
 import LapTimes from "./components/lap-times";
 
 const LapComparison = () => {
-  const dispatch = useDispatch();
-  const [selectedDriver, setSelectedDriver] = useState<string>();
-  const selectedLaps = useSelector(selectCompletedLaps);
-  const [selectableDrivers, setSelectableDrivers] = useState<
-    ReactElement<any, any>[]
-  >([]);
-  const [data, setData] = useState<string[][]>([]);
+  const trackSessions = useSelector(getTrackSessions);
+  const currentTrackSessionNumber = useSelector(getCurrentTrackSessionNumber);
+  const [selectedSession, setSelectedSession] = useState<number>(
+    currentTrackSessionNumber || 0,
+  );
 
-  const header = ["Lap Number", "Stint Number", "Laptime"];
-
-  useEffect(() => {
-    const getSelectableDrivers = () => {
-      const uniqueDrivers: string[] = [];
-      if (selectedLaps && selectedLaps.laps) {
-        return selectedLaps.laps
-          .filter((lap) => {
-            const carNumber: string = lap.getCarNumber();
-            if (!uniqueDrivers.includes(carNumber)) {
-              uniqueDrivers.push(carNumber);
-              return true;
-            }
-            return false;
-          })
-          .map((lap) => {
-            return (
-              <SelectItem key={lap.getCarNumber()} value={lap.getCarNumber()}>
-                <div className="grid gap-2">
-                  <div className="flex items-center">{lap.getDriverName()}</div>
-                </div>
-              </SelectItem>
-            );
-          });
-      }
-
-      return [];
-    };
-
-    setSelectableDrivers(getSelectableDrivers());
-  }, [selectedLaps]);
-
-  useEffect(() => {
-    const getData = () => {
-      return selectedLaps && selectedLaps.laps
-        ? selectedLaps.laps
-            .filter((lap) => {
-              return lap.getCarNumber() === selectedDriver;
-            })
-            .map((lap) => {
-              return [
-                "" + lap.getLapNumber(),
-                "" + lap.getStint(),
-                lap.getLapTime(),
-              ];
-            })
-        : [];
-    };
-
-    setData(getData());
-  }, [selectedDriver, selectedLaps]);
+  const getSelectableSessions = () => {
+    if (trackSessions) {
+      return trackSessions.map((s) => {
+        return (
+          <SelectItem key={s.number} value={String(s.number)}>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                {s.number} - {s.name}
+              </div>
+            </div>
+          </SelectItem>
+        );
+      });
+    }
+  };
 
   return (
-    <>
-      <div className="grid grid-cols-2 gap-2 p-2">
-        <LapTimes />
-        <LapTimes />
+    <div className="p-2">
+      <div>
+        <Select
+          onValueChange={(e) => {
+            setSelectedSession(Number(e));
+          }}
+        >
+          <SelectTrigger id="data-provider">
+            <SelectValue placeholder="--- Select Session ---" />
+          </SelectTrigger>
+          <SelectContent>{getSelectableSessions()}</SelectContent>
+        </Select>
       </div>
-    </>
+      <div className="grid grid-cols-2 gap-2 p-2">
+        <LapTimes sessionNumber={selectedSession} />
+        <LapTimes sessionNumber={selectedSession} />
+      </div>
+    </div>
   );
 };
 

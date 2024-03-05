@@ -6,12 +6,14 @@ import {
   SelectValue,
 } from "@/components/core/ui/select";
 import SimpleTable from "@/components/core/ui/table";
-import { selectCompletedLaps, useSelector } from "@/lib/redux";
+import { selectCompletedLapsBySessionNumber, useSelector } from "@/lib/redux";
 import { useState } from "react";
 
-const LapTimes = () => {
+const LapTimes = ({ sessionNumber }: { sessionNumber: number }) => {
   const [selectedDriver, setSelectedDriver] = useState<string>("-1");
-  const selectedLaps = useSelector(selectCompletedLaps);
+  const selectedLaps = useSelector(
+    selectCompletedLapsBySessionNumber(sessionNumber),
+  );
 
   const header = ["Lap Number", "Stint Number", "Laptime"];
 
@@ -69,10 +71,9 @@ const LapTimes = () => {
             onValueChange={(e) => {
               setSelectedDriver(e);
             }}
-            defaultValue="-1"
           >
             <SelectTrigger id="data-provider">
-              <SelectValue placeholder="---Select---" />
+              <SelectValue placeholder="--- Select Driver ---" />
             </SelectTrigger>
             <SelectContent>{getSelectableDrivers()}</SelectContent>
           </Select>
