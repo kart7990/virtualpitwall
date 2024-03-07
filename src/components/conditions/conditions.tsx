@@ -7,7 +7,7 @@ import {
 import { DataDisplay } from "../core/ui/data-display";
 import { formatSpeed } from "../utils/formatter/Speed";
 import { convertWeatherType, formatTemp } from "../utils/formatter/Temps";
-import { formatTime } from "../utils/formatter/Time";
+import { formatDateTime } from "../utils/formatter/Time";
 
 export const Conditions = () => {
   const conditions = useSelector(selectCurrentConditions);
@@ -20,7 +20,7 @@ export const Conditions = () => {
         <div className="grid grid-cols-3 gap-2 p-2">
           <DataDisplay
             title="Sim Time"
-            content={formatTime(trackSession.gameDateTime)}
+            content={formatDateTime(trackSession.gameDateTime)}
           />
           <DataDisplay
             title="Track Temp"
