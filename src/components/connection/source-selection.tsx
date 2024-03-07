@@ -1,23 +1,18 @@
-import { Label } from "@/components/core/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/core/ui/select";
 import {
-  getCurrentTrackSessionNumber,
   getGameSession,
   getPitwallSession,
   getSelectedDataProvider,
-  pitwallSlice,
-  getSelectedIRacingSessionId,
   getSelectedTelemetryProvider,
-  useSelector,
+  pitwallSlice,
   useDispatch,
+  useSelector,
 } from "@/lib/redux";
 
 export function SourceSelection() {

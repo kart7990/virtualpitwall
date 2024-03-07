@@ -3,6 +3,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { Measurement, MeasurementSystem } from "../preferencesSlice/models";
 import {
   CarTelemetry,
+  CompletedLap,
   LapTelemetry,
   LiveTiming,
   TimingTelemetry,
@@ -157,3 +158,20 @@ export const selectCurrentCar = createSelector(
     );
   },
 );
+
+export const selectCompletedLapsBySessionNumber = (number: number) => {
+  return createSelector(
+    [getTrackSessions, selectMeasurementSystem],
+    (trackSessions, measurement) => {
+      if (trackSessions) {
+        const s = trackSessions.find((ts) => ts.number === number);
+        return {
+          laps: s?.completedLaps?.laps.map(
+            (lap) => new CompletedLap(lap, measurement),
+          ),
+          lastUpdate: s?.completedLaps?.lastUpdate,
+        };
+      }
+    },
+  );
+};
