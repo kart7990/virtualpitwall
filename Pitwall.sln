@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pitwall.Server.Api", "Pitwall.Server.Api\Pitwall.Server.Api.csproj", "{513FC24C-0ABE-4F82-A783-48AE7705B14C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitwall.Windows.App", "Pitwall.Windows.App\Pitwall.Windows.App.csproj", "{87B194CE-D8C1-4353-A88B-22193611825D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitwall.Server.Core", "Pitwall.Server.Core\Pitwall.Server.Core.csproj", "{74FFA6D3-76EB-429A-A204-12587063DB4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitwall.Core", "Pitwall.Core\Pitwall.Core.csproj", "{B1ED649F-FE45-4006-B3EF-FF30A15D3DDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{564CB537-1281-40F3-B8A0-CB0E33FA8DF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{421030C7-92A7-42DA-B300-609E1BC61B10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{513FC24C-0ABE-4F82-A783-48AE7705B14C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513FC24C-0ABE-4F82-A783-48AE7705B14C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513FC24C-0ABE-4F82-A783-48AE7705B14C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513FC24C-0ABE-4F82-A783-48AE7705B14C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B194CE-D8C1-4353-A88B-22193611825D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B194CE-D8C1-4353-A88B-22193611825D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B194CE-D8C1-4353-A88B-22193611825D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B194CE-D8C1-4353-A88B-22193611825D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74FFA6D3-76EB-429A-A204-12587063DB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74FFA6D3-76EB-429A-A204-12587063DB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74FFA6D3-76EB-429A-A204-12587063DB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74FFA6D3-76EB-429A-A204-12587063DB4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1ED649F-FE45-4006-B3EF-FF30A15D3DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1ED649F-FE45-4006-B3EF-FF30A15D3DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1ED649F-FE45-4006-B3EF-FF30A15D3DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1ED649F-FE45-4006-B3EF-FF30A15D3DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{513FC24C-0ABE-4F82-A783-48AE7705B14C} = {564CB537-1281-40F3-B8A0-CB0E33FA8DF6}
+		{87B194CE-D8C1-4353-A88B-22193611825D} = {421030C7-92A7-42DA-B300-609E1BC61B10}
+		{74FFA6D3-76EB-429A-A204-12587063DB4A} = {564CB537-1281-40F3-B8A0-CB0E33FA8DF6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {746129CE-D194-447D-9D4F-3767386A9BEF}
+	EndGlobalSection
+EndGlobal
