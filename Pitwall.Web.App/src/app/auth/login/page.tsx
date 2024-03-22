@@ -6,7 +6,8 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/core/ui/alert";
-import { API_V2_URL } from "@/config/urls";
+import { Button } from "@/components/core/ui/button";
+import { API_V1_URL } from "@/config/urls";
 import { authSlice, useDispatch } from "@/lib/redux";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -28,6 +29,42 @@ export default function Login() {
   const [displayReturnToApp, setDisplayReturnToApp] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  const localLogin = async () => {
+    setLoading(true);
+    setServerError(null);
+    try {
+      var loginResponse = await axios.post(
+        `${API_V1_URL}/authorization/authorize`,
+      );
+      setLoading(false);
+      if (loginResponse.status === 200) {
+        let webRedirectUrl = searchParams.get("redirect");
+        let appRedirectUrl = searchParams.get("redirect_uri");
+        dispatch(authSlice.actions.authSuccess(loginResponse.data));
+        if (appRedirectUrl != null) {
+          let config = {
+            headers: {
+              Authorization: loginResponse.data.accessToken,
+            },
+          };
+          setLoading(true);
+          await axios.post(`${appRedirectUrl}`, null, config);
+          setLoading(false);
+          setDisplayReturnToApp(true);
+        } else if (webRedirectUrl != null) {
+          router.replace(webRedirectUrl);
+        } else {
+          router.replace("/pitwall/home");
+        }
+      } else {
+        setServerError("Request failed, please try again.");
+      }
+    } catch (error) {
+      setLoading(false);
+      setServerError("Request failed, please try again.");
+    }
+  };
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -54,7 +91,7 @@ export default function Login() {
     setServerError(null);
     try {
       var loginResponse = await axios.post(
-        `${API_V2_URL}/authentication/loginexternal`,
+        `${API_V1_URL}/authorization/authorize`,
         { provider: data.provider, token: data.token },
       );
       setLoading(false);
@@ -89,6 +126,8 @@ export default function Login() {
   };
 
   const RenderLogin = () => {
+    let isDev = process.env.APP_ENV?.includes("development");
+
     return (
       <div className="grid grid-flow-col grid-rows-4 justify-items-center">
         <div className="row-span-1">
@@ -97,7 +136,11 @@ export default function Login() {
           </h2>
         </div>
         <div className="row-span-1">
-          <GoogleButton onClick={() => googleLogin()} />
+          {isDev ? (
+            <Button onClick={() => localLogin()}>Local Authorization</Button>
+          ) : (
+            <GoogleButton onClick={() => googleLogin()} />
+          )}
         </div>
         {serverError && (
           <div>
