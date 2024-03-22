@@ -1,17 +1,23 @@
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+using Asp.Versioning.ApiExplorer;
 
-builder.Services.AddControllers();
+namespace Pitwall.Server.Api
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+            var startup = new Startup(builder.Configuration);
 
-// Configure the HTTP request pipeline.
+            startup.ConfigureServices(builder.Services);
 
-app.UseHttpsRedirection();
+            var app = builder.Build();
 
-app.UseAuthorization();
+            startup.Configure(app, app.Environment, app.Services.GetRequiredService<IApiVersionDescriptionProvider>());
 
-app.MapControllers();
-
-app.Run();
+            app.Run();
+        }
+    }
+}

@@ -1,6 +1,6 @@
 {
   "APP_ENV": "development-localserver",
   "BASE_URL": "https://localhost:3000",
-  "BASE_API_URL": "https://localhost:5445",
+  "BASE_API_URL": "https://localhost:7134",
   "GOOGLE_OAUTH_CLIENT_ID": "931083495990-o00suecncvj0268ff3lnblcu0q984olu.apps.googleusercontent.com"
 }

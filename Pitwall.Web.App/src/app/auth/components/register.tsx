@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/core/ui/form";
 import { Input } from "@/components/core/ui/input";
-import { API_V2_URL } from "@/config/urls";
+import { API_V1_URL } from "@/config/urls";
 import { authSlice, useDispatch } from "@/lib/redux";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -68,7 +68,7 @@ export default function Register({
       setLoading(true);
       try {
         var registerResponse = await axios.post(
-          `${API_V2_URL}/authentication/registerexternal`,
+          `${API_V1_URL}/authorization/register`,
           data,
         );
         if (registerResponse.status === 200) {
