@@ -1,10 +1,10 @@
-﻿using PitBox.Server.Core.Data.Cache;
-using Pitwall.Core.Models;
+﻿using Pitwall.Core.Models;
 using Pitwall.Server.Core.Authorization;
+using Pitwall.Server.Core.Session.Cache;
 
 namespace Pitwall.Server.Core.Session
 {
-    public class SessionService(IAuthorizedPitwallUser user, PitwallSessionRepo pitwallSessionRepo)
+    public class SessionService(IPitwallUser user, PitwallSessionRepo pitwallSessionRepo)
     {
         public async Task<PitwallSession> CreateSession()
         {

@@ -1,0 +1,42 @@
+trigger:
+  branches:
+    include:
+     - main
+     - add-web-api
+  paths:
+    include:
+      - Pitwall.Server.Api/*
+      - Pitwall.Server.Core/*
+      - Pitwall.Core/*
+        
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/Pitwall.Server.Api.csproj'
+        feedsToUse: 'select'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/Pitwall.Server.Api.csproj'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/Pitwall.Server.Api.csproj'
+        zipAfterPublish: false
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: 'Pitwall.Server.Api/bin/Release/net8.0/publish/'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip'
+        replaceExistingArchive: true
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip'
+        ArtifactName: 'release_drop'
+        publishLocation: 'Container'

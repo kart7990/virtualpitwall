@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PitBox.Server.Core.Data.Cache.Telemetry
+namespace Pitwall.Server.Core.Session.Cache.Telemetry
 {
     public class CompletedLapTelemetryRepo
     {

@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aydsko.iRacingData" Version="2304.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
@@ -26,6 +27,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pitwall.Core\Pitwall.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Session\Services\" />
   </ItemGroup>
 
 </Project>

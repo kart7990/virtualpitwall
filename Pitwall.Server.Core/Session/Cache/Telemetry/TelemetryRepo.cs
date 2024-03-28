@@ -1,12 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Pitwall.Core.Models.Telemetry;
 
-namespace PitBox.Server.Core.Data.Cache.Telemetry
+namespace Pitwall.Server.Core.Session.Cache.Telemetry
 {
     public class TelemetryRepo
     {

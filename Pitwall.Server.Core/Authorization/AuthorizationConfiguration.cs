@@ -11,12 +11,14 @@ namespace Pitwall.Server.Core.Authorization
             this.configuration = configuration;
         }
 
-        public string JwtKey => configuration["JwtKey"]!;
+        public string JwtKey => configuration["JwtKey"];
 
-        public string JwtIssuer => configuration["JwtIssuer"]!;
+        public string JwtIssuer => configuration["JwtIssuer"];
 
-        public string JwtAudience => configuration["JwtAudience"]!;
+        public string JwtAudience => configuration["JwtAudience"];
 
         public int JwtWebExpireSeconds => Convert.ToInt32(configuration["JwtExpireSeconds"]);
+
+        public bool IsTestUserEnabled => Convert.ToBoolean(configuration["IsTestUserEnabled"]);
     }
 }

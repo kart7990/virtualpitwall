@@ -4,7 +4,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-  - main
+  branches:
+    include:
+      - main
+      - add-web-api
+  paths:
+    include:
+      - Pitwall.Web.App/*
 
 pool:
   vmImage: ubuntu-latest
@@ -21,11 +27,12 @@ steps:
   - task: Cache@2
     displayName: "Cache .next/cache"
     inputs:
-      key: next | $(Agent.OS) | package-lock.json
-      path: "$(System.DefaultWorkingDirectory)/.next/cache"
+      key: next | $(Agent.OS) | Pitwall.Web.App/package-lock.json
+      path: "$(System.DefaultWorkingDirectory)/Pitwall.Web.App/.next/cache"
 
   #parseInt(process.env.PORT, 10) azure windows app service issue - https://github.com/vercel/next.js/discussions/38448
   - script: |
+      cd Pitwall.Web.App
       npm install
       npm run build-staging
       sudo mkdir /build
@@ -44,7 +51,7 @@ steps:
   - task: ArchiveFiles@1
     displayName: "Create staging package"
     inputs:
-      rootFolder: build
+      rootFolder: Pitwall.Web.App/build
       includeRootFolder: false
       archiveFile: "$(Build.ArtifactStagingDirectory)/webapp/staging/$(Build.BuildId).zip"
 

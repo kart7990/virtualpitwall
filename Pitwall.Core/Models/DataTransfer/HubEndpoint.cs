@@ -2,14 +2,10 @@
 {
     public enum HubEndpoint
     {
-        Session,
-        Standings,
-        Laps,
-        Telemetry,
-        v2PitwallSession,
-        v2GameDataPublisher,
-        v2GameDataSubscriber,
-        v2TelemetryPublisher,
-        v2TelemetrySubscriber
+        v1PitwallSession,
+        v1GameDataPublisher,
+        v1GameDataSubscriber,
+        v1TelemetryPublisher,
+        v1TelemetrySubscriber
     }
 }

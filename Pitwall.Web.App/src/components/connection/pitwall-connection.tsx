@@ -1,17 +1,15 @@
 "use client";
 
-import { SourceSelection } from "./source-selection";
 import { useToast } from "@/components//core/ui/use-toast";
-import { API_BASE_URL, API_V2_URL } from "@/config/urls";
+import { API_BASE_URL, API_V1_URL } from "@/config/urls";
 import {
-  selectOAuthToken,
-  getSelectedDataProvider,
-  getSelectedIRacingSessionId,
-  getPitwallSession,
   getCurrentTrackSessionNumber,
-  selectTelemetryProvider,
-  selectDataProvider,
+  getPitwallSession,
+  getSelectedIRacingSessionId,
   pitwallSlice,
+  selectDataProvider,
+  selectOAuthToken,
+  selectTelemetryProvider,
   useDispatch,
   useSelector,
 } from "@/lib/redux";
@@ -24,7 +22,6 @@ import {
   CompletedLaps,
   CompletedTelemetryLaps,
   GameSession,
-  HubEndpoint,
   PitwallSession,
   Telemetry,
 } from "@/lib/redux/slices/pitwallSlice/models";
@@ -103,7 +100,7 @@ export default function PitwallConnection({
     const connectToSession = async () => {
       setLoading(true);
       var joinSessionResponse = await axios.get(
-        `${API_V2_URL}/pitwall/session/${pitwallSessionId}`,
+        `${API_V1_URL}/pitwall/session/${pitwallSessionId}`,
       );
       dispatch(pitwallSlice.actions.init(joinSessionResponse.data));
       setLoading(false);
@@ -122,7 +119,7 @@ export default function PitwallConnection({
     if (pitwallSession != null && oAuthToken != null) {
       const sessionHubConnection = buildHubConnection(
         oAuthToken,
-        pitwallSession.webSocketEndpoints.v2PitwallSession,
+        pitwallSession.webSocketEndpoints.v1PitwallSession,
         pitwallSession.id,
       );
 
@@ -172,7 +169,7 @@ export default function PitwallConnection({
       await gameDataConnection.current?.stop();
       if (selectedIRacingSessionId != null) {
         var gameDataResponse = await axios.get(
-          `${API_V2_URL}/pitwall/session/${pitwallSession.id}/gamedata/${selectedDataProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
+          `${API_V1_URL}/pitwall/session/${pitwallSession.id}/gamedata/${selectedDataProvider.id}/gamesessionid/${selectedIRacingSessionId}`,
         );
         var gameSession: GameSession = gameDataResponse.data;
         let lastupdate = gameSession.trackSessions.find(
@@ -194,7 +191,7 @@ export default function PitwallConnection({
     ) {
       const gameDataHubConnection = buildHubConnection(
         oAuthToken,
-        pitwallSession.webSocketEndpoints.v2GameDataSubscriber,
+        pitwallSession.webSocketEndpoints.v1GameDataSubscriber,
         selectedDataProvider.pitwallSessionId,
         selectedDataProvider.id,
       );
@@ -407,7 +404,7 @@ export default function PitwallConnection({
     ) {
       const telemetryHubConnection = buildHubConnection(
         oAuthToken,
-        pitwallSession.webSocketEndpoints.v2TelemetrySubscriber,
+        pitwallSession.webSocketEndpoints.v1TelemetrySubscriber,
         selectedTelemetryProvider.pitwallSessionId,
         selectedTelemetryProvider.id,
       );
