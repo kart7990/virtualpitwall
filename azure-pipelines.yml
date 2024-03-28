@@ -22,7 +22,7 @@ steps:
         zipAfterPublish: false
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: 'Pitwall.Server.Api\bin\Release\net8.0\publish\'
+        rootFolderOrFile: 'Pitwall.Server.Api/bin/Release/net8.0/publish/'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip'
