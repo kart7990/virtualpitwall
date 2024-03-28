@@ -7,7 +7,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Pitwall.Server.Api.Authorization;
+using Pitwall.Server.Api.Controllers.Session.v1.WebSockets;
+using Pitwall.Server.Api.Controllers.Session.v1.WebSockets.GameData;
+using Pitwall.Server.Api.Controllers.Session.v1.WebSockets.Telemetry;
 using Pitwall.Server.Core;
 using Pitwall.Server.Core.Authorization.Models;
 using Pitwall.Server.Core.Database;
@@ -19,7 +23,7 @@ namespace Pitwall.Server.Api
 {
     public class Startup(IConfiguration configuration)
     {
-        public IConfiguration Configuration { get; } = configuration;
+        private readonly static string CORS_POLICY_NAME = "ALLOW_WEB_APP_ONLY";
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -53,9 +57,9 @@ namespace Pitwall.Server.Api
                     cfg.SaveToken = true;
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = Configuration["JwtIssuer"],
-                        ValidAudience = Configuration["JwtIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
+                        ValidIssuer = configuration["JwtIssuer"],
+                        ValidAudience = configuration["JwtIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"])),
                         ClockSkew = TimeSpan.Zero, // remove delay of token when expire
                         ValidateLifetime = true
                     };
@@ -63,20 +67,20 @@ namespace Pitwall.Server.Api
                     {
                         OnMessageReceived = context =>
                         {
-                            // If the request is for our hub...
+                            // If the request is for our web sockets hub, extract oauth token and set it in context
                             var path = context.HttpContext.Request.Path;
-                            //if (HubEndpoints.Endpoints.Values.Any(url => path.StartsWithSegments(url)))
-                            //{
-                            //    var accessToken = context.Request.Query["access_token"];
+                            if (ConnectionDetails.Endpoints.Values.Any(url => path.StartsWithSegments(url)))
+                            {
+                                var accessToken = context.Request.Query["access_token"];
 
-                            //    if (string.IsNullOrEmpty(accessToken))
-                            //    {
-                            //        accessToken = context.Request.Headers.SingleOrDefault(h => h.Key == "Authorization").Value.ToString().Replace("Bearer ", "");
-                            //    }
+                                if (string.IsNullOrEmpty(accessToken))
+                                {
+                                    // Read the token out of the query string
+                                    accessToken = context.Request.Headers.SingleOrDefault(h => h.Key == "Authorization").Value.ToString().Replace("Bearer ", "");
+                                }
 
-                            //    // Read the token out of the query string
-                            //    context.Token = accessToken;
-                            //}
+                                context.Token = accessToken;
+                            }
                             return Task.CompletedTask;
                         }
                     };
@@ -84,30 +88,18 @@ namespace Pitwall.Server.Api
 
             services.AddScoped<IHttpContextUser, HttpContextUserProvider>();
             services.AddServices<AuthorizedPitwallUser>(dbOptions =>
-                dbOptions.UseSqlServer(Configuration.GetConnectionString("PitwallDatabase"), c => c.MigrationsAssembly("Pitwall.Server.Api")),
-                Configuration.GetConnectionString("RedisCache"));
+                dbOptions.UseSqlServer(configuration.GetConnectionString("PitwallDatabase"), c => c.MigrationsAssembly("Pitwall.Server.Api")),
+                configuration.GetConnectionString("RedisCache"));
 
             // Add cors support
-            var corsOrigins = Configuration.GetSection("CorsOrigins").GetChildren().Select(c => c.Value).ToArray();
-            services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder
+            var corsOrigins = configuration.GetSection("CorsOrigins").Value.Split(",");
+
+            services.AddCors(options => options.AddPolicy(CORS_POLICY_NAME, builder => builder
                .WithOrigins(corsOrigins)
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials()
            ));
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy(
-                    "AllowAny",
-                    x =>
-                    {
-                        x.AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .SetIsOriginAllowed(isOriginAllowed: _ => true)
-                        .AllowCredentials();
-                    });
-            });
 
             services.AddControllers();
 
@@ -140,6 +132,14 @@ namespace Pitwall.Server.Api
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
+            services.AddSignalR()
+                .AddNewtonsoftJsonProtocol(opt =>
+                {
+                    opt.PayloadSerializerSettings.ContractResolver = new DefaultContractResolver
+                    {
+                        NamingStrategy = new CamelCaseNamingStrategy()
+                    };
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
@@ -147,7 +147,7 @@ namespace Pitwall.Server.Api
             app.UseRouting();
 
             // Use Cors with configuration
-            app.UseCors("AllowAny");
+            app.UseCors(CORS_POLICY_NAME);
 
             // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
@@ -159,7 +159,7 @@ namespace Pitwall.Server.Api
                     foreach (var description in provider.ApiVersionDescriptions)
                     {
                         options.SwaggerEndpoint(
-                            $"{Configuration["SwaggerJsonRootPath"]}/swagger/{description.GroupName}/swagger.json",
+                            $"{configuration["SwaggerJsonRootPath"]}/swagger/{description.GroupName}/swagger.json",
                             description.GroupName.ToUpperInvariant());
                     }
                 });
@@ -179,6 +179,11 @@ namespace Pitwall.Server.Api
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<PitwallSessionHub>(PitwallSessionHub.PATH);
+                endpoints.MapHub<GameDataPublisherHub>(GameDataPublisherHub.PATH);
+                endpoints.MapHub<GameDataSubscriberHub>(GameDataSubscriberHub.PATH);
+                endpoints.MapHub<TelemetryPublisherHub>(TelemetryPublisherHub.PATH);
+                endpoints.MapHub<TelemetrySubscriberHub>(TelemetrySubscriberHub.PATH);
                 endpoints.MapDefaultControllerRoute();
             });
         }

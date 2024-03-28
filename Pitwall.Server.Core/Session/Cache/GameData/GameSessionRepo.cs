@@ -2,7 +2,7 @@
 using Pitwall.Core.Models.GameData;
 using StackExchange.Redis;
 
-namespace PitBox.Server.Core.Data.Cache.GameData
+namespace Pitwall.Server.Core.Session.Cache.GameData
 {
     public class GameSessionRepo
     {

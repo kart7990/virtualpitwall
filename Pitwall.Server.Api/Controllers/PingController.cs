@@ -9,7 +9,7 @@ namespace Pitwall.Server.Api.Controllers
     [ApiVersion(1.0)]
     [ApiController]
     [Route("ping")]
-    public class PingController(IAuthorizedPitwallUser user) : AuthorizedController
+    public class PingController(IPitwallUser user) : AuthorizedController
     {
         [HttpGet]
         [ProducesResponseType(typeof(string), 200)]
@@ -17,7 +17,7 @@ namespace Pitwall.Server.Api.Controllers
         {
             if (user != null)
             {
-                return Ok("Hello " + user.Email);
+                return Ok("Hello " + user.Name);
             }
             else
             {

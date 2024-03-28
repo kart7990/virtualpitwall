@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using PitBox.Server.Core.Data.Cache.GameData;
-using PitBox.Server.Core.Data.Cache.Telemetry;
 using Pitwall.Core.Models;
+using Pitwall.Server.Core.Session.Cache.GameData;
+using Pitwall.Server.Core.Session.Cache.Telemetry;
 using StackExchange.Redis;
 
-namespace PitBox.Server.Core.Data.Cache
+namespace Pitwall.Server.Core.Session.Cache
 {
     public class PitwallSessionRepo
     {

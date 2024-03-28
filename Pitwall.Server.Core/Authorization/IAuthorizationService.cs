@@ -4,6 +4,7 @@ namespace Pitwall.Server.Core.Authorization
 {
     public interface IAuthorizationService
     {
-        Task<JsonWebToken> AuthorizeLocalUser(IAuthorizedPitwallUser authorizedPitwallUser);
+        Task<AuthorizationResult> AuthorizeOAuthUser(AuthorizeRequest loginExternal);
+        Task<AuthorizationResult> AuthorizeTestUser();
     }
 }

@@ -4,6 +4,9 @@ services:
   pitwall.server.api:
     container_name: pitwall.server.api
     image: ${DOCKER_REGISTRY-}pitwallserverapi
+    ports:
+     - 3500:8080
+     - 3501:8081
     build:
       context: .
       dockerfile: Pitwall.Server.Api/Dockerfile

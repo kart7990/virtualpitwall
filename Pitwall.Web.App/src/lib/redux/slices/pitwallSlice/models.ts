@@ -23,8 +23,6 @@ export interface PitwallSessionResponse {
 
 export interface PitwallSession {
   id: string;
-  teamId: string;
-  accessCode: string;
   creatorUserId: string;
   selectedIRacingSessionId: string;
   selectedDataProvider: string;
@@ -35,13 +33,9 @@ export interface PitwallSession {
 }
 
 export interface WebSocketEndpoints {
-  session: string;
-  standings: string;
-  laps: string;
-  telemetry: string;
-  v2PitwallSession: string;
-  v2GameDataSubscriber: string;
-  v2TelemetrySubscriber: string;
+  v1PitwallSession: string;
+  v1GameDataSubscriber: string;
+  v1TelemetrySubscriber: string;
 }
 
 export interface BaseGameDataProvider {
@@ -65,13 +59,9 @@ export interface BaseTelemetryProvider {
 }
 
 export enum HubEndpoint {
-  Session,
-  Standings,
-  Laps,
-  Telemetry,
-  v2PitwallSession,
-  v2GameDataPublisher,
-  v2GameDataSubscriber,
+  v1PitwallSession,
+  v1GameDataPublisher,
+  v1GameDataSubscriber,
 }
 
 export interface GameSession extends BaseGameSession {

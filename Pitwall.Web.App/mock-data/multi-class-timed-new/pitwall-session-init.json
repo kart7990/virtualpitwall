@@ -1,8 +1,6 @@
 {
   "pitwallSession": {
     "id": "3419a52d-c7ff-41b6-89a8-ea4ca7cae8cb",
-    "teamId": null,
-    "accessCode": null,
     "creatorUserId": "c5fd46dd-b732-4771-0b6e-08dc047f1a06",
     "gameDataProviders": [
       {
@@ -30,14 +28,10 @@
     ]
   },
   "webSocketEndpoints": {
-    "Session": "/v1.0/pitboxsession",
-    "Standings": "/v1.0/standings",
-    "Laps": "/v1.0/laps",
-    "Telemetry": "/v1.0/telemetry",
-    "v2PitwallSession": "/v1.0/pitwall",
-    "v2GameDataPublisher": "/v1.0/pitwall/gamedatapublisher",
-    "v2GameDataSubscriber": "/v1.0/pitwall/gamedatasubscriber",
-    "v2TelemetryPublisher": "/v1.0/pitwall/telemetrypublisher",
-    "v2TelemetrySubscriber": "/v1.0/pitwall/telemetrysubscriber"
+    "v1PitwallSession": "/v1.0/pitwall",
+    "v1GameDataPublisher": "/v1.0/pitwall/gamedatapublisher",
+    "v1GameDataSubscriber": "/v1.0/pitwall/gamedatasubscriber",
+    "v1TelemetryPublisher": "/v1.0/pitwall/telemetrypublisher",
+    "v1TelemetrySubscriber": "/v1.0/pitwall/telemetrysubscriber"
   }
 }

@@ -1,7 +1,7 @@
-import { JwtPayload, User } from "./models";
 import type { ReduxState } from "@/lib/redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
+import { JwtPayload, User } from "./models";
 
 export const selectOAuthToken = (state: ReduxState) => state.auth.oAuthToken;
 
@@ -20,9 +20,9 @@ export const selectUser = createSelector([selectOAuthToken], (oAuthToken) => {
 
   const decoded = jwtDecode<JwtPayload>(oAuthToken.accessToken);
   const user: User = {
-    email: decoded.sub,
+    id: decoded.sub,
+    email: decoded.email,
     name: decoded.name,
-    pitBoxSessionId: decoded.PitBoxSessionId,
   };
   return user;
 });

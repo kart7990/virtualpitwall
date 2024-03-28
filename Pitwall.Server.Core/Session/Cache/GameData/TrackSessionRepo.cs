@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PitBox.Server.Core.Data.Cache.GameData
+namespace Pitwall.Server.Core.Session.Cache.GameData
 {
     public class TrackSessionRepo
     {

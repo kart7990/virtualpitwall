@@ -1,9 +1,9 @@
-﻿namespace Pitwall.Server.Core.Authorization
+﻿using System.Security.Claims;
+
+namespace Pitwall.Server.Core.Authorization
 {
-    public interface IAuthorizedPitwallUser
+    public interface IAuthorizedPitwallUser : IPitwallUser
     {
-        Guid Id { get; }
-        string Name { get; }
-        string Email { get; }
+        Func<ClaimsPrincipal> ClaimsPrincipalProvider { get; set; }
     }
 }

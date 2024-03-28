@@ -11,7 +11,6 @@ export function MainNav({ isPublic }: { isPublic: boolean }) {
   const pathname = usePathname();
 
   const user = useSelector<User>(selectUser);
-  const dashboardHref = "/pitwall/dashboard/" + user.pitBoxSessionId;
 
   return (
     <div className="mr-4 hidden md:flex">

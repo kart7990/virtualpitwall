@@ -30,12 +30,12 @@ export default function Login() {
 
   const [loading, setLoading] = useState(false);
 
-  const localLogin = async () => {
+  const localTestUserLogin = async () => {
     setLoading(true);
     setServerError(null);
     try {
       var loginResponse = await axios.post(
-        `${API_V1_URL}/authorization/authorize`,
+        `${API_V1_URL}/authorization/authorizetestuser`,
       );
       setLoading(false);
       if (loginResponse.status === 200) {
@@ -137,7 +137,12 @@ export default function Login() {
         </div>
         <div className="row-span-1">
           {isDev ? (
-            <Button onClick={() => localLogin()}>Local Authorization</Button>
+            <>
+              <Button className="mb-6" onClick={() => localTestUserLogin()}>
+                Local Dev-User Authorization
+              </Button>
+              <GoogleButton onClick={() => googleLogin()} />
+            </>
           ) : (
             <GoogleButton onClick={() => googleLogin()} />
           )}
