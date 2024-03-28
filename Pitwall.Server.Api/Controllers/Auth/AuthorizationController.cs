@@ -50,8 +50,8 @@ namespace Pitwall.Server.Api.Controllers.Auth
                 new AuthorizedTestUser(Guid.Parse("50197554-dff9-4a43-a265-8ce8d411fb0f"), "test@virtualpitbox.com", "John Doe"));
             return Ok(jwt);
         }
-    }
 #endif
+    }
 
     public class AuthorizeRequest
     {
