@@ -2,7 +2,18 @@ trigger:
   branches:
     include:
      - main
-     - add-web-api
+  paths:
+    include:
+      - Pitwall.Server.Api/*
+      - Pitwall.Server.Core/*
+      - Pitwall.Core/*
+
+pr:
+  autoCancel: true
+  drafts: true
+  branches:
+    include:
+      - main
   paths:
     include:
       - Pitwall.Server.Api/*
@@ -10,25 +21,31 @@ trigger:
       - Pitwall.Core/*
         
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
     - task: DotNetCoreCLI@2
+      displayName: "Restore/Download Nuget Packages"
       inputs:
         command: 'restore'
         projects: '**/Pitwall.Server.Api.csproj'
         feedsToUse: 'select'
     - task: DotNetCoreCLI@2
+      displayName: "Build Pitwall.Api"
       inputs:
         command: 'build'
         projects: '**/Pitwall.Server.Api.csproj'
     - task: DotNetCoreCLI@2
+      displayName: "Publish Release Build"
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
       inputs:
         command: 'publish'
         publishWebProjects: false
         projects: '**/Pitwall.Server.Api.csproj'
         zipAfterPublish: false
     - task: ArchiveFiles@2
+      displayName: "Archive Release Build"
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
       inputs:
         rootFolderOrFile: 'Pitwall.Server.Api/bin/Release/net8.0/publish/'
         includeRootFolder: false
@@ -36,7 +53,22 @@ steps:
         archiveFile: '$(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip'
         replaceExistingArchive: true
     - task: PublishBuildArtifacts@1
+      displayName: "Publish Release Build Artifacts"
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip'
         ArtifactName: 'release_drop'
         publishLocation: 'Container'
+    - task: AzureRmWebAppDeployment@4
+      displayName: "Deploy Release Build"
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Virtual Pitwall 2024 Q2'
+        appType: 'webApp'
+        WebAppName: 'virtualpitwall-staging-api'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip'
+        enableCustomDeployment: true
+        DeploymentType: 'webDeploy'
+        ExcludeFilesFromAppDataFlag: false
+        RenameFilesFlag: false
