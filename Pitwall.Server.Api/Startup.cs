@@ -58,7 +58,7 @@ namespace Pitwall.Server.Api
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidIssuer = configuration["JwtIssuer"],
-                        ValidAudience = configuration["JwtIssuer"],
+                        ValidAudience = configuration["JwtAudience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"])),
                         ClockSkew = TimeSpan.Zero, // remove delay of token when expire
                         ValidateLifetime = true
