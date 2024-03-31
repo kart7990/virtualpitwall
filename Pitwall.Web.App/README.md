@@ -18,19 +18,9 @@ Core Frameworks and Libraries:
 - API Url: https://staging.api.virtualpitwall.com
 - API Swagger Url (not particularly useful since most data comes from websockets): https://staging.api.virtualpitwall.com/swagger
 
-### Current Project Goals
-
-Recapture functionality from the initial version, which was a very rough proof of concept, and can be found here: https://github.com/kart7990/virtualpitwall/tree/legacy/main
-
-If you plan to work a feature/component, please use the discord for communicating to avoid conflicts and duplicate efforts. It's not the greatest project managemnt plan, but it'll work for now. https://discord.gg/k3A3cTaVNy
-
 ### CI/CD
 
 A passing build and at least one approval is required to merge. Changes merged to main branch will be automatically deployed to https://staging.virtualpitwall.com. This typically takes less than 5 minutes. If the CI build fails, test the build locally and ensure there are no errors or warnings: `npm run build-dev` (or `build-staging`).
-
-### System Overview
-
-![system_overview_dark](https://github.com/kart7990/virtualpitwall/assets/15096469/61111350-1e0f-42c7-821c-b15208f0e0c4)
 
 ### Data Model
 
