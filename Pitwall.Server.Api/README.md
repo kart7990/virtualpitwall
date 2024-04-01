@@ -10,6 +10,15 @@ The Virtual Pitwall web API built with .NET 8.
 4. Set the debug target in the dropdown at the top of the IDE to `docker-compose`.
 5. Run the app!
     - Note: the first run will take a while as Docker needs to download the sql server and redis images.
+6. Environment variables defined in [appsettings.json](appsettings.json) can be overridden in a local appsettings file [which is ignored by git](../.gitignore#L16) in the Pitwall.Server.Api project. Since the environment for debug is defaulted to "Development", the override file would be named `appsettings.Development.json`. In this file you can override specific settings like the `iRacingUsername` and `iRacingPassword` required for retrieving data from iRacing.
+
+```json
+//appsettings.Development.json file in Pitwall.Server.Api project
+{
+  "iRacingUsername": "myiracing@email.com",
+  "iRacingPassword": "mypassword"
+}
+```
 
 ### Frameworks
 
