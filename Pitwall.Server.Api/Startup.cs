@@ -71,11 +71,12 @@ namespace Pitwall.Server.Api
                             var path = context.HttpContext.Request.Path;
                             if (ConnectionDetails.Endpoints.Values.Any(url => path.StartsWithSegments(url)))
                             {
+                                // Read the token out of the query string
                                 var accessToken = context.Request.Query["access_token"];
 
                                 if (string.IsNullOrEmpty(accessToken))
                                 {
-                                    // Read the token out of the query string
+                                    // Read the token out of Authorization header
                                     accessToken = context.Request.Headers.SingleOrDefault(h => h.Key == "Authorization").Value.ToString().Replace("Bearer ", "");
                                 }
 
@@ -149,10 +150,13 @@ namespace Pitwall.Server.Api
             // Use Cors with configuration
             app.UseCors(CORS_POLICY_NAME);
 
-            // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            if (bool.Parse(configuration["UseSwagger"]))
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
@@ -163,7 +167,10 @@ namespace Pitwall.Server.Api
                             description.GroupName.ToUpperInvariant());
                     }
                 });
+            }
 
+            if (bool.Parse(configuration["AutoMigrationEnabled"]))
+            {
                 using var scope = app.ApplicationServices.CreateScope();
                 var pitwallDbContext = scope.ServiceProvider.GetRequiredService<PitwallDbContext>();
                 pitwallDbContext.Database.EnsureCreated();
