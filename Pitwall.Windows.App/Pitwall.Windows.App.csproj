@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <Product>$(AssemblyName)</Product>
+    <AssemblyName>Virtual Pitwall</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

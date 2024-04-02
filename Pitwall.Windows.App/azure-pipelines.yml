@@ -1,0 +1,87 @@
+trigger:
+  branches:
+    include:
+     - main
+     - add-windows-app
+  paths:
+    include:
+      - Pitwall.Windows.App/*
+      - Pitwall.Core/*
+
+pr:
+  autoCancel: true
+  drafts: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - Pitwall.Windows.App/*
+      - Pitwall.Core/*
+        
+pool:
+  vmImage: windows-latest
+
+variables:
+  solution: '**/*.sln'
+  app: '**\Pitwall.Windows.App.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Debug'
+
+steps:
+- task: NuGetToolInstaller@0
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $path = "Pitwall.Windows.App/Properties/PublishProfiles/ClickOnceProfile.pubxml"
+      [xml]$xml =(gc $path)
+      Write-Host "BEFORE: " $xml.Project.PropertyGroup.ApplicationVersion
+      $xml.Project.PropertyGroup.ApplicationVersion = "$((get-date).year - 2023)" + "." + "$((get-date).month)" + "." + "$((get-date).day)" + "." + "$((((get-date).hour) * 60) + (get-date).minute)"
+      Write-Host "AFTER: " $xml.Project.PropertyGroup.ApplicationVersion
+      $xml.Save($path)
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $path = "Pitwall.Windows.App/Pitwall.Windows.App.csproj"
+      [xml]$xml =(gc $path)
+      Write-Host $xml.Project.PropertyGroup.AssemblyName
+      $xml.Project.PropertyGroup.AssemblyName = "Virtual Pitwall Staging"
+      $xml.Save($path)
+
+- task: MSBuild@1
+  inputs:
+    solution: '$(app)'
+    msbuildVersion: '17.0'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    msbuildArguments: '/t:publish /p:PublishProfile="ClickOnceProfile.pubxml" /p:PublishDir="bin\publish\\"'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'Pitwall.Windows.App\bin\publish'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/release'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/release'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Virtual Pitwall 2024 Q2'
+    appType: 'webApp'
+    WebAppName: 'virtualpitwall-staging-api'
+    VirtualApplication: '/app-test'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/release'
