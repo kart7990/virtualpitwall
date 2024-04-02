@@ -67,8 +67,8 @@ steps:
         azureSubscription: 'Virtual Pitwall 2024 Q2'
         appType: 'webApp'
         WebAppName: 'virtualpitwall-staging-api'
+        VirtualApplication: '/api'
         packageForLinux: '$(Build.ArtifactStagingDirectory)/release/$(Build.BuildId).zip'
         enableCustomDeployment: true
         DeploymentType: 'webDeploy'
-        ExcludeFilesFromAppDataFlag: false
-        RenameFilesFlag: false
+        RemoveAdditionalFilesFlag: true
