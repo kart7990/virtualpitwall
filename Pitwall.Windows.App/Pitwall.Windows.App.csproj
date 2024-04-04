@@ -26,12 +26,16 @@
 		<PackageReference Include="AdonisUI" Version="1.17.1" />
 		<PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
 		<PackageReference Include="JWT" Version="10.1.1" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.3" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\iRSDKSharp\iRSDKSharp.csproj" />
 		<ProjectReference Include="..\Pitwall.Core\Pitwall.Core.csproj" />
+		<ProjectReference Include="..\Pitwall.Windows.Core\Pitwall.Windows.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -19,11 +19,13 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iRSDKSharp", "iRSDKSharp\iRSDKSharp.csproj", "{FBB6BE69-B881-4A55-9DDA-A8156D0B02F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacingSdkWrapper", "iRacingSdkWrapper\iRacingSdkWrapper.csproj", "{131C3C74-51FF-4C9E-89C1-0DC06EDC4368}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iRacingSdkWrapper", "iRacingSdkWrapper\iRacingSdkWrapper.csproj", "{131C3C74-51FF-4C9E-89C1-0DC06EDC4368}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iRacing", "iRacing", "{A3AEC26D-1993-4B7F-BC92-91BBB5F1A425}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacingSimulator", "iRacingSimulator\iRacingSimulator.csproj", "{B3275370-BF9F-4E5A-A238-17DC8B154E7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iRacingSimulator", "iRacingSimulator\iRacingSimulator.csproj", "{B3275370-BF9F-4E5A-A238-17DC8B154E7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pitwall.Windows.Core", "Pitwall.Windows.Core\Pitwall.Windows.Core.csproj", "{CA86BAAD-69FC-40A8-9330-0A5DAB422614}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{B3275370-BF9F-4E5A-A238-17DC8B154E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3275370-BF9F-4E5A-A238-17DC8B154E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3275370-BF9F-4E5A-A238-17DC8B154E7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA86BAAD-69FC-40A8-9330-0A5DAB422614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA86BAAD-69FC-40A8-9330-0A5DAB422614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA86BAAD-69FC-40A8-9330-0A5DAB422614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA86BAAD-69FC-40A8-9330-0A5DAB422614}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{131C3C74-51FF-4C9E-89C1-0DC06EDC4368} = {A3AEC26D-1993-4B7F-BC92-91BBB5F1A425}
 		{A3AEC26D-1993-4B7F-BC92-91BBB5F1A425} = {421030C7-92A7-42DA-B300-609E1BC61B10}
 		{B3275370-BF9F-4E5A-A238-17DC8B154E7C} = {A3AEC26D-1993-4B7F-BC92-91BBB5F1A425}
+		{CA86BAAD-69FC-40A8-9330-0A5DAB422614} = {421030C7-92A7-42DA-B300-609E1BC61B10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {746129CE-D194-447D-9D4F-3767386A9BEF}

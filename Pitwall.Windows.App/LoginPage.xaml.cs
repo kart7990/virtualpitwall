@@ -68,8 +68,8 @@ namespace Pitwall.Windows.App
 
             AuthorizationState.AccessToken = accessToken;
 
-            //MainPage pitwallPage = new MainPage();
-            //NavigationService.Navigate(pitwallPage);
+            MainPage pitwallPage = new MainPage();
+            NavigationService.Navigate(pitwallPage);
         }
 
         private static int GetRandomUnusedPort()
