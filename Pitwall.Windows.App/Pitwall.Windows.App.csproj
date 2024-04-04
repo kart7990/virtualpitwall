@@ -1,41 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<Product>$(AssemblyName)</Product>
+		<AssemblyName>Virtual Pitwall</AssemblyName>
+		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>disable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-    <Product>$(AssemblyName)</Product>
-    <AssemblyName>Virtual Pitwall</AssemblyName>
-    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="appsettings.json" />
+		<None Remove="Assets\name_and_logo255.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-    <None Remove="Assets\name_and_logo255.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\icon.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\icon.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AdonisUI" Version="1.17.1" />
+		<PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
+		<PackageReference Include="JWT" Version="10.1.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AdonisUI" Version="1.17.1" />
-    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
-    <PackageReference Include="JWT" Version="10.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\iRSDKSharp\iRSDKSharp.csproj" />
+		<ProjectReference Include="..\Pitwall.Core\Pitwall.Core.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Pitwall.Core\Pitwall.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Assets\name_and_logo255.png" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<Resource Include="Assets\name_and_logo255.png" />
+	</ItemGroup>
 </Project>
