@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Assets\name_and_logo255.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,11 +22,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AdonisUI" Version="1.17.1" />
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
+    <PackageReference Include="JWT" Version="10.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Pitwall.Core\Pitwall.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\name_and_logo255.png" />
   </ItemGroup>
 
 </Project>

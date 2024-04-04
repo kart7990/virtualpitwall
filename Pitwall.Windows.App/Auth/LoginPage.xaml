@@ -1,0 +1,55 @@
+﻿<Page x:Class="Pitwall.Windows.App.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Pitwall.Windows.App"
+      xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LoginPage">
+
+    <Grid>
+        <DockPanel LastChildFill="True"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".7*"/>
+                    <RowDefinition Height=".3*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Row="0">
+                    <Image Width="255" Source="/Assets/name_and_logo255.png" />
+
+                    <TextBlock x:Name="txtVersion" Text="1.0.0.0" Margin="0, 12" TextAlignment="Center" Foreground="White" />
+                </StackPanel>
+
+                <Button  Grid.Row="1"
+                        x:Name="btnLogin"
+                    Width="206"
+                    Height="46" 
+                    Click="btnLogin_Click"
+                    BorderThickness="0" 
+                    Padding="0" 
+                    Content="Sign In">
+                    </Button>
+
+                <TextBlock 
+                Grid.Row="2"
+                Padding="12"
+                TextAlignment="Center"   
+                    Foreground="White"
+                Text="Browser will launch to sign in. Return to the app when complete." />
+                <ContentControl x:Name="progressIndicator" Focusable="False"
+                                    ContentTemplate="{DynamicResource {x:Static adonisUi:Templates.LoadingBars}}"
+                                    Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                                    Width="24"
+                                    Height="24" Visibility="Collapsed"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Page>
