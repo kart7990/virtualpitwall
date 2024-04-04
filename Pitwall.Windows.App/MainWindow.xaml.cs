@@ -10,7 +10,14 @@ namespace Pitwall.Windows.App
         public MainWindow()
         {
             InitializeComponent();
-            lblWelcome.Content = "Welcome App Version: " + Environment.GetEnvironmentVariable("ClickOnce_CurrentVersion");
+
+            var version = Environment.GetEnvironmentVariable("ClickOnce_CurrentVersion");
+
+#if DEBUG
+            version = "version: debug - api domain: " + App.Config["ApiDomainLocal"] + " - app domain: " + App.Config["WebAppDomainLocal"];
+#endif
+
+            lblWelcome.Content = "Welcome App Version: " + version;
         }
     }
 }
