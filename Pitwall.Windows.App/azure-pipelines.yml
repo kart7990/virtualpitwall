@@ -26,7 +26,7 @@ variables:
   solution: '**/*.sln'
   app: '**\Pitwall.Windows.App.csproj'
   buildPlatform: 'Any CPU'
-  buildConfiguration: 'Debug'
+  buildConfiguration: 'Release'
 
 steps:
 - task: NuGetToolInstaller@0
