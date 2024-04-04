@@ -6,8 +6,8 @@
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:local="clr-namespace:Pitwall.Windows.App"
         mc:Ignorable="d"
-        Title="Virtual Pitbox" Height="450" Width="800"
-        Source="Auth/LoginPage.xaml"
+        Title="Virtual Pitwall" Height="450" Width="800"
+        Source="LoginPage.xaml"
         ShowsNavigationUI="False">
     <NavigationWindow.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}">

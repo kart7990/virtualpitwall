@@ -2,6 +2,8 @@
 {
     public class DomainConfiguration
     {
+        public const string SESSION_API_PATH = "v1.0/pitwall/session";
+
         public static string ApiDomain
         {
             get
