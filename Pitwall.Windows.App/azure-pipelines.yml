@@ -42,16 +42,15 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
       $path = "Pitwall.Windows.App/Properties/PublishProfiles/ClickOnceProfile.pubxml"
       [xml]$xml =(gc $path)
-      Write-Host "BEFORE: " $xml.Project.PropertyGroup.ApplicationVersion
+      Write-Host "BEFORE " $xml.Project.PropertyGroup.ApplicationVersion
       $xml.Project.PropertyGroup.ApplicationVersion = "$((get-date).year - 2023)" + "." + "$((get-date).month)" + "." + "$((get-date).day)" + "." + "$((((get-date).hour) * 60) + (get-date).minute)"
-      Write-Host "AFTER: " $xml.Project.PropertyGroup.ApplicationVersion
+      Write-Host "AFTER " $xml.Project.PropertyGroup.ApplicationVersion
       $xml.Save($path)
 
 - task: PowerShell@2
@@ -73,18 +72,21 @@ steps:
     msbuildArguments: '/t:publish /p:PublishProfile="ClickOnceProfile.pubxml" /p:PublishDir="bin\publish\\"'
 
 - task: CopyFiles@2
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   inputs:
     SourceFolder: 'Pitwall.Windows.App\bin\publish'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/release'
 
 - task: PublishBuildArtifacts@1
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/release'
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
 - task: AzureRmWebAppDeployment@4
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Virtual Pitwall 2024 Q2'
