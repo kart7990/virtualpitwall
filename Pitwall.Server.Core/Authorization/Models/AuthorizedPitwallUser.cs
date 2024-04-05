@@ -2,7 +2,7 @@
 
 namespace Pitwall.Server.Core.Authorization.Models
 {
-    public class AuthorizedPitwallUser : IAuthorizedPitwallUser
+    public class AuthorizedPitwallUser : IPitwallUser
     {
         private ClaimsPrincipal claimsPrincipal;
 
