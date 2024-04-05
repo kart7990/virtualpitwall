@@ -7,11 +7,7 @@ using Pitwall.Core.Models.GameData;
 using Pitwall.Core.Models.Telemetry;
 using Pitwall.Server.Api.Controllers.Auth;
 using Pitwall.Server.Api.Controllers.Session.v1.WebSockets;
-using Pitwall.Server.Core.Authorization;
 using Pitwall.Server.Core.Session;
-using Pitwall.Server.Core.Session.Cache;
-using Pitwall.Server.Core.Session.Cache.GameData;
-using Pitwall.Server.Core.Session.Cache.Telemetry;
 
 namespace Pitwall.Server.Api.Controllers.Session.v1
 {
@@ -20,16 +16,8 @@ namespace Pitwall.Server.Api.Controllers.Session.v1
     [ApiVersion(1.0)]
     [ApiController]
     [Route("v{version:apiVersion}/pitwall/session")]
-    public class SessionsController(SessionService sessionService, IPitwallUser user,
-            IHubContext<PitwallSessionHub, IPitwallSessionCallbacks> sessionHub,
-            PitwallSessionRepo pitwallSessionRepo,
-            GameDataProviderRepo gameDataProviderRepo,
-            TelemetryProviderRepo telemetryProviderRepo,
-            CompletedLapTelemetryRepo completedLapTelemetryRepo,
-            GameSessionRepo gameSessionRepo) : AuthorizedController
+    public class SessionsController(SessionService sessionService, IHubContext<PitwallSessionHub, IPitwallSessionCallbacks> sessionHub) : AuthorizedController
     {
-
-
         [HttpPost]
         [ProducesResponseType(typeof(PitwallSession), 201)]
         [ProducesResponseType(400)]
@@ -49,13 +37,13 @@ namespace Pitwall.Server.Api.Controllers.Session.v1
         [ProducesResponseType(404)]
         public async Task<IActionResult> Get(Guid id)
         {
-            var session = await pitwallSessionRepo.Get(id.ToString());
+            var pitwallSession = await sessionService.GetSession(id);
 
-            if (session != null)
+            if (pitwallSession != null)
             {
                 var pitwallSessionResponse = new PitwallSessionResponse()
                 {
-                    PitwallSession = session,
+                    PitwallSession = pitwallSession,
                     WebSocketEndpoints = ConnectionDetails.Endpoints
                 };
                 return Ok(pitwallSessionResponse);
@@ -71,23 +59,18 @@ namespace Pitwall.Server.Api.Controllers.Session.v1
         [ProducesResponseType(404)]
         public async Task<IActionResult> CreateTelemetryProvider(Guid id)
         {
-            var pitwallSession = await pitwallSessionRepo.Get(id.ToString());
+            var telemetryProvider = await sessionService.CreateTelemetryProvider(id);
 
-            if (pitwallSession == null)
+            if (telemetryProvider != null)
+            {
+                await sessionHub.Clients.Group(id.ToString()).TelemetryProviderConnected(telemetryProvider);
+
+                return Ok(telemetryProvider);
+            }
+            else
             {
                 return NotFound();
             }
-
-            var telemetryProvider = new BaseTelemetryProvider()
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserId = user.Id.ToString(),
-                Name = user.Name,
-                PitwallSessionId = id.ToString()
-            };
-            await telemetryProviderRepo.Add(id.ToString(), telemetryProvider);
-            await sessionHub.Clients.Group(id.ToString()).TelemetryProviderConnected(telemetryProvider);
-            return Ok(telemetryProvider);
         }
 
         [HttpGet("{id}/telemetry/{dataProviderId}/gamesessionid/{gameAssignedSessionId}/{trackSessionNumber}", Name = "GetTelemetryData")]
@@ -95,11 +78,10 @@ namespace Pitwall.Server.Api.Controllers.Session.v1
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetTelemetryData(Guid id, Guid dataProviderId, string gameAssignedSessionId, int trackSessionNumber)
         {
-            var session = await pitwallSessionRepo.Get(id.ToString());
+            var completedTelemetryLaps = await sessionService.GetCompletedTelemetryLaps(id, dataProviderId, gameAssignedSessionId, trackSessionNumber);
 
-            if (session != null)
+            if (completedTelemetryLaps != null)
             {
-                var completedTelemetryLaps = await completedLapTelemetryRepo.GetRange(dataProviderId.ToString(), gameAssignedSessionId, trackSessionNumber, 0);
                 return Ok(completedTelemetryLaps);
             }
             else
@@ -113,23 +95,18 @@ namespace Pitwall.Server.Api.Controllers.Session.v1
         [ProducesResponseType(404)]
         public async Task<IActionResult> CreateGameDataProvider(Guid id)
         {
-            var pitwallSession = await pitwallSessionRepo.Get(id.ToString());
+            var gameDataProvider = await sessionService.CreateGameDataProvider(id);
 
-            if (pitwallSession == null)
+            if (gameDataProvider != null)
             {
+                await sessionHub.Clients.Group(id.ToString()).GameDataProviderConnected(gameDataProvider);
+                return Ok(gameDataProvider);
+            }
+            else
+            {
+
                 return NotFound();
             }
-
-            var gameDataProvider = new GameDataProvider()
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserId = user.Id.ToString(),
-                Name = user.Name,
-                PitwallSessionId = id.ToString()
-            };
-            await gameDataProviderRepo.Add(id.ToString(), gameDataProvider);
-            await sessionHub.Clients.Group(id.ToString()).GameDataProviderConnected(gameDataProvider);
-            return Ok(gameDataProvider);
         }
 
         [HttpGet("{id}/gamedata/{dataProviderId}/gamesessionid/{gameAssignedSessionId}", Name = "GetGameData")]
@@ -137,23 +114,16 @@ namespace Pitwall.Server.Api.Controllers.Session.v1
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetGameData(Guid id, Guid dataProviderId, string gameAssignedSessionId)
         {
-            var session = await pitwallSessionRepo.Get(id.ToString());
+            var gameSession = await sessionService.GetGameSession(id, dataProviderId, gameAssignedSessionId);
 
-            if (session != null)
+            if (gameSession != null)
             {
-                var gameSession = await BuildGameSession(dataProviderId, gameAssignedSessionId);
                 return Ok(gameSession);
             }
             else
             {
                 return NotFound();
             }
-        }
-
-        private async Task<GameSession> BuildGameSession(Guid dataProviderId, string gameAssignedSessionId)
-        {
-            var gameData = await gameSessionRepo.Get(dataProviderId.ToString(), gameAssignedSessionId);
-            return gameData;
         }
     }
 }

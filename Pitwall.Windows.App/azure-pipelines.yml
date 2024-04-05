@@ -92,5 +92,5 @@ steps:
     azureSubscription: 'Virtual Pitwall 2024 Q2'
     appType: 'webApp'
     WebAppName: 'virtualpitwall-staging-api'
-    VirtualApplication: '/app-test'
+    VirtualApplication: '/app'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/release'
