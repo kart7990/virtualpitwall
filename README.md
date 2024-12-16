@@ -30,6 +30,7 @@ The following steps are for running every project locally for development.
 3. Right click the Pitwall Solution and select "Configure Startup Projects"
 ![config_startup](https://github.com/kart7990/virtualpitwall/assets/15096469/90670655-f163-48ed-81cb-a73bed78613d)
 4. Set the "Action" for `docker-compose` and `Pitwall.Windows.App` to "Start"
+Note: if you do not see `docker-compose` as an option, you may need to reload docker at the top of the image given above
 ![multiple_startup](https://github.com/kart7990/virtualpitwall/assets/15096469/5ca89352-44c3-4c58-86c6-95bef2415839)
 5. Start the project using the "Start" command in the top toolbar
 ![multiple_start](https://github.com/kart7990/virtualpitwall/assets/15096469/812efef8-2632-4121-b823-29ee2680533e)
