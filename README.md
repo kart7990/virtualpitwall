@@ -1,3 +1,5 @@
+# 5/3/2026: This project is no longer hosted. The source will remain on github, but it is no longer hosted or available at virtualpitwall.com.
+
 # Virtual Pitwall
 
 The Virtual Pitwall platform displays relevant iRacing data on a web-based dashboard for race engineers.
